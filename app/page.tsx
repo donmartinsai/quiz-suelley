@@ -1194,8 +1194,6 @@ function QuizPageContent() {
 {/* CTA PRINCIPAL */}
                 <a
                   href="https://sun.eduzz.com/797ZK1BA0E"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   onClick={() => trackCheckout()}
                   className="block w-full py-4 rounded-full text-center text-white font-bold uppercase tracking-wide bg-gradient-to-br from-[#CA3716] to-[#E04520] shadow-lg text-base md:text-lg hover:-translate-y-0.5 transition-all"
                 >
