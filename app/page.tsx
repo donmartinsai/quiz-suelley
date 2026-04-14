@@ -3,6 +3,13 @@
 import { useState, useEffect, useCallback, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import Image from "next/image"
+import { 
+  trackInitiateCheckout as pixelInitiateCheckout, 
+  trackQuizAnswer as pixelQuizAnswer, 
+  trackLead as pixelLead, 
+  trackCompleteRegistration as pixelCompleteRegistration, 
+  trackPurchase as pixelPurchase 
+} from "@/lib/pixel"
 
 // ═══════════════════════════════════════════════
 // STEPS DATA
@@ -534,9 +541,11 @@ function QuizPageContent() {
   const isMulti = step?.type === "multi"
   const pct = (cur / steps.length) * 100
 
-  async function startQuiz() {
+async function startQuiz() {
     // Track session start
     await trackSessionStart()
+    // Meta Pixel: InitiateCheckout
+    pixelInitiateCheckout()
     setScreen("quiz")
     setCur(0)
     setShowInsight(false)
@@ -565,13 +574,17 @@ function QuizPageContent() {
         newSel = currentSel.filter((i) => i !== idx)
       }
 
-      setAnswers({ ...answers, [stepId]: newSel })
+setAnswers({ ...answers, [stepId]: newSel })
       // Track answer (fire and forget)
       trackAnswer(stepId, cur + 1, newSel)
+      // Meta Pixel: QuizAnswer
+      pixelQuizAnswer(stepId, cur + 1)
     } else {
-      setAnswers({ ...answers, [stepId]: [idx] })
+setAnswers({ ...answers, [stepId]: [idx] })
       // Track answer (fire and forget)
       trackAnswer(stepId, cur + 1, [idx])
+      // Meta Pixel: QuizAnswer
+      pixelQuizAnswer(stepId, cur + 1)
       // Para insight_single, mostra o insight apos selecao
       if (step.type === "insight_single") {
         setShowInsight(true)
@@ -647,12 +660,16 @@ function QuizPageContent() {
       return
     }
 
-    // Track lead capture (fire and forget)
+// Track lead capture (fire and forget)
     trackLead(email, name)
+    // Meta Pixel: Lead
+    pixelLead()
 
     // Determine result phase for tracking
     const phase = totalScore <= 8 ? "fase_inicial" : totalScore <= 20 ? "alerta_hormonal" : "acao_urgente"
     trackComplete(phase)
+    // Meta Pixel: CompleteRegistration
+    pixelCompleteRegistration(phase)
 
     setScreen("result")
     setScoreAnimated(false)
@@ -1194,7 +1211,7 @@ function QuizPageContent() {
 {/* CTA PRINCIPAL */}
                 <a
                   href="https://sun.eduzz.com/797ZK1BA0E"
-                  onClick={() => trackCheckout()}
+                  onClick={() => { trackCheckout(); pixelPurchase(); }}
                   className="block w-full py-4 rounded-full text-center text-white font-bold uppercase tracking-wide bg-gradient-to-br from-[#CA3716] to-[#E04520] shadow-lg text-base md:text-lg hover:-translate-y-0.5 transition-all"
                 >
                   Garantir minha vaga por R$29,90
