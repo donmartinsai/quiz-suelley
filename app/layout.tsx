@@ -8,27 +8,34 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Quiz — Você Não Está Louca | Dra. Su',
-  description: 'Descubra se os sintomas que você sente podem estar relacionados à perimenopausa ou menopausa. Quiz gratuito da Dra. Su.',
+  title: 'Quiz — Descubra em qual fase hormonal você está | Dra. Suelley',
+  description: 'Responda 11 perguntas rápidas e receba um mapa personalizado dos seus sintomas. Gratuito, baseado em ciência. Dra. Suelley Macedo Marques · CRM 2982/RR',
+  metadataBase: new URL('https://www.quiz.vocenaoestalouca.com.br'),
   openGraph: {
-    title: 'Quiz — Será que é perimenopausa ou menopausa?',
-    description: 'Responda 9 perguntas rápidas e entenda o que seu corpo está tentando te dizer.',
+    title: 'Você não está louca — é a perimenopausa',
+    description: 'Descubra em qual fase hormonal você está. Quiz gratuito da Dra. Suelley. 11 perguntas · 3 minutos · resultado personalizado.',
+    url: 'https://www.quiz.vocenaoestalouca.com.br',
+    siteName: 'Você Não Está Louca',
+    locale: 'pt_BR',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Quiz Dra. Suelley — Você Não Está Louca',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
+    title: 'Você não está louca — é a perimenopausa',
+    description: 'Quiz gratuito: descubra em qual fase hormonal você está.',
+    images: ['/og-image.png'],
   },
   generator: 'v0.app',
   icons: {
     icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
       {
         url: '/icon.svg',
         type: 'image/svg+xml',
