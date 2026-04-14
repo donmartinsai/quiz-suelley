@@ -508,6 +508,27 @@ function QuizPageContent() {
     }
   }, [sessionId])
 
+  const trackProgress = useCallback(async (questionOrder: number) => {
+    const sid = sessionId || localStorage.getItem("quiz_session_id")
+    if (!sid) return
+    try {
+      await fetch("/api/track/progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: sid, questionOrder }),
+      })
+    } catch (e) {
+      console.error("[tracking] progress error:", e)
+    }
+  }, [sessionId])
+
+  // Track progress when question changes (fire and forget)
+  useEffect(() => {
+    if (screen === "quiz" && cur >= 0) {
+      trackProgress(cur + 1)
+    }
+  }, [screen, cur, trackProgress])
+
   const step = steps[cur]
   const sel = answers[step?.id] || []
   const isMulti = step?.type === "multi"

@@ -17,12 +17,12 @@ export async function POST(req: NextRequest) {
       [sessionId, questionId, questionOrder, JSON.stringify(answer)]
     )
 
-    // Update session last_question_seen
+    // Update session last_question_seen (use GREATEST to never decrease)
     await pool.query(
       `UPDATE quiz_sessions 
-       SET last_question_seen = $2, last_seen_at = NOW()
+       SET last_question_seen = GREATEST(last_question_seen, $2), last_seen_at = NOW()
        WHERE id = $1`,
-      [sessionId, questionId]
+      [sessionId, questionOrder]
     )
 
     return NextResponse.json({ success: true })
