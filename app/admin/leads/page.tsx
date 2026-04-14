@@ -79,12 +79,12 @@ export default function AdminLeadsPage() {
 
   function getStatusBadge(lead: Lead) {
     if (lead.completed) {
-      return <Badge className="bg-green-600 text-white">Completou</Badge>
+      return <Badge className="bg-green-100 text-green-700 border-green-200">Completou</Badge>
     }
     if (lead.lastQuestionSeen) {
-      return <Badge variant="secondary" className="bg-yellow-600 text-white">Parou na Q{lead.lastQuestionSeen}</Badge>
+      return <Badge className="bg-amber-100 text-amber-700 border-amber-200">Parou na Q{lead.lastQuestionSeen}</Badge>
     }
-    return <Badge variant="destructive">Abandonou</Badge>
+    return <Badge className="bg-red-100 text-red-700 border-red-200">Abandonou</Badge>
   }
 
   function formatDate(dateStr: string) {
@@ -95,25 +95,25 @@ export default function AdminLeadsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-white">Leads</h1>
-        <Button onClick={handleExport} variant="outline" className="border-neutral-700 text-neutral-300 hover:bg-neutral-800">
+        <h1 className="text-2xl font-bold text-[#710C60]">Leads</h1>
+        <Button onClick={handleExport} variant="outline" className="border-[#F0E8DF] text-[#6B5A6E] hover:bg-[#F0E8DF] hover:text-[#710C60]">
           <Download className="w-4 h-4 mr-2" />
           Exportar CSV
         </Button>
       </div>
 
       {/* Filters */}
-      <Card className="bg-neutral-900 border-neutral-800">
+      <Card className="bg-white border-[#F0E8DF] shadow-sm">
         <CardHeader>
-          <CardTitle className="text-sm text-neutral-400">Filtros</CardTitle>
+          <CardTitle className="text-sm text-[#6B5A6E]">Filtros</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
             <Select value={status} onValueChange={(v) => { setStatus(v); setPage(1) }}>
-              <SelectTrigger className="bg-neutral-800 border-neutral-700 text-white">
+              <SelectTrigger className="bg-white border-[#F0E8DF] text-[#2A1F30]">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
-              <SelectContent className="bg-neutral-800 border-neutral-700">
+              <SelectContent className="bg-white border-[#F0E8DF]">
                 <SelectItem value="all">Todos</SelectItem>
                 <SelectItem value="completed">Completaram</SelectItem>
                 <SelectItem value="abandoned">Abandonaram</SelectItem>
@@ -124,14 +124,14 @@ export default function AdminLeadsPage() {
               placeholder="UTM Source"
               value={utmSource}
               onChange={(e) => { setUtmSource(e.target.value); setPage(1) }}
-              className="bg-neutral-800 border-neutral-700 text-white placeholder:text-neutral-500"
+              className="bg-white border-[#F0E8DF] text-[#2A1F30] placeholder:text-[#6B5A6E]"
             />
 
             <Select value={resultPhase} onValueChange={(v) => { setResultPhase(v); setPage(1) }}>
-              <SelectTrigger className="bg-neutral-800 border-neutral-700 text-white">
+              <SelectTrigger className="bg-white border-[#F0E8DF] text-[#2A1F30]">
                 <SelectValue placeholder="Fase Resultado" />
               </SelectTrigger>
-              <SelectContent className="bg-neutral-800 border-neutral-700">
+              <SelectContent className="bg-white border-[#F0E8DF]">
                 <SelectItem value="all">Todas</SelectItem>
                 <SelectItem value="fase_inicial">Fase Inicial</SelectItem>
                 <SelectItem value="alerta_hormonal">Alerta Hormonal</SelectItem>
@@ -143,63 +143,63 @@ export default function AdminLeadsPage() {
               type="date"
               value={startDate}
               onChange={(e) => { setStartDate(e.target.value); setPage(1) }}
-              className="bg-neutral-800 border-neutral-700 text-white"
+              className="bg-white border-[#F0E8DF] text-[#2A1F30]"
             />
 
             <Input
               type="date"
               value={endDate}
               onChange={(e) => { setEndDate(e.target.value); setPage(1) }}
-              className="bg-neutral-800 border-neutral-700 text-white"
+              className="bg-white border-[#F0E8DF] text-[#2A1F30]"
             />
           </div>
         </CardContent>
       </Card>
 
       {/* Table */}
-      <Card className="bg-neutral-900 border-neutral-800">
+      <Card className="bg-white border-[#F0E8DF] shadow-sm">
         <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow className="border-neutral-800 hover:bg-neutral-800/50">
-                <TableHead className="text-neutral-400">Data</TableHead>
-                <TableHead className="text-neutral-400">Nome</TableHead>
-                <TableHead className="text-neutral-400">Email</TableHead>
-                <TableHead className="text-neutral-400">Status</TableHead>
-                <TableHead className="text-neutral-400">Fase</TableHead>
-                <TableHead className="text-neutral-400">Checkout</TableHead>
-                <TableHead className="text-neutral-400">UTM</TableHead>
+              <TableRow className="border-[#F0E8DF] hover:bg-[#FDF8F4]">
+                <TableHead className="text-[#6B5A6E]">Data</TableHead>
+                <TableHead className="text-[#6B5A6E]">Nome</TableHead>
+                <TableHead className="text-[#6B5A6E]">Email</TableHead>
+                <TableHead className="text-[#6B5A6E]">Status</TableHead>
+                <TableHead className="text-[#6B5A6E]">Fase</TableHead>
+                <TableHead className="text-[#6B5A6E]">Checkout</TableHead>
+                <TableHead className="text-[#6B5A6E]">UTM</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center text-neutral-500 py-8">
+                  <TableCell colSpan={7} className="text-center text-[#6B5A6E] py-8">
                     Carregando...
                   </TableCell>
                 </TableRow>
               ) : leads.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center text-neutral-500 py-8">
+                  <TableCell colSpan={7} className="text-center text-[#6B5A6E] py-8">
                     Nenhum lead encontrado
                   </TableCell>
                 </TableRow>
               ) : (
                 leads.map((lead) => (
-                  <TableRow key={lead.id} className="border-neutral-800 hover:bg-neutral-800/50">
-                    <TableCell className="text-neutral-300 text-sm">{formatDate(lead.startAt)}</TableCell>
-                    <TableCell className="text-white">{lead.firstName || "-"}</TableCell>
-                    <TableCell className="text-neutral-300 text-sm">{lead.email || "-"}</TableCell>
+                  <TableRow key={lead.id} className="border-[#F0E8DF] hover:bg-[#FDF8F4]">
+                    <TableCell className="text-[#6B5A6E] text-sm">{formatDate(lead.startAt)}</TableCell>
+                    <TableCell className="text-[#2A1F30] font-medium">{lead.firstName || "-"}</TableCell>
+                    <TableCell className="text-[#6B5A6E] text-sm">{lead.email || "-"}</TableCell>
                     <TableCell>{getStatusBadge(lead)}</TableCell>
-                    <TableCell className="text-neutral-300 text-sm">{lead.resultPhase || "-"}</TableCell>
+                    <TableCell className="text-[#6B5A6E] text-sm">{lead.resultPhase || "-"}</TableCell>
                     <TableCell>
                       {lead.checkoutClicked ? (
-                        <Check className="w-4 h-4 text-green-500" />
+                        <Check className="w-4 h-4 text-green-600" />
                       ) : (
-                        <X className="w-4 h-4 text-neutral-600" />
+                        <X className="w-4 h-4 text-[#F0E8DF]" />
                       )}
                     </TableCell>
-                    <TableCell className="text-neutral-400 text-xs">
+                    <TableCell className="text-[#6B5A6E] text-xs">
                       {lead.utmSource || "direto"}
                       {lead.utmCampaign && ` / ${lead.utmCampaign}`}
                     </TableCell>
@@ -213,7 +213,7 @@ export default function AdminLeadsPage() {
 
       {/* Pagination */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-neutral-400">
+        <p className="text-sm text-[#6B5A6E]">
           Mostrando {leads.length} de {total} leads
         </p>
         <div className="flex items-center gap-2">
@@ -222,11 +222,11 @@ export default function AdminLeadsPage() {
             size="sm"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
+            className="border-[#F0E8DF] text-[#6B5A6E] hover:bg-[#F0E8DF] disabled:opacity-50"
           >
             <ChevronLeft className="w-4 h-4" />
           </Button>
-          <span className="text-neutral-400 text-sm">
+          <span className="text-[#6B5A6E] text-sm">
             Página {page} de {totalPages}
           </span>
           <Button
@@ -234,7 +234,7 @@ export default function AdminLeadsPage() {
             size="sm"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
+            className="border-[#F0E8DF] text-[#6B5A6E] hover:bg-[#F0E8DF] disabled:opacity-50"
           >
             <ChevronRight className="w-4 h-4" />
           </Button>

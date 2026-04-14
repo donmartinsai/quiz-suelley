@@ -73,74 +73,74 @@ export default function AdminOverviewPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-neutral-400">Carregando...</div>
+        <div className="text-[#6B5A6E]">Carregando...</div>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-white">Overview</h1>
+      <h1 className="text-2xl font-bold text-[#710C60]">Overview</h1>
 
       {/* KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-neutral-900 border-neutral-800">
+        <Card className="bg-white border-[#F0E8DF] shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-neutral-400">Sessões Iniciadas</CardTitle>
+            <CardTitle className="text-sm font-medium text-[#6B5A6E]">Sessões Iniciadas</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{stats?.totalSessions || 0}</div>
-            <p className="text-xs text-neutral-500">
+            <div className="text-2xl font-bold text-[#710C60]">{stats?.totalSessions || 0}</div>
+            <p className="text-xs text-[#6B5A6E]">
               Hoje: {stats?.sessionsToday || 0} | 7 dias: {stats?.sessions7d || 0}
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-neutral-900 border-neutral-800">
+        <Card className="bg-white border-[#F0E8DF] shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-neutral-400">Taxa de Conclusão</CardTitle>
+            <CardTitle className="text-sm font-medium text-[#6B5A6E]">Taxa de Conclusão</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-[#EF709D]">{stats?.completionRate || 0}%</div>
-            <p className="text-xs text-neutral-500">{stats?.completed || 0} completaram</p>
+            <p className="text-xs text-[#6B5A6E]">{stats?.completed || 0} completaram</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-neutral-900 border-neutral-800">
+        <Card className="bg-white border-[#F0E8DF] shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-neutral-400">Taxa de Checkout</CardTitle>
+            <CardTitle className="text-sm font-medium text-[#6B5A6E]">Taxa de Checkout</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-[#710C60]">{stats?.checkoutRate || 0}%</div>
-            <p className="text-xs text-neutral-500">{stats?.checkoutClicked || 0} clicaram</p>
+            <div className="text-2xl font-bold text-[#CA3716]">{stats?.checkoutRate || 0}%</div>
+            <p className="text-xs text-[#6B5A6E]">{stats?.checkoutClicked || 0} clicaram</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-neutral-900 border-neutral-800">
+        <Card className="bg-white border-[#F0E8DF] shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-neutral-400">Leads Capturados</CardTitle>
+            <CardTitle className="text-sm font-medium text-[#6B5A6E]">Leads Capturados</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-white">{stats?.leads || 0}</div>
-            <p className="text-xs text-neutral-500">com email ou whatsapp</p>
+            <div className="text-2xl font-bold text-[#710C60]">{stats?.leads || 0}</div>
+            <p className="text-xs text-[#6B5A6E]">com email ou whatsapp</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Funnel Chart */}
-      <Card className="bg-neutral-900 border-neutral-800">
+      <Card className="bg-white border-[#F0E8DF] shadow-sm">
         <CardHeader>
-          <CardTitle className="text-white">Funil de Conversão</CardTitle>
+          <CardTitle className="text-[#2A1F30]">Funil de Conversão</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={400}>
             <BarChart data={funnel} layout="vertical" margin={{ top: 5, right: 30, left: 100, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-              <XAxis type="number" domain={[0, 100]} stroke="#666" />
-              <YAxis dataKey="step" type="category" stroke="#666" width={100} tick={{ fontSize: 11 }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="#F0E8DF" />
+              <XAxis type="number" domain={[0, 100]} stroke="#6B5A6E" />
+              <YAxis dataKey="step" type="category" stroke="#6B5A6E" width={100} tick={{ fontSize: 11 }} />
               <Tooltip
-                contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #333" }}
-                labelStyle={{ color: "#fff" }}
+                contentStyle={{ backgroundColor: "#fff", border: "1px solid #F0E8DF", borderRadius: "8px" }}
+                labelStyle={{ color: "#2A1F30" }}
               />
               <Bar dataKey="pct" fill="#EF709D" radius={[0, 4, 4, 0]} />
             </BarChart>
@@ -149,45 +149,45 @@ export default function AdminOverviewPage() {
       </Card>
 
       {/* Dropoff Chart */}
-      <Card className="bg-neutral-900 border-neutral-800">
+      <Card className="bg-white border-[#F0E8DF] shadow-sm">
         <CardHeader>
-          <CardTitle className="text-white">Dropoff por Pergunta</CardTitle>
+          <CardTitle className="text-[#2A1F30]">Dropoff por Pergunta</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={dropoff} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-              <XAxis dataKey="question" stroke="#666" />
-              <YAxis stroke="#666" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#F0E8DF" />
+              <XAxis dataKey="question" stroke="#6B5A6E" />
+              <YAxis stroke="#6B5A6E" />
               <Tooltip
-                contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #333" }}
-                labelStyle={{ color: "#fff" }}
+                contentStyle={{ backgroundColor: "#fff", border: "1px solid #F0E8DF", borderRadius: "8px" }}
+                labelStyle={{ color: "#2A1F30" }}
               />
-              <Line type="monotone" dataKey="pct" stroke="#EF709D" strokeWidth={2} dot={{ fill: "#EF709D" }} />
+              <Line type="monotone" dataKey="pct" stroke="#CA3716" strokeWidth={2} dot={{ fill: "#CA3716" }} />
             </LineChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
 
       {/* Timeline Chart */}
-      <Card className="bg-neutral-900 border-neutral-800">
+      <Card className="bg-white border-[#F0E8DF] shadow-sm">
         <CardHeader>
-          <CardTitle className="text-white">Sessões nos Últimos 30 Dias</CardTitle>
+          <CardTitle className="text-[#2A1F30]">Sessões nos Últimos 30 Dias</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={timeline} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-              <XAxis dataKey="date" stroke="#666" tick={{ fontSize: 10 }} />
-              <YAxis stroke="#666" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#F0E8DF" />
+              <XAxis dataKey="date" stroke="#6B5A6E" tick={{ fontSize: 10 }} />
+              <YAxis stroke="#6B5A6E" />
               <Tooltip
-                contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #333" }}
-                labelStyle={{ color: "#fff" }}
+                contentStyle={{ backgroundColor: "#fff", border: "1px solid #F0E8DF", borderRadius: "8px" }}
+                labelStyle={{ color: "#2A1F30" }}
               />
               <Legend />
-              <Area type="monotone" dataKey="iniciados" stackId="1" stroke="#666" fill="#666" fillOpacity={0.6} />
-              <Area type="monotone" dataKey="completados" stackId="2" stroke="#EF709D" fill="#EF709D" fillOpacity={0.6} />
-              <Area type="monotone" dataKey="checkout" stackId="3" stroke="#710C60" fill="#710C60" fillOpacity={0.6} />
+              <Area type="monotone" dataKey="iniciados" stackId="1" stroke="#6B5A6E" fill="#6B5A6E" fillOpacity={0.3} />
+              <Area type="monotone" dataKey="completados" stackId="2" stroke="#EF709D" fill="#EF709D" fillOpacity={0.5} />
+              <Area type="monotone" dataKey="checkout" stackId="3" stroke="#710C60" fill="#710C60" fillOpacity={0.5} />
             </AreaChart>
           </ResponsiveContainer>
         </CardContent>
