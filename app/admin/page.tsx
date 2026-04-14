@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { BarChart, Bar, LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
+import { BarChart, Bar, LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, LabelList } from "recharts"
 
 interface Stats {
   totalSessions: number
@@ -78,8 +78,26 @@ export default function AdminOverviewPage() {
     )
   }
 
+  // Custom label renderer for funnel bars
+  const renderFunnelLabel = (props: { x?: number; y?: number; width?: number; height?: number; value?: number; payload?: FunnelStep }) => {
+    const { x = 0, y = 0, width = 0, height = 0, payload } = props
+    if (!payload) return null
+    return (
+      <text
+        x={x + width + 8}
+        y={y + height / 2}
+        fill="#2A1F30"
+        fontSize={12}
+        fontWeight={500}
+        dominantBaseline="middle"
+      >
+        {payload.count} ({payload.pct}%)
+      </text>
+    )
+  }
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       <h1 className="text-2xl font-bold text-[#710C60]">Overview</h1>
 
       {/* KPIs */}
@@ -129,67 +147,83 @@ export default function AdminOverviewPage() {
 
       {/* Funnel Chart */}
       <Card className="bg-white border-[#F0E8DF] shadow-sm">
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle className="text-[#2A1F30]">Funil de Conversão</CardTitle>
         </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={funnel} layout="vertical" margin={{ top: 5, right: 30, left: 100, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F0E8DF" />
-              <XAxis type="number" domain={[0, 100]} stroke="#6B5A6E" />
-              <YAxis dataKey="step" type="category" stroke="#6B5A6E" width={100} tick={{ fontSize: 11 }} />
-              <Tooltip
-                contentStyle={{ backgroundColor: "#fff", border: "1px solid #F0E8DF", borderRadius: "8px" }}
-                labelStyle={{ color: "#2A1F30" }}
-              />
-              <Bar dataKey="pct" fill="#EF709D" radius={[0, 4, 4, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+        <CardContent className="pt-0">
+          <div style={{ height: 320 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={funnel} layout="vertical" margin={{ top: 5, right: 120, left: 100, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#F0E8DF" />
+                <XAxis type="number" domain={[0, 100]} stroke="#6B5A6E" />
+                <YAxis dataKey="step" type="category" stroke="#6B5A6E" width={100} tick={{ fontSize: 11 }} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: "#fff", border: "1px solid #F0E8DF", borderRadius: "8px" }}
+                  labelStyle={{ color: "#2A1F30" }}
+                />
+                <Bar dataKey="pct" fill="#EF709D" radius={[0, 4, 4, 0]}>
+                  <LabelList content={renderFunnelLabel} />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
 
       {/* Dropoff Chart */}
       <Card className="bg-white border-[#F0E8DF] shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-[#2A1F30]">Dropoff por Pergunta</CardTitle>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-[#2A1F30]">Abandonaram na pergunta</CardTitle>
         </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={dropoff} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F0E8DF" />
-              <XAxis dataKey="question" stroke="#6B5A6E" />
-              <YAxis stroke="#6B5A6E" />
-              <Tooltip
-                contentStyle={{ backgroundColor: "#fff", border: "1px solid #F0E8DF", borderRadius: "8px" }}
-                labelStyle={{ color: "#2A1F30" }}
-              />
-              <Line type="monotone" dataKey="pct" stroke="#CA3716" strokeWidth={2} dot={{ fill: "#CA3716" }} />
-            </LineChart>
-          </ResponsiveContainer>
+        <CardContent className="pt-0">
+          <div style={{ height: 280 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={dropoff} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#F0E8DF" />
+                <XAxis dataKey="question" stroke="#6B5A6E" />
+                <YAxis stroke="#6B5A6E" />
+                <Tooltip
+                  contentStyle={{ backgroundColor: "#fff", border: "1px solid #F0E8DF", borderRadius: "8px" }}
+                  labelStyle={{ color: "#2A1F30" }}
+                />
+                <Line type="monotone" dataKey="count" stroke="#CA3716" strokeWidth={2} dot={{ fill: "#CA3716", r: 5 }}>
+                  <LabelList dataKey="count" position="top" fill="#2A1F30" fontSize={11} fontWeight={500} />
+                </Line>
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
 
       {/* Timeline Chart */}
       <Card className="bg-white border-[#F0E8DF] shadow-sm">
-        <CardHeader>
+        <CardHeader className="pb-2">
           <CardTitle className="text-[#2A1F30]">Sessões nos Últimos 30 Dias</CardTitle>
         </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <AreaChart data={timeline} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F0E8DF" />
-              <XAxis dataKey="date" stroke="#6B5A6E" tick={{ fontSize: 10 }} />
-              <YAxis stroke="#6B5A6E" />
-              <Tooltip
-                contentStyle={{ backgroundColor: "#fff", border: "1px solid #F0E8DF", borderRadius: "8px" }}
-                labelStyle={{ color: "#2A1F30" }}
-              />
-              <Legend />
-              <Area type="monotone" dataKey="iniciados" stackId="1" stroke="#6B5A6E" fill="#6B5A6E" fillOpacity={0.3} />
-              <Area type="monotone" dataKey="completados" stackId="2" stroke="#EF709D" fill="#EF709D" fillOpacity={0.5} />
-              <Area type="monotone" dataKey="checkout" stackId="3" stroke="#710C60" fill="#710C60" fillOpacity={0.5} />
-            </AreaChart>
-          </ResponsiveContainer>
+        <CardContent className="pt-0">
+          <div style={{ height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={timeline} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#F0E8DF" />
+                <XAxis dataKey="date" stroke="#6B5A6E" tick={{ fontSize: 10 }} />
+                <YAxis stroke="#6B5A6E" />
+                <Tooltip
+                  contentStyle={{ backgroundColor: "#fff", border: "1px solid #F0E8DF", borderRadius: "8px" }}
+                  labelStyle={{ color: "#2A1F30" }}
+                />
+                <Legend />
+                <Area type="monotone" dataKey="iniciados" stackId="1" stroke="#6B5A6E" fill="#6B5A6E" fillOpacity={0.3}>
+                  <LabelList dataKey="iniciados" position="top" fill="#6B5A6E" fontSize={9} />
+                </Area>
+                <Area type="monotone" dataKey="completados" stackId="2" stroke="#EF709D" fill="#EF709D" fillOpacity={0.5}>
+                  <LabelList dataKey="completados" position="top" fill="#EF709D" fontSize={9} />
+                </Area>
+                <Area type="monotone" dataKey="checkout" stackId="3" stroke="#710C60" fill="#710C60" fillOpacity={0.5}>
+                  <LabelList dataKey="checkout" position="top" fill="#710C60" fontSize={9} />
+                </Area>
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
     </div>

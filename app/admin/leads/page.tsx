@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
 import { Download, ChevronLeft, ChevronRight, Check, X } from "lucide-react"
+import { getPhaseLabel } from "@/lib/phase-labels"
 
 interface Lead {
   id: string
@@ -191,7 +192,7 @@ export default function AdminLeadsPage() {
                     <TableCell className="text-[#2A1F30] font-medium">{lead.firstName || "-"}</TableCell>
                     <TableCell className="text-[#6B5A6E] text-sm">{lead.email || "-"}</TableCell>
                     <TableCell>{getStatusBadge(lead)}</TableCell>
-                    <TableCell className="text-[#6B5A6E] text-sm">{lead.resultPhase || "-"}</TableCell>
+                    <TableCell className="text-[#6B5A6E] text-sm">{getPhaseLabel(lead.resultPhase)}</TableCell>
                     <TableCell>
                       {lead.checkoutClicked ? (
                         <Check className="w-4 h-4 text-green-600" />
