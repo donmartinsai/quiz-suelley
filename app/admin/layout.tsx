@@ -3,13 +3,12 @@
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { LayoutDashboard, Users, FileText, Globe, LogOut } from "lucide-react"
+import { LayoutDashboard, Users, Globe, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 const navItems = [
   { href: "/admin", label: "Overview", icon: LayoutDashboard },
   { href: "/admin/leads", label: "Leads", icon: Users },
-  { href: "/admin/respostas", label: "Respostas", icon: FileText },
   { href: "/admin/utms", label: "UTMs", icon: Globe },
 ]
 
