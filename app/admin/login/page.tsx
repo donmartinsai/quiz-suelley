@@ -38,11 +38,11 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950 flex items-center justify-center p-4">
-      <Card className="w-full max-w-sm bg-neutral-900 border-neutral-800">
+    <div className="min-h-screen bg-[#FDF8F4] flex items-center justify-center p-4">
+      <Card className="w-full max-w-sm bg-white border-[#F0E8DF] shadow-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-white text-xl">Quiz Suelley</CardTitle>
-          <CardDescription className="text-neutral-400">Acesso Administrativo</CardDescription>
+          <CardTitle className="text-[#710C60] text-xl">Quiz Suelley</CardTitle>
+          <CardDescription className="text-[#6B5A6E]">Acesso Administrativo</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -51,10 +51,10 @@ export default function AdminLoginPage() {
               placeholder="Senha de acesso"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-neutral-800 border-neutral-700 text-white placeholder:text-neutral-500"
+              className="bg-white border-[#F0E8DF] text-[#2A1F30] placeholder:text-[#6B5A6E] focus:border-[#EF709D] focus:ring-[#EF709D]/20"
               autoFocus
             />
-            {error && <p className="text-red-400 text-sm">{error}</p>}
+            {error && <p className="text-[#CA3716] text-sm">{error}</p>}
             <Button
               type="submit"
               className="w-full bg-[#EF709D] hover:bg-[#d85f8a] text-white"

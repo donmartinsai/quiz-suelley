@@ -28,18 +28,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="min-h-screen bg-neutral-950">
+    <div className="min-h-screen bg-[#FDF8F4]">
       {/* Header */}
-      <header className="bg-black border-b border-neutral-800 px-4 py-3 flex items-center justify-between">
+      <header className="bg-white border-b border-[#F0E8DF] px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-[#EF709D] font-bold text-lg">Quiz Suelley</span>
-          <span className="text-neutral-500 text-sm">— Admin</span>
+          <span className="text-[#710C60] font-bold text-lg">Quiz Suelley</span>
+          <span className="text-[#6B5A6E] text-sm">— Admin</span>
         </div>
         <Button
           variant="ghost"
           size="sm"
           onClick={handleLogout}
-          className="text-neutral-400 hover:text-white hover:bg-neutral-800"
+          className="text-[#6B5A6E] hover:text-[#710C60] hover:bg-[#F0E8DF]"
         >
           <LogOut className="w-4 h-4 mr-2" />
           Sair
@@ -48,7 +48,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       <div className="flex">
         {/* Sidebar */}
-        <aside className="w-56 border-r border-neutral-800 min-h-[calc(100vh-57px)] p-4">
+        <aside className="w-56 bg-white border-r border-[#F0E8DF] min-h-[calc(100vh-57px)] p-4">
           <nav className="space-y-1">
             {navItems.map((item) => {
               const isActive = pathname === item.href
@@ -59,8 +59,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   className={cn(
                     "flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors",
                     isActive
-                      ? "bg-[#EF709D]/10 text-[#EF709D]"
-                      : "text-neutral-400 hover:text-white hover:bg-neutral-800"
+                      ? "bg-[#EF709D]/10 text-[#710C60] font-medium"
+                      : "text-[#6B5A6E] hover:text-[#710C60] hover:bg-[#F0E8DF]"
                   )}
                 >
                   <item.icon className="w-4 h-4" />

@@ -39,55 +39,55 @@ export default function AdminUtmsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-neutral-400">Carregando...</div>
+        <div className="text-[#6B5A6E]">Carregando...</div>
       </div>
     )
   }
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-white">Análise de UTMs</h1>
+      <h1 className="text-2xl font-bold text-[#710C60]">Análise de UTMs</h1>
 
-      <Card className="bg-neutral-900 border-neutral-800">
+      <Card className="bg-white border-[#F0E8DF] shadow-sm">
         <CardHeader>
-          <CardTitle className="text-neutral-400 text-sm">Desempenho por Fonte de Tráfego</CardTitle>
+          <CardTitle className="text-[#6B5A6E] text-sm">Desempenho por Fonte de Tráfego</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow className="border-neutral-800 hover:bg-neutral-800/50">
-                <TableHead className="text-neutral-400">Source</TableHead>
-                <TableHead className="text-neutral-400">Campaign</TableHead>
-                <TableHead className="text-neutral-400 text-right">Sessões</TableHead>
-                <TableHead className="text-neutral-400 text-right">Completaram</TableHead>
-                <TableHead className="text-neutral-400 text-right">Checkout</TableHead>
-                <TableHead className="text-neutral-400 text-right">Leads</TableHead>
+              <TableRow className="border-[#F0E8DF] hover:bg-[#FDF8F4]">
+                <TableHead className="text-[#6B5A6E]">Source</TableHead>
+                <TableHead className="text-[#6B5A6E]">Campaign</TableHead>
+                <TableHead className="text-[#6B5A6E] text-right">Sessões</TableHead>
+                <TableHead className="text-[#6B5A6E] text-right">Completaram</TableHead>
+                <TableHead className="text-[#6B5A6E] text-right">Checkout</TableHead>
+                <TableHead className="text-[#6B5A6E] text-right">Leads</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {utms.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center text-neutral-500 py-8">
+                  <TableCell colSpan={6} className="text-center text-[#6B5A6E] py-8">
                     Nenhum dado de UTM encontrado
                   </TableCell>
                 </TableRow>
               ) : (
                 utms.map((utm, idx) => (
-                  <TableRow key={idx} className="border-neutral-800 hover:bg-neutral-800/50">
-                    <TableCell className="text-white font-medium">{utm.source}</TableCell>
-                    <TableCell className="text-neutral-300">{utm.campaign}</TableCell>
-                    <TableCell className="text-neutral-300 text-right">{utm.sessions}</TableCell>
+                  <TableRow key={idx} className="border-[#F0E8DF] hover:bg-[#FDF8F4]">
+                    <TableCell className="text-[#2A1F30] font-medium">{utm.source}</TableCell>
+                    <TableCell className="text-[#6B5A6E]">{utm.campaign}</TableCell>
+                    <TableCell className="text-[#6B5A6E] text-right">{utm.sessions}</TableCell>
                     <TableCell className="text-right">
-                      <span className="text-[#EF709D]">{utm.completed}</span>
-                      <span className="text-neutral-500 text-xs ml-1">({utm.completedPct}%)</span>
+                      <span className="text-[#EF709D] font-medium">{utm.completed}</span>
+                      <span className="text-[#6B5A6E] text-xs ml-1">({utm.completedPct}%)</span>
                     </TableCell>
                     <TableCell className="text-right">
-                      <span className="text-[#710C60]">{utm.checkout}</span>
-                      <span className="text-neutral-500 text-xs ml-1">({utm.checkoutPct}%)</span>
+                      <span className="text-[#CA3716] font-medium">{utm.checkout}</span>
+                      <span className="text-[#6B5A6E] text-xs ml-1">({utm.checkoutPct}%)</span>
                     </TableCell>
                     <TableCell className="text-right">
-                      <span className="text-white">{utm.leads}</span>
-                      <span className="text-neutral-500 text-xs ml-1">({utm.leadsPct}%)</span>
+                      <span className="text-[#710C60] font-medium">{utm.leads}</span>
+                      <span className="text-[#6B5A6E] text-xs ml-1">({utm.leadsPct}%)</span>
                     </TableCell>
                   </TableRow>
                 ))
@@ -98,7 +98,7 @@ export default function AdminUtmsPage() {
       </Card>
 
       {utms.length > 0 && (
-        <p className="text-xs text-neutral-500">
+        <p className="text-xs text-[#6B5A6E]">
           Ordenado por taxa de conversão (completaram / sessões). Taxas de checkout calculadas sobre sessões completadas.
         </p>
       )}
