@@ -18,20 +18,11 @@ export const metadata: Metadata = {
     siteName: 'Você Não Está Louca',
     locale: 'pt_BR',
     type: 'website',
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Quiz Dra. Suelley — Você Não Está Louca',
-      },
-    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Você não está louca — é a perimenopausa',
     description: 'Quiz gratuito: descubra em qual fase hormonal você está.',
-    images: ['/og-image.png'],
   },
   generator: 'v0.app',
   icons: {
