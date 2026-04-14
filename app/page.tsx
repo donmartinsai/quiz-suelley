@@ -554,17 +554,8 @@ function QuizPageContent() {
       // Para insight_single, mostra o insight apos selecao
       if (step.type === "insight_single") {
         setShowInsight(true)
-      } else if (step.type === "single" || step.type === "chart_single") {
-        // Auto-avanco com 400ms de delay para single-select (nao multi)
-        setTimeout(() => {
-          if (cur < steps.length - 1) {
-            setCur((c) => c + 1)
-            setShowInsight(false)
-          } else {
-            showLoading()
-          }
-        }, 400)
       }
+      // Single e chart_single agora exigem clicar em Continuar (sem auto-advance)
     }
   }
 
@@ -1063,7 +1054,7 @@ function QuizPageContent() {
   E a boa notícia: existe <strong>explicação</strong> e existe <strong>caminho</strong>.
   </p>
   <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded text-xs text-gray-700 italic">
-  Esta análise é educacional e não substitui consulta médica. Para diagnóstico e tratamento, procure um profissional.
+  Esta análise �� educacional e não substitui consulta médica. Para diagnóstico e tratamento, procure um profissional.
   </div>
   </div>
   )}
