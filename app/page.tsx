@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, Suspense } from "react"
+import { useSearchParams } from "next/navigation"
 import Image from "next/image"
 
 // ═══════════════════════════════════════════════
@@ -406,7 +407,7 @@ function MenopauseStagesChart() {
 // ═══════════════════════════════════════════════
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════
-export default function QuizPage() {
+function QuizPageContent() {
   const [screen, setScreen] = useState<"intro" | "quiz" | "loading" | "gate" | "result">("intro")
   const [cur, setCur] = useState(0)
   const [answers, setAnswers] = useState<Record<string, number[]>>({})
@@ -417,13 +418,104 @@ export default function QuizPage() {
   const [symTags, setSymTags] = useState<string[]>([])
   const [scoreAnimated, setScoreAnimated] = useState(false)
   const [showInsight, setShowInsight] = useState(false)
+  const [sessionId, setSessionId] = useState<string | null>(null)
+  
+  const searchParams = useSearchParams()
+
+  // ═══════════════════════════════════════════════
+  // TRACKING FUNCTIONS (fire and forget)
+  // ═══════════════════════════════════════════════
+  const trackSessionStart = useCallback(async () => {
+    try {
+      const device = /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "mobile" : "desktop"
+      const res = await fetch("/api/track/session/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          utm_source: searchParams.get("utm_source"),
+          utm_medium: searchParams.get("utm_medium"),
+          utm_campaign: searchParams.get("utm_campaign"),
+          utm_content: searchParams.get("utm_content"),
+          device,
+          user_agent: navigator.userAgent,
+        }),
+      })
+      const data = await res.json()
+      if (data.sessionId) {
+        setSessionId(data.sessionId)
+        localStorage.setItem("quiz_session_id", data.sessionId)
+      }
+      return data.sessionId
+    } catch (e) {
+      console.error("[tracking] session start error:", e)
+      return null
+    }
+  }, [searchParams])
+
+  const trackAnswer = useCallback(async (questionId: string, questionOrder: number, answer: number[]) => {
+    const sid = sessionId || localStorage.getItem("quiz_session_id")
+    if (!sid) return
+    try {
+      await fetch("/api/track/answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: sid, questionId, questionOrder, answer }),
+      })
+    } catch (e) {
+      console.error("[tracking] answer error:", e)
+    }
+  }, [sessionId])
+
+  const trackLead = useCallback(async (leadEmail: string, leadName: string) => {
+    const sid = sessionId || localStorage.getItem("quiz_session_id")
+    if (!sid) return
+    try {
+      await fetch("/api/track/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: sid, email: leadEmail, firstName: leadName, whatsapp: null }),
+      })
+    } catch (e) {
+      console.error("[tracking] lead error:", e)
+    }
+  }, [sessionId])
+
+  const trackComplete = useCallback(async (resultPhase: string) => {
+    const sid = sessionId || localStorage.getItem("quiz_session_id")
+    if (!sid) return
+    try {
+      await fetch("/api/track/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: sid, resultPhase }),
+      })
+    } catch (e) {
+      console.error("[tracking] complete error:", e)
+    }
+  }, [sessionId])
+
+  const trackCheckout = useCallback(async () => {
+    const sid = sessionId || localStorage.getItem("quiz_session_id")
+    if (!sid) return
+    try {
+      await fetch("/api/track/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: sid }),
+      })
+    } catch (e) {
+      console.error("[tracking] checkout error:", e)
+    }
+  }, [sessionId])
 
   const step = steps[cur]
   const sel = answers[step?.id] || []
   const isMulti = step?.type === "multi"
   const pct = (cur / steps.length) * 100
 
-  function startQuiz() {
+  async function startQuiz() {
+    // Track session start
+    await trackSessionStart()
     setScreen("quiz")
     setCur(0)
     setShowInsight(false)
@@ -453,8 +545,12 @@ export default function QuizPage() {
       }
 
       setAnswers({ ...answers, [stepId]: newSel })
+      // Track answer (fire and forget)
+      trackAnswer(stepId, cur + 1, newSel)
     } else {
       setAnswers({ ...answers, [stepId]: [idx] })
+      // Track answer (fire and forget)
+      trackAnswer(stepId, cur + 1, [idx])
       // Para insight_single, mostra o insight apos selecao
       if (step.type === "insight_single") {
         setShowInsight(true)
@@ -538,6 +634,13 @@ export default function QuizPage() {
       alert("Por favor, informe um e-mail válido.")
       return
     }
+
+    // Track lead capture (fire and forget)
+    trackLead(email, name)
+
+    // Determine result phase for tracking
+    const phase = totalScore <= 8 ? "fase_inicial" : totalScore <= 20 ? "alerta_hormonal" : "acao_urgente"
+    trackComplete(phase)
 
     setScreen("result")
     setScoreAnimated(false)
@@ -1076,15 +1179,16 @@ export default function QuizPage() {
   <CountdownTimer />
   </div>
   
-  {/* CTA PRINCIPAL */}
-  <a
-  href="https://sun.eduzz.com/797ZK1BA0E"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="block w-full py-4 rounded-full text-center text-white font-bold uppercase tracking-wide bg-gradient-to-br from-[#CA3716] to-[#E04520] shadow-lg text-base md:text-lg hover:-translate-y-0.5 transition-all"
->
-  Garantir minha vaga por R$29,90
-  </a>
+{/* CTA PRINCIPAL */}
+                <a
+                  href="https://sun.eduzz.com/797ZK1BA0E"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackCheckout()}
+                  className="block w-full py-4 rounded-full text-center text-white font-bold uppercase tracking-wide bg-gradient-to-br from-[#CA3716] to-[#E04520] shadow-lg text-base md:text-lg hover:-translate-y-0.5 transition-all"
+                >
+                  Garantir minha vaga por R$29,90
+                </a>
   
   <p className="text-center text-xs text-white/60 mt-3">
   Garantia de satisfação · 7 dias · Acesso imediato
@@ -1130,5 +1234,16 @@ export default function QuizPage() {
         <p className="mt-1">Este quiz é informativo e educacional. Não substitui consulta médica.</p>
       </div>
     </div>
+  )
+}
+
+// ═══════════════════════════════════════════════
+// WRAPPER WITH SUSPENSE FOR SEARCH PARAMS
+// ═══════════════════════════════════════════════
+export default function QuizPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gradient-to-br from-[#710C60] to-[#4a0840] flex items-center justify-center"><div className="text-white">Carregando...</div></div>}>
+      <QuizPageContent />
+    </Suspense>
   )
 }
