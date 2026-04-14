@@ -779,18 +779,20 @@ setAnswers({ ...answers, [stepId]: [idx] })
           {screen === "intro" && (
             <div className="text-center">
               <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-2 border-[#EF709D] shadow-lg">
-                <Image
-                  src="/images/dra-su.png"
-                  alt="Dra. Su"
-                  width={80}
-                  height={80}
-                  className="w-full h-full object-cover object-top"
-                />
+<Image
+                      src="/images/dra-su.png"
+                      alt="Dra. Su"
+                      width={80}
+                      height={80}
+                      priority
+                      quality={75}
+                      className="w-full h-full object-cover object-top"
+                    />
               </div>
               <h1 className="font-serif text-2xl max-sm:text-[22px] text-[#710C60] leading-tight mb-3">
                 Seu corpo começou a mudar...
                 <br />
-                <span className="text-[#EF709D]">e você ainda tenta entender o que está acontecendo?</span>
+                <span className="text-[#A73979]">e você ainda tenta entender o que está acontecendo?</span>
               </h1>
               <p className="text-[15px] text-[#6b5570] leading-relaxed mb-4">
                 Responda algumas perguntas rápidas e descubra em qual fase hormonal você está vivendo e o que fazer agora.
@@ -972,11 +974,13 @@ setAnswers({ ...answers, [stepId]: [idx] })
 
 <div className="flex justify-center mb-4">
                     <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#EF709D] shadow-md">
-                      <Image
+<Image
                         src="/images/dra-su.png"
                         alt="Dra. Su"
                         width={64}
                         height={64}
+                        quality={75}
+                        loading="lazy"
                         className="w-full h-full object-cover object-top"
                       />
                     </div>
@@ -1063,15 +1067,17 @@ setAnswers({ ...answers, [stepId]: [idx] })
 
               {symTags.length === 0 && (
                 <div className="flex items-center gap-4 bg-[#FAF3ED] rounded-xl p-4 my-4">
-                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#EF709D] shrink-0">
-                    <Image
-                      src="/images/dra-su.png"
-                      alt="Dra. Su"
-                      width={64}
-                      height={64}
-                      className="w-full h-full object-cover object-top"
-                    />
-                  </div>
+<div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#EF709D] shrink-0">
+                      <Image
+                        src="/images/dra-su.png"
+                        alt="Dra. Su"
+                        width={64}
+                        height={64}
+                        quality={75}
+                        loading="lazy"
+                        className="w-full h-full object-cover object-top"
+                      />
+                    </div>
                   <p className="text-[13px] text-[#6b5570] leading-relaxed">
                     <strong className="text-[#710C60]">Dra. Su:</strong> O melhor momento para entender seu corpo é agora. Não espere os sintomas chegarem para começar a se cuidar.
                   </p>
@@ -1182,12 +1188,14 @@ setAnswers({ ...answers, [stepId]: [idx] })
                 </h3>
                 
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#EF709D]/20 border-2 border-[#EF709D]/50 flex-shrink-0 overflow-hidden">
+<div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#EF709D]/20 border-2 border-[#EF709D]/50 flex-shrink-0 overflow-hidden">
                     <Image
                       src="/images/dra-su.png"
                       alt="Dra. Suelley"
                       width={96}
                       height={96}
+                      quality={75}
+                      loading="lazy"
                       className="w-full h-full object-cover object-top"
                     />
                   </div>
