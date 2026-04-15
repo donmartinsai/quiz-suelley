@@ -87,7 +87,7 @@ const steps: Step[] = [
     options: [
       { icon: "🔄", text: "Acho que estou na perimenopausa", score: 1, tag: null },
       { icon: "🌙", text: "Acho que já entrei na menopausa", score: 2, tag: null },
-      { icon: "😕", text: "Não faço ideia, é exatamente isso que quero descobrir", score: 2, tag: null },
+      { icon: "😕", text: "Ainda não faço ideia, é exatamente o que quero descobrir", score: 2, tag: null },
     ],
   },
   {
