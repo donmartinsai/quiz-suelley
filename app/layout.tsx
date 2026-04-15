@@ -65,6 +65,13 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="bg-[#FDF8F4]">
       <head>
+        {/* Preload imagem da Dra. Su para carregamento rapido */}
+        <link 
+          rel="preload" 
+          as="image" 
+          href="/images/dra-su.webp" 
+          fetchPriority="high"
+        />
         {/* Meta Pixel Code */}
         <Script id="meta-pixel" strategy="afterInteractive">
           {`

@@ -1078,6 +1078,7 @@ setSymTags([])
                           alt="Dra. Suelley"
                           width={80}
                           height={80}
+                          priority
                           className="w-full h-full object-cover object-top"
                         />
                       </div>
@@ -1172,14 +1173,14 @@ setSymTags([])
 <div className="flex justify-center mb-4">
                     <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#EF709D] shadow-md">
 <Image
-                        src="/images/dra-su.webp"
-                        alt="Dra. Su"
-                        width={64}
-                        height={64}
-                        quality={75}
-                        loading="lazy"
-                        className="w-full h-full object-cover object-top"
-                      />
+                          src="/images/dra-su.webp"
+                          alt="Dra. Su"
+                          width={64}
+                          height={64}
+                          quality={75}
+                          priority
+                          className="w-full h-full object-cover object-top"
+                        />
                     </div>
                   </div>
 
@@ -1302,7 +1303,7 @@ setSymTags([])
                       width={64}
                       height={64}
                       quality={75}
-                      loading="lazy"
+                      priority
                       className="w-full h-full object-cover object-top"
                     />
                   </div>
@@ -1483,7 +1484,7 @@ setSymTags([])
                       width={96}
                       height={96}
                       quality={75}
-                      loading="lazy"
+                      priority
                       className="w-full h-full object-cover object-top"
                     />
                   </div>
