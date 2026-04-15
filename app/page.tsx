@@ -213,16 +213,16 @@ function primeiroNome(nomeCompleto: string | null | undefined): string {
   const MAPA_SINTOMAS_E2: Record<number, string | null> = {
     0: "fogachos",
     1: "irritabilidade", 
-    2: "insonia",
-    3: "nevoa mental",
-    4: "cansaco",
+    2: "insônia",
+    3: "névoa mental",
+    4: "cansaço",
     5: null // "Nenhum ou poucos sintomas"
   }
 
   const MAPA_SINTOMAS_E8: Record<number, string | null> = {
     0: "sono irregular",
-    1: "insonia",
-    2: "exaustao",
+    1: "insônia",
+    2: "exaustão",
     3: "dificuldade para dormir",
     4: null // "Consigo dormir bem"
   }
@@ -241,11 +241,11 @@ function primeiroNome(nomeCompleto: string | null | undefined): string {
       .map(idx => MAPA_SINTOMAS_E8[idx])
       .filter((s): s is string => s !== null)
 
-    // Remove duplicatas (insonia pode vir de ambos)
+    // Remove duplicatas (insônia pode vir de ambos)
     const todos = [...new Set([...sintomasE2, ...sintomasE8])]
     
-    // Prioridade: fogachos > insonia > nevoa mental > cansaco > outros
-    const prioridade = ["fogachos", "insonia", "nevoa mental", "cansaco", "irritabilidade", "exaustao", "sono irregular", "dificuldade para dormir"]
+    // Prioridade: fogachos > insônia > névoa mental > cansaço > outros
+    const prioridade = ["fogachos", "insônia", "névoa mental", "cansaço", "irritabilidade", "exaustão", "sono irregular", "dificuldade para dormir"]
     const ordenados = todos.sort((a, b) => {
       const ia = prioridade.indexOf(a)
       const ib = prioridade.indexOf(b)
@@ -1078,6 +1078,7 @@ setSymTags([])
                           alt="Dra. Suelley"
                           width={80}
                           height={80}
+                          priority
                           className="w-full h-full object-cover object-top"
                         />
                       </div>
@@ -1172,14 +1173,14 @@ setSymTags([])
 <div className="flex justify-center mb-4">
                     <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#EF709D] shadow-md">
 <Image
-                        src="/images/dra-su.webp"
-                        alt="Dra. Su"
-                        width={64}
-                        height={64}
-                        quality={75}
-                        loading="lazy"
-                        className="w-full h-full object-cover object-top"
-                      />
+                          src="/images/dra-su.webp"
+                          alt="Dra. Su"
+                          width={64}
+                          height={64}
+                          quality={75}
+                          priority
+                          className="w-full h-full object-cover object-top"
+                        />
                     </div>
                   </div>
 
@@ -1302,7 +1303,7 @@ setSymTags([])
                       width={64}
                       height={64}
                       quality={75}
-                      loading="lazy"
+                      priority
                       className="w-full h-full object-cover object-top"
                     />
                   </div>
@@ -1444,7 +1445,7 @@ setSymTags([])
                   Você <span className="text-[#EF709D]">Não Está Louca</span>
                 </h2>
                 <p className="text-[15px] text-white/85 leading-relaxed max-w-[460px] mx-auto">
-                  O que ninguém te contou sobre como a <strong className="text-white">menopausa</strong> está afetando seu corpo, sua energia e sua mente, mesmo quando seus exames dizem que está tudo &quot;normal&quot;.
+                  O que ninguém te contou sobre como a{" "}<strong className="text-[#EF709D] font-bold">perimenopausa</strong>{" "}e a{" "}<strong className="text-[#EF709D] font-bold">menopausa</strong>{" "}estão afetando seu corpo, sua energia e sua mente, mesmo quando seus exames dizem que está tudo &quot;normal&quot;.
                 </p>
               </div>
 
@@ -1462,12 +1463,11 @@ setSymTags([])
                   <div>
                     <p className="text-[14px] text-[#3d2b3a] font-medium flex items-start gap-2">
                       <span className="text-green-600">✅</span>
-                      Lembrete WhatsApp 1h antes da aula*
+                      Lembrete WhatsApp 1h antes da aula
                     </p>
-                    <p className="text-[12px] text-[#6b5570] ml-6">Para você não esquecer do seu horário</p>
+                    <p className="text-[12px] text-[#6b5570] ml-6">Para você não esquecer do seu horário - link na área de membros</p>
                   </div>
                 </div>
-                <p className="text-[11px] text-[#6b5570] mt-3 italic">*disponível ao compartilhar seu WhatsApp</p>
               </div>
 
 {/* CTA UNIFICADO */}
@@ -1484,7 +1484,7 @@ setSymTags([])
                       width={96}
                       height={96}
                       quality={75}
-                      loading="lazy"
+                      priority
                       className="w-full h-full object-cover object-top"
                     />
                   </div>
@@ -1589,9 +1589,7 @@ setSymTags([])
               </div>
 
               <div className="bg-[#FAF3ED] rounded-xl p-3 px-4 text-[12px] text-[#6b5570] leading-normal mt-5 text-left">
-                ⚕️ Este quiz é informativo e educacional. Não substitui consulta médica nem constitui diagnóstico.
-                <br />
-                Dra. Suelley Macedo Marques · CRM 2982/RR
+                ⚕️ Este quiz é informativo e educacional. Não substitui consulta médica nem constitui diagn��stico.
               </div>
 
               <button onClick={restartQuiz} className="block mx-auto mt-4 text-[13px] text-[#6b5570] underline bg-transparent border-none cursor-pointer font-sans">
