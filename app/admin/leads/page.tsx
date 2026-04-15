@@ -16,6 +16,7 @@ interface Lead {
   firstName: string | null
   email: string | null
   whatsapp: string | null
+  ageRange: string | null
   completed: boolean
   lastQuestionSeen: number | null
   resultPhase: string | null
@@ -35,6 +36,7 @@ export default function AdminLeadsPage() {
   const [status, setStatus] = useState<string>("")
   const [utmSource, setUtmSource] = useState("")
   const [resultPhase, setResultPhase] = useState<string>("")
+  const [ageRangeFilter, setAgeRangeFilter] = useState<string>("")
   const [startDate, setStartDate] = useState("")
   const [endDate, setEndDate] = useState("")
 
@@ -47,6 +49,7 @@ export default function AdminLeadsPage() {
       if (status) params.set("status", status)
       if (utmSource) params.set("utm_source", utmSource)
       if (resultPhase) params.set("result_phase", resultPhase)
+      if (ageRangeFilter) params.set("age_range", ageRangeFilter)
       if (startDate) params.set("start_date", startDate)
       if (endDate) params.set("end_date", endDate)
 
@@ -65,13 +68,14 @@ export default function AdminLeadsPage() {
 
   useEffect(() => {
     fetchLeads()
-  }, [page, status, utmSource, resultPhase, startDate, endDate])
+  }, [page, status, utmSource, resultPhase, ageRangeFilter, startDate, endDate])
 
   function handleExport() {
     const params = new URLSearchParams()
     if (status) params.set("status", status)
     if (utmSource) params.set("utm_source", utmSource)
     if (resultPhase) params.set("result_phase", resultPhase)
+    if (ageRangeFilter) params.set("age_range", ageRangeFilter)
     if (startDate) params.set("start_date", startDate)
     if (endDate) params.set("end_date", endDate)
 
@@ -109,7 +113,7 @@ export default function AdminLeadsPage() {
           <CardTitle className="text-sm text-[#6B5A6E]">Filtros</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
             <Select value={status} onValueChange={(v) => { setStatus(v); setPage(1) }}>
               <SelectTrigger className="bg-white border-[#F0E8DF] text-[#2A1F30]">
                 <SelectValue placeholder="Status" />
@@ -140,6 +144,19 @@ export default function AdminLeadsPage() {
               </SelectContent>
             </Select>
 
+            <Select value={ageRangeFilter} onValueChange={(v) => { setAgeRangeFilter(v); setPage(1) }}>
+              <SelectTrigger className="bg-white border-[#F0E8DF] text-[#2A1F30]">
+                <SelectValue placeholder="Faixa Etária" />
+              </SelectTrigger>
+              <SelectContent className="bg-white border-[#F0E8DF]">
+                <SelectItem value="all">Todas</SelectItem>
+                <SelectItem value="ate-35">Até 35</SelectItem>
+                <SelectItem value="36-45">36 a 45</SelectItem>
+                <SelectItem value="46-55">46 a 55</SelectItem>
+                <SelectItem value="56+">56 ou mais</SelectItem>
+              </SelectContent>
+            </Select>
+
             <Input
               type="date"
               value={startDate}
@@ -165,6 +182,7 @@ export default function AdminLeadsPage() {
               <TableRow className="border-[#F0E8DF] hover:bg-[#FDF8F4]">
                 <TableHead className="text-[#6B5A6E]">Data</TableHead>
                 <TableHead className="text-[#6B5A6E]">Nome</TableHead>
+                <TableHead className="text-[#6B5A6E]">Idade</TableHead>
                 <TableHead className="text-[#6B5A6E]">Email</TableHead>
                 <TableHead className="text-[#6B5A6E]">Status</TableHead>
                 <TableHead className="text-[#6B5A6E]">Fase</TableHead>
@@ -175,13 +193,13 @@ export default function AdminLeadsPage() {
             <TableBody>
               {loading ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center text-[#6B5A6E] py-8">
+                  <TableCell colSpan={8} className="text-center text-[#6B5A6E] py-8">
                     Carregando...
                   </TableCell>
                 </TableRow>
               ) : leads.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} className="text-center text-[#6B5A6E] py-8">
+                  <TableCell colSpan={8} className="text-center text-[#6B5A6E] py-8">
                     Nenhum lead encontrado
                   </TableCell>
                 </TableRow>
@@ -190,6 +208,7 @@ export default function AdminLeadsPage() {
                   <TableRow key={lead.id} className="border-[#F0E8DF] hover:bg-[#FDF8F4]">
                     <TableCell className="text-[#6B5A6E] text-sm">{formatDate(lead.startAt)}</TableCell>
                     <TableCell className="text-[#2A1F30] font-medium">{lead.firstName || "-"}</TableCell>
+                    <TableCell className="text-[#6B5A6E] text-sm">{lead.ageRange || "—"}</TableCell>
                     <TableCell className="text-[#6B5A6E] text-sm">{lead.email || "-"}</TableCell>
                     <TableCell>{getStatusBadge(lead)}</TableCell>
                     <TableCell className="text-[#6B5A6E] text-sm">{getPhaseLabel(lead.resultPhase)}</TableCell>

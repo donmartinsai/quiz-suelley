@@ -9,6 +9,7 @@ export async function GET(request: Request) {
     const status = searchParams.get("status") // completed | abandoned
     const utmSource = searchParams.get("utm_source")
     const resultPhase = searchParams.get("result_phase")
+    const ageRange = searchParams.get("age_range")
     const startDate = searchParams.get("start_date")
     const endDate = searchParams.get("end_date")
 
@@ -31,6 +32,11 @@ export async function GET(request: Request) {
     if (resultPhase) {
       conditions.push(`result_phase = $${paramIndex++}`)
       params.push(resultPhase)
+    }
+
+    if (ageRange) {
+      conditions.push(`age_range = $${paramIndex++}`)
+      params.push(ageRange)
     }
 
     if (startDate) {
@@ -60,6 +66,7 @@ export async function GET(request: Request) {
         first_name,
         email,
         whatsapp,
+        age_range,
         completed,
         last_question_seen,
         result_phase,
@@ -79,6 +86,7 @@ export async function GET(request: Request) {
       firstName: row.first_name,
       email: row.email,
       whatsapp: row.whatsapp,
+      ageRange: row.age_range || null,
       completed: row.completed,
       lastQuestionSeen: row.last_question_seen,
       resultPhase: row.result_phase,
