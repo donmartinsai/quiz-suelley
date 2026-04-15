@@ -167,6 +167,31 @@ export default function AdminOverviewPage() {
         </Card>
       </div>
 
+      {/* Funnel Chart */}
+      <Card className="bg-white border-[#F0E8DF] shadow-sm">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-[#2A1F30]">Funil de Conversão</CardTitle>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <div style={{ height: 320 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={funnel} layout="vertical" margin={{ top: 5, right: 120, left: 100, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#F0E8DF" />
+                <XAxis type="number" domain={[0, 100]} stroke="#6B5A6E" />
+                <YAxis dataKey="step" type="category" stroke="#6B5A6E" width={100} tick={{ fontSize: 11 }} />
+                <Tooltip
+                  contentStyle={{ backgroundColor: "#fff", border: "1px solid #F0E8DF", borderRadius: "8px" }}
+                  labelStyle={{ color: "#2A1F30" }}
+                />
+                <Bar dataKey="pct" fill="#EF709D" radius={[0, 4, 4, 0]}>
+                  <LabelList content={renderFunnelLabel} />
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Symptoms Distribution Card (Q2) */}
       {symptoms && symptoms.distribution && symptoms.distribution.length > 0 ? (
         <Card className="bg-white border-[#E5E7EB] shadow-sm">
@@ -209,31 +234,6 @@ export default function AdminOverviewPage() {
           </CardContent>
         </Card>
       )}
-
-      {/* Funnel Chart */}
-      <Card className="bg-white border-[#F0E8DF] shadow-sm">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-[#2A1F30]">Funil de Conversão</CardTitle>
-        </CardHeader>
-        <CardContent className="pt-0">
-          <div style={{ height: 320 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={funnel} layout="vertical" margin={{ top: 5, right: 120, left: 100, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#F0E8DF" />
-                <XAxis type="number" domain={[0, 100]} stroke="#6B5A6E" />
-                <YAxis dataKey="step" type="category" stroke="#6B5A6E" width={100} tick={{ fontSize: 11 }} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: "#fff", border: "1px solid #F0E8DF", borderRadius: "8px" }}
-                  labelStyle={{ color: "#2A1F30" }}
-                />
-                <Bar dataKey="pct" fill="#EF709D" radius={[0, 4, 4, 0]}>
-                  <LabelList content={renderFunnelLabel} />
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Dropoff Chart */}
       <Card className="bg-white border-[#F0E8DF] shadow-sm">

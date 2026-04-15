@@ -31,8 +31,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Header */}
       <header className="bg-white border-b border-[#F0E8DF] px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-[#710C60] font-bold text-lg">Quiz Suelley</span>
-          <span className="text-[#6B5A6E] text-sm">— Admin</span>
+          <span className="text-[#710C60] font-bold text-lg">Quiz VCNL</span>
+          <span className="text-[#6B5A6E] text-sm">· Painel</span>
         </div>
         <Button
           variant="ghost"
