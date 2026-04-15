@@ -167,7 +167,6 @@ const steps: Step[] = [
     badge: "Etapa 10 de 11 · O que você mais quer",
     text: "Se essa fase estivesse equilibrada, o que você mais gostaria de sentir?",
     sub: "Pode marcar mais de uma opção.",
-    exclusiveOption: 4,
     options: [
       { icon: "💤", text: "Dormir a noite inteira e acordar com energia", score: 0, tag: "Sono restaurador" },
       { icon: "🌿", text: "Ter disposição e clareza mental durante o dia", score: 0, tag: "Energia e foco" },
@@ -434,7 +433,7 @@ function QuizPageContent() {
 
   // ═══════════════════════════════════════════════
   // TRACKING FUNCTIONS (fire and forget)
-  // ═══════════════════════════════════════��═���═════
+  // ═══════════════════════════════��═══════��═���═════
   const trackSessionStart = useCallback(async () => {
     try {
       const device = /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "mobile" : "desktop"
