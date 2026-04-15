@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
-import { sql } from "@/lib/db"
+import pool from "@/lib/db"
 import { Q2_SYMPTOMS } from "@/lib/phase-labels"
 
 export async function GET() {
@@ -13,7 +13,7 @@ export async function GET() {
 
   try {
     // Get distribution of Q2 answers
-    const distributionResult = await sql`
+    const distributionResult = await pool.query(`
       SELECT 
         answer,
         COUNT(*) as count,
@@ -22,21 +22,21 @@ export async function GET() {
       WHERE question_id = 'e2'
       GROUP BY answer
       ORDER BY count DESC
-    `
+    `)
 
     // Get total sessions that answered Q2
-    const totalResult = await sql`
+    const totalResult = await pool.query(`
       SELECT COUNT(DISTINCT session_id) as total
       FROM quiz_answers
       WHERE question_id = 'e2'
-    `
+    `)
 
-    const total = Number(totalResult[0]?.total) || 0
+    const total = Number(totalResult.rows[0]?.total) || 0
 
     // Build distribution array with labels and percentages
-    const distribution = distributionResult.map((row) => {
+    const distribution = distributionResult.rows.map((row) => {
       const index = row.answer as string
-      const symptomInfo = Q2_SYMPTOMS[index] || { icon: "?", label: `Opção ${index}` }
+      const symptomInfo = Q2_SYMPTOMS[index] || { icon: "?", label: `Opcao ${index}` }
       const count = Number(row.count)
       const percentage = total > 0 ? Math.round((count / total) * 100 * 10) / 10 : 0
 
