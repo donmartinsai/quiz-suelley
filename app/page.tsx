@@ -304,30 +304,34 @@ function primeiroNome(nomeCompleto: string | null | undefined): string {
     return "perimenopausa"
   }
 
-  const FASES_INFO: Record<FaseHormonal, { emoji: string; nome: string; idade: string; descricao: string }> = {
+  const FASES_INFO: Record<FaseHormonal, { emoji: string; nome: string; idade: string; titulo: string; descricao: string }> = {
     "pre-menopausa": {
       emoji: "🌿",
       nome: "Pré",
       idade: "até 35",
-      descricao: "Você ainda está na PRÉ-MENOPAUSA. Seus hormônios estão em equilíbrio, mas seu corpo pode estar mostrando os primeiros sinais de que algo começa a mudar. Entender isso agora te coloca anos à frente da maioria das mulheres."
+      titulo: "Pré-menopausa",
+      descricao: "Seus sinais sugerem que você ainda pode estar vivendo o período da PRÉ-MENOPAUSA, com hormônios em equilíbrio. Mas seu corpo pode estar mostrando os primeiros sinais de mudança. Entender isso agora te coloca anos à frente da maioria das mulheres."
     },
     "perimenopausa": {
       emoji: "🔥",
       nome: "Peri",
       idade: "36 a 55",
-      descricao: "Você está na PERIMENOPAUSA. É a fase em que os hormônios começam a oscilar e os sintomas aparecem, mas a maioria das mulheres não sabe que é isso. Sem entendimento, essa fase pode durar de 4 a 10 anos com sintomas se intensificando."
+      titulo: "Perimenopausa",
+      descricao: "Baseado nas suas respostas, seus sinais são compatíveis com a fase da PERIMENOPAUSA. É o período em que os hormônios começam a oscilar, mas a maioria das mulheres não sabe que é isso. Sem entendimento, essa fase pode durar de 4 a 10 anos com sintomas se intensificando."
     },
     "menopausa": {
       emoji: "🌙",
       nome: "Meno",
       idade: "~51",
-      descricao: "Você está na MENOPAUSA. Seu corpo passou pela transição mais intensa. Com o suporte certo, você pode viver essa fase com qualidade, energia e equilíbrio."
+      titulo: "Menopausa",
+      descricao: "Seus sinais são compatíveis com a fase da MENOPAUSA, período em que os hormônios estão em um novo equilíbrio. Com o suporte certo, é possível viver essa fase com qualidade, energia e bem-estar."
     },
     "pos-menopausa": {
       emoji: "⚪",
       nome: "Pós",
       idade: "56+",
-      descricao: "Você está na PÓS-MENOPAUSA. Seus hormônios estão em um novo patamar. Agora o foco é manutenção da saúde, prevenção e qualidade de vida."
+      titulo: "Pós-menopausa",
+      descricao: "Seus sinais são compatíveis com a fase da PÓS-MENOPAUSA. Agora o foco é manutenção da saúde, prevenção e qualidade de vida nos próximos anos."
     }
   }
 
@@ -1398,7 +1402,7 @@ setName("")
                                       <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-[#CA3716]" />
                                       {/* Pill */}
                                       <span className="inline-block bg-gradient-to-r from-[#CA3716] to-[#E04520] text-white text-[9px] md:text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full animate-bounce">
-                                        Você está aqui
+                                        Você está aqui<sup className="text-[7px] ml-0.5">*</sup>
                                       </span>
                                     </div>
                                   </div>
@@ -1409,8 +1413,14 @@ setName("")
                         </div>
                       </div>
                       
-                      {/* Box explicativo */}
+                      {/* Box explicativo com titulo e disclaimer */}
                       <div className="mt-12 bg-gradient-to-r from-[#FFF5F7] to-white border-l-4 border-[#CA3716] rounded-2xl p-5">
+                        {/* Titulo da fase */}
+                        <h4 className="font-serif text-lg font-bold text-[#CA3716] mb-3">
+                          {FASES_INFO[faseAtual].titulo}
+                        </h4>
+                        
+                        {/* Texto principal com linguagem sugestiva */}
                         <p className="text-[14px] text-gray-800 leading-relaxed">
                           {FASES_INFO[faseAtual].descricao.split(faseAtual === "pre-menopausa" ? "PRÉ-MENOPAUSA" : faseAtual === "perimenopausa" ? "PERIMENOPAUSA" : faseAtual === "menopausa" ? "MENOPAUSA" : "PÓS-MENOPAUSA").map((part, i) => (
                             i === 0 ? (
@@ -1418,6 +1428,13 @@ setName("")
                             ) : <span key={i}>{part}</span>
                           ))}
                         </p>
+                        
+                        {/* Disclaimer etico */}
+                        <div className="mt-4 pt-4 border-t border-gray-200">
+                          <p className="text-[12px] text-gray-500 italic leading-relaxed">
+                            <span className="not-italic">*</span> Informação educacional baseada nas suas respostas. Não substitui consulta médica nem constitui diagnóstico. Para avaliação precisa, procure um profissional de saúde.
+                          </p>
+                        </div>
                       </div>
                     </div>
                   )
