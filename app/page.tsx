@@ -1367,15 +1367,51 @@ setSymTags([])
                 </ul>
               </div>
 
+              {/* BLOCO DEPOIMENTOS - Prints reais do Instagram */}
               <div className="my-5">
-                <h4 className="text-[13px] font-bold text-[#710C60] mb-3.5 font-sans uppercase tracking-wide">Outras mulheres que sentiram o mesmo</h4>
-                {profile.testis.map((idx) => (
-                  <div key={idx} className="bg-white border border-[#e8dde6] rounded-xl p-4 mb-2.5 relative">
-                    <span className="font-serif text-[44px] text-[#f8c4d8] absolute top-1.5 left-3 leading-none">&quot;</span>
-                    <p className="text-[13px] leading-relaxed text-[#3d2b3a] pt-5 italic">{testimonials[idx].text}</p>
-                    <p className="text-[11px] text-[#6b5570] font-semibold mt-2">{testimonials[idx].author}</p>
+                <h4 className="text-[13px] font-bold text-[#710C60] mb-1.5 font-sans uppercase tracking-wide">Outras mulheres que sentiram o mesmo</h4>
+                <p className="text-[12px] text-[#6b5570] mb-4">Comentários reais do Instagram da Dra. Su</p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+                  {/* Print 1 - @elmasilva_9 */}
+                  <div className="bg-white rounded-xl p-3 shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+                    <Image
+                      src="/depoimentos/print-comentario-1.jpg"
+                      alt="Comentário da seguidora @elmasilva_9 sobre sintomas da perimenopausa aos 38 anos"
+                      width={400}
+                      height={200}
+                      className="w-full h-auto rounded-lg"
+                      loading="lazy"
+                    />
+                    <p className="text-[11px] text-[#6b5570] text-center mt-2">Via Instagram @drasumenopausa</p>
                   </div>
-                ))}
+
+                  {/* Print 2 - @rosana_perini2024 */}
+                  <div className="bg-white rounded-xl p-3 shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+                    <Image
+                      src="/depoimentos/print-comentario-2.jpg"
+                      alt="Comentário da seguidora @rosana_perini2024 sobre menopausa aos 38 anos"
+                      width={400}
+                      height={200}
+                      className="w-full h-auto rounded-lg"
+                      loading="lazy"
+                    />
+                    <p className="text-[11px] text-[#6b5570] text-center mt-2">Via Instagram @drasumenopausa</p>
+                  </div>
+
+                  {/* Print 3 - @neidyporfirio12 */}
+                  <div className="bg-white rounded-xl p-3 shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+                    <Image
+                      src="/depoimentos/print-comentario-3.jpg"
+                      alt="Comentário da seguidora @neidyporfirio12 sobre sintomas da perimenopausa aos 38 anos"
+                      width={400}
+                      height={200}
+                      className="w-full h-auto rounded-lg"
+                      loading="lazy"
+                    />
+                    <p className="text-[11px] text-[#6b5570] text-center mt-2">Via Instagram @drasumenopausa</p>
+                  </div>
+                </div>
               </div>
 
               {/* NOVO BLOCO: Por que AO VIVO? */}
