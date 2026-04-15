@@ -67,10 +67,10 @@ const steps: Step[] = [
     type: "insight_single",
     scoreWeight: 0,
     badge: "Etapa 3 de 11 · Você sabia disso?",
-    text: "Você sabia que a perimenopausa pode começar até 10 anos antes da menopausa?",
+    text: "Você sabia que a menopausa pode começar até 10 anos antes dos 45?",
     sub: null,
     insight:
-      "Isso significa que você pode ter 37, 40 ou 43 anos, menstruação regular, e já estar nessa fase. A maioria das mulheres não faz ideia disso e acaba levando anos sem diagnóstico ou tratamento adequado.",
+      "Isso significa que você pode ter 37, 40 ou 43 anos, menstruação ainda regular ou já irregular, e estar nessa fase.\n\nEla tem um nome: PERIMENOPAUSA.\n\nA maioria das mulheres acha que só entra na menopausa quando para de menstruar de vez. Mas existe uma fase antes disso, que pode durar anos, e é onde tudo começa a mudar no seu corpo.",
     options: [
       { icon: "😳", text: "Não fazia ideia disso!", score: 2, tag: null },
       { icon: "🤔", text: "Já ouvi falar, mas não entendo bem", score: 1, tag: null },
@@ -840,9 +840,19 @@ setAnswers({ ...answers, [stepId]: [idx] })
               {step.sub && <div className="text-[14px] text-[#6b5570] mb-5 leading-relaxed italic">{step.sub}</div>}
 
               {/* Insight aparece DEPOIS da selecao para insight_single */}
-              {step.type === "insight_single" && step.insight && showInsight && (
+{step.type === "insight_single" && step.insight && showInsight && (
                 <div className="bg-gradient-to-br from-[#710C60] to-[#4a0840] rounded-2xl p-5 text-white text-[15px] leading-relaxed my-4 animate-fade-in">
-                  {step.insight}
+                  {step.insight.split('\n\n').map((paragraph, i) => (
+                    <p key={i} className={i > 0 ? "mt-4" : ""}>
+                      {paragraph.includes('PERIMENOPAUSA') ? (
+                        <>
+                          {paragraph.split('PERIMENOPAUSA')[0]}
+                          <strong className="text-[#EF709D]">PERIMENOPAUSA</strong>
+                          {paragraph.split('PERIMENOPAUSA')[1]}
+                        </>
+                      ) : paragraph}
+                    </p>
+                  ))}
                 </div>
               )}
 
