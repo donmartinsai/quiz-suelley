@@ -47,24 +47,9 @@ const steps: Step[] = [
   },
   {
     id: "e2",
-    type: "insight_single",
-    scoreWeight: 0,
-    badge: "Etapa 2 de 11 · Você sabia disso?",
-    text: "Você sabia que a Menopausa pode começar até 10 anos antes dos 45?",
-    sub: null,
-    insight:
-      "Isso significa que você pode ter 37, 40 ou 43 anos, menstruação ainda regular ou já irregular, e estar nessa fase.\n\nEla tem um nome: PERIMENOPAUSA.\n\nA maioria das mulheres acha que só entra na menopausa quando para de menstruar de vez. Mas existe uma fase antes disso, que pode durar anos, e é onde tudo começa a mudar no seu corpo.",
-    options: [
-      { icon: "😳", text: "Não fazia ideia disso!", score: 2, tag: null },
-      { icon: "🤔", text: "Já ouvi falar, mas não entendo bem", score: 1, tag: null },
-      { icon: "✅", text: "Sim, já sabia", score: 0, tag: null },
-    ],
-  },
-  {
-    id: "e3",
     type: "multi",
     scoreWeight: 1,
-    badge: "Etapa 3 de 11 · Seus sintomas",
+    badge: "Etapa 2 de 11 · Seus sintomas",
     text: "Quais desses sintomas você tem sentido?",
     sub: "Pode marcar mais de uma opção.",
     exclusiveOption: 5,
@@ -78,10 +63,10 @@ const steps: Step[] = [
     ],
   },
   {
-    id: "e4",
+    id: "e3",
     type: "single",
     scoreWeight: 0,
-    badge: "Etapa 4 de 11 · Há quanto tempo",
+    badge: "Etapa 3 de 11 · Há quanto tempo",
     text: "Há quanto tempo você convive com esses sintomas?",
     sub: "Escolha a opção que mais se encaixa.",
     options: [
@@ -89,6 +74,21 @@ const steps: Step[] = [
       { icon: "📅", text: "Há mais de 1 ano", score: 2, tag: null },
       { icon: "⏳", text: "Já são vários anos convivendo com isso", score: 3, tag: null },
       { icon: "❓", text: "Não sei dizer exatamente", score: 1, tag: null },
+    ],
+  },
+  {
+    id: "e4",
+    type: "insight_single",
+    scoreWeight: 0,
+    badge: "Etapa 4 de 11 · Você sabia disso?",
+    text: "Você sabia que a Menopausa pode começar até 10 anos antes dos 45?",
+    sub: null,
+    insight:
+      "Isso significa que você pode ter 37, 40 ou 43 anos, menstruação ainda regular ou já irregular, e estar nessa fase.\n\nEla tem um nome: PERIMENOPAUSA.\n\nA maioria das mulheres acha que só entra na menopausa quando para de menstruar de vez. Mas existe uma fase antes disso, que pode durar anos, e é onde tudo começa a mudar no seu corpo.",
+    options: [
+      { icon: "😳", text: "Não fazia ideia disso!", score: 2, tag: null },
+      { icon: "🤔", text: "Já ouvi falar, mas não entendo bem", score: 1, tag: null },
+      { icon: "✅", text: "Sim, já sabia", score: 0, tag: null },
     ],
   },
   {
@@ -598,8 +598,8 @@ setAnswers({ ...answers, [stepId]: [idx] })
 function nextStep() {
     if (sel.length === 0) return
     
-    // Apos Etapa 2 (cur === 1, insight educativo), vai para tela de ciencia
-    if (cur === 1) {
+    // Apos Etapa 4 (cur === 3, insight educativo), vai para tela de ciencia
+    if (cur === 3) {
       setScreen("science")
       setShowInsight(false)
       return
@@ -613,16 +613,16 @@ function nextStep() {
     }
   }
   
-  // Avanca da tela de ciencia para Etapa 3 (sintomas)
+  // Avanca da tela de ciencia para Etapa 5 (onde voce esta)
   function continueFromScience() {
     setScreen("quiz")
-    setCur(2) // Etapa 3 - sintomas
+    setCur(4) // Etapa 5 - onde voce esta
   }
   
-  // Volta da tela de ciencia para Etapa 2 (insight)
+  // Volta da tela de ciencia para Etapa 4 (insight)
   function backToStep3() {
     setScreen("quiz")
-    setCur(1) // Etapa 2 - insight
+    setCur(3) // Etapa 4 - insight
     setShowInsight(true) // Mostra insight novamente
   }
   
