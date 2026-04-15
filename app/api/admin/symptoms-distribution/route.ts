@@ -4,45 +4,53 @@ import { Q2_SYMPTOMS } from "@/lib/phase-labels"
 
 export async function GET() {
   try {
-    // Get distribution of Q2 answers
-    const distributionResult = await pool.query(`
-      SELECT 
-        answer,
-        COUNT(*) as count,
-        COUNT(DISTINCT session_id) as unique_sessions
-      FROM quiz_answers
-      WHERE question_id = 'e2'
-      GROUP BY answer
-      ORDER BY count DESC
-    `)
-
-    // Get total sessions that answered Q2
-    const totalResult = await pool.query(`
-      SELECT COUNT(DISTINCT session_id) as total
+    // Get ALL Q2 answers (not grouped)
+    const answersResult = await pool.query(`
+      SELECT answer, session_id
       FROM quiz_answers
       WHERE question_id = 'e2'
     `)
 
-    const total = Number(totalResult.rows[0]?.total) || 0
+    // Aggregate counts per individual index
+    const counts: Record<number, number> = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+    const uniqueSessions = new Set<string>()
+
+    for (const row of answersResult.rows) {
+      uniqueSessions.add(row.session_id)
+      try {
+        // Parse answer: "[0,1,2]" -> [0,1,2]
+        const indices = JSON.parse(row.answer)
+        if (Array.isArray(indices)) {
+          for (const idx of indices) {
+            if (typeof idx === "number" && counts[idx] !== undefined) {
+              counts[idx]++
+            }
+          }
+        }
+      } catch {
+        // Malformed answer, skip
+      }
+    }
+
+    const total = uniqueSessions.size
 
     // Build distribution array with labels and percentages
-    const distribution = distributionResult.rows.map((row) => {
-      const index = row.answer as string
-      const symptomInfo = Q2_SYMPTOMS[index] || { icon: "?", label: `Opcao ${index}` }
-      const count = Number(row.count)
-      const percentage = total > 0 ? Math.round((count / total) * 100 * 10) / 10 : 0
+    const distribution = Object.entries(counts)
+      .map(([idx, count]) => {
+        const index = `[${idx}]`
+        const symptomInfo = Q2_SYMPTOMS[index] || { icon: "?", label: `Opção ${idx}` }
+        const percentage = total > 0 ? Math.round((count / total) * 100 * 10) / 10 : 0
 
-      return {
-        index,
-        icon: symptomInfo.icon,
-        label: symptomInfo.label,
-        count,
-        percentage
-      }
-    })
-
-    // Sort by count descending
-    distribution.sort((a, b) => b.count - a.count)
+        return {
+          index,
+          icon: symptomInfo.icon,
+          label: symptomInfo.label,
+          count,
+          percentage
+        }
+      })
+      .filter(d => d.count > 0)
+      .sort((a, b) => b.count - a.count)
 
     return NextResponse.json({
       total,
