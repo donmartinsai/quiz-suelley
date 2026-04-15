@@ -1590,8 +1590,6 @@ setSymTags([])
 
               <div className="bg-[#FAF3ED] rounded-xl p-3 px-4 text-[12px] text-[#6b5570] leading-normal mt-5 text-left">
                 ⚕️ Este quiz é informativo e educacional. Não substitui consulta médica nem constitui diagnóstico.
-                <br />
-                Dra. Suelley Macedo Marques · CRM 2982/RR
               </div>
 
               <button onClick={restartQuiz} className="block mx-auto mt-4 text-[13px] text-[#6b5570] underline bg-transparent border-none cursor-pointer font-sans">
