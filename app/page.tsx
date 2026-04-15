@@ -832,13 +832,6 @@ setAnswers({ ...answers, [stepId]: [idx] })
                     style={{ width: `${pct}%` }}
                   />
                 </div>
-                <div className="text-[12px] text-[#6b5570] text-right mt-1.5">
-                  {cur + 1} de {steps.length}
-                </div>
-              </div>
-
-              <div className="inline-flex items-center gap-1.5 bg-[#fdf2f6] border border-[#f8c4d8] text-[#A73979] py-1.5 px-3 rounded-full text-[12px] font-semibold mb-3.5">
-                🌸 {step.badge}
               </div>
 
               <div className="font-serif text-[22px] max-sm:text-[19px] text-[#710C60] leading-snug mb-2">{step.text}</div>
