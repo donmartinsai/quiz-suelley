@@ -1520,10 +1520,6 @@ setSymTags([])
                 >
                   GARANTIR MINHA VAGA POR R$29,90
                 </a>
-
-                <p className="text-center text-xs text-white/60 mt-3">
-                  Garantia de satisfação · 7 dias · Acesso imediato
-                </p>
               </div>
 
               {/* BLOCO GARANTIA - Nova posição */}
