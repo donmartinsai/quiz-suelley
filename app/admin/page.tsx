@@ -70,7 +70,12 @@ export default function AdminOverviewPage() {
         const funnelData = await funnelRes.json()
         const dropoffData = await dropoffRes.json()
         const timelineData = await timelineRes.json()
-        const symptomsData = await symptomsRes.json()
+        
+        // Handle symptoms response gracefully
+        let symptomsData = { total: 0, distribution: [] }
+        if (symptomsRes.ok) {
+          symptomsData = await symptomsRes.json()
+        }
 
         setStats(statsData)
         setFunnel(funnelData.funnel || [])
@@ -163,7 +168,7 @@ export default function AdminOverviewPage() {
       </div>
 
       {/* Symptoms Distribution Card (Q2) */}
-      {symptoms && symptoms.distribution.length > 0 && (
+      {symptoms && symptoms.distribution && symptoms.distribution.length > 0 ? (
         <Card className="bg-white border-[#E5E7EB] shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-[#111827]">Distribuicao de Sintomas (Q2)</CardTitle>
@@ -192,6 +197,15 @@ export default function AdminOverviewPage() {
             <p className="text-xs text-[#6B7280] mt-4 pt-3 border-t border-[#E5E7EB]">
               Total de sessoes que responderam Q2: {symptoms.total}
             </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="bg-white border-[#E5E7EB] shadow-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-[#111827]">Distribuicao de Sintomas (Q2)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-[#6B7280]">Sem dados disponiveis ainda.</p>
           </CardContent>
         </Card>
       )}

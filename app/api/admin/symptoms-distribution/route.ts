@@ -1,16 +1,8 @@
 import { NextResponse } from "next/server"
-import { cookies } from "next/headers"
 import pool from "@/lib/db"
 import { Q2_SYMPTOMS } from "@/lib/phase-labels"
 
 export async function GET() {
-  // Auth check
-  const cookieStore = await cookies()
-  const session = cookieStore.get("admin_session")
-  if (!session?.value) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-  }
-
   try {
     // Get distribution of Q2 answers
     const distributionResult = await pool.query(`
