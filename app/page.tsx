@@ -976,7 +976,7 @@ function nextStep() {
                         "A perimenopausa está relacionada com o período da vida em que as pessoas começam a ter ciclos menstruais irregulares e outros sintomas."
                       </p>
                       <p className="text-[12px] text-[#EF709D]">
-                        newsnetwork.mayoclinic.org
+                        newsnetwork.mayoclinic.org/pt/2023/12/14
                       </p>
                     </div>
 
