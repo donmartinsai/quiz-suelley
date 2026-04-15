@@ -1462,12 +1462,11 @@ setSymTags([])
                   <div>
                     <p className="text-[14px] text-[#3d2b3a] font-medium flex items-start gap-2">
                       <span className="text-green-600">✅</span>
-                      Lembrete WhatsApp 1h antes da aula*
+                      Lembrete WhatsApp 1h antes da aula
                     </p>
-                    <p className="text-[12px] text-[#6b5570] ml-6">Para você não esquecer do seu horário</p>
+                    <p className="text-[12px] text-[#6b5570] ml-6">Para você não esquecer do seu horário - link na área de membros</p>
                   </div>
                 </div>
-                <p className="text-[11px] text-[#6b5570] mt-3 italic">*disponível ao compartilhar seu WhatsApp</p>
               </div>
 
 {/* CTA UNIFICADO */}
