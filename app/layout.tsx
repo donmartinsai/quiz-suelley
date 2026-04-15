@@ -7,6 +7,12 @@ import './globals.css'
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
+
 export const metadata: Metadata = {
   title: 'Quiz — Descubra em qual fase hormonal você está | Dra. Suelley',
   description: 'Responda 11 perguntas rápidas e receba um mapa personalizado dos seus sintomas. Gratuito, baseado em ciência. Dra. Suelley Macedo Marques · CRM 2982/RR',
@@ -84,7 +90,7 @@ export default function RootLayout({
           />
         </noscript>
       </head>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

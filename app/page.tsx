@@ -213,16 +213,16 @@ function primeiroNome(nomeCompleto: string | null | undefined): string {
   const MAPA_SINTOMAS_E2: Record<number, string | null> = {
     0: "fogachos",
     1: "irritabilidade", 
-    2: "insonia",
-    3: "nevoa mental",
-    4: "cansaco",
+    2: "insônia",
+    3: "névoa mental",
+    4: "cansaço",
     5: null // "Nenhum ou poucos sintomas"
   }
 
   const MAPA_SINTOMAS_E8: Record<number, string | null> = {
     0: "sono irregular",
-    1: "insonia",
-    2: "exaustao",
+    1: "insônia",
+    2: "exaustão",
     3: "dificuldade para dormir",
     4: null // "Consigo dormir bem"
   }
@@ -241,11 +241,11 @@ function primeiroNome(nomeCompleto: string | null | undefined): string {
       .map(idx => MAPA_SINTOMAS_E8[idx])
       .filter((s): s is string => s !== null)
 
-    // Remove duplicatas (insonia pode vir de ambos)
+    // Remove duplicatas (insônia pode vir de ambos)
     const todos = [...new Set([...sintomasE2, ...sintomasE8])]
     
-    // Prioridade: fogachos > insonia > nevoa mental > cansaco > outros
-    const prioridade = ["fogachos", "insonia", "nevoa mental", "cansaco", "irritabilidade", "exaustao", "sono irregular", "dificuldade para dormir"]
+    // Prioridade: fogachos > insônia > névoa mental > cansaço > outros
+    const prioridade = ["fogachos", "insônia", "névoa mental", "cansaço", "irritabilidade", "exaustão", "sono irregular", "dificuldade para dormir"]
     const ordenados = todos.sort((a, b) => {
       const ia = prioridade.indexOf(a)
       const ib = prioridade.indexOf(b)
