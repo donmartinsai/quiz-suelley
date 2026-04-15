@@ -72,6 +72,10 @@ export default function RootLayout({
           href="/images/dra-su.webp" 
           fetchPriority="high"
         />
+        {/* Preload prints de depoimentos do Instagram */}
+        <link rel="preload" as="image" href="/depoimentos/print-comentario-1.jpg" />
+        <link rel="preload" as="image" href="/depoimentos/print-comentario-2.jpg" />
+        <link rel="preload" as="image" href="/depoimentos/print-comentario-3.jpg" />
         {/* Meta Pixel Code */}
         <Script id="meta-pixel" strategy="afterInteractive">
           {`
