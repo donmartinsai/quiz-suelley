@@ -433,7 +433,7 @@ function QuizPageContent() {
 
   // ═══════════════════════════════════════════════
   // TRACKING FUNCTIONS (fire and forget)
-  // ═══════════════════════════════��═══════��═���═════
+  // ═══════════════════════════════��═══════�������═════
   const trackSessionStart = useCallback(async () => {
     try {
       const device = /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "mobile" : "desktop"
@@ -952,12 +952,9 @@ function nextStep() {
                   <div className="space-y-4">
                     {/* Card MSD Manuals */}
                     <div className="bg-[#fdf8f4] border border-[#f0e0eb] rounded-xl p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-base">🇧🇷</span>
-                        <div>
-                          <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
-                          <p className="text-[14px] font-bold text-[#710C60]">MSD Manuals</p>
-                        </div>
+                      <div className="mb-2">
+                        <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
+                        <p className="text-[14px] font-bold text-[#710C60]">MSD Manuals</p>
                       </div>
                       <p className="text-[14px] text-[#2A1F30] leading-relaxed italic mb-2">
                         "A perimenopausa é a fase de transição para a menopausa e costuma durar vários anos; em geral, inclui cerca de 4 a 8 anos até o período menstrual final."
@@ -969,12 +966,9 @@ function nextStep() {
 
                     {/* Card Mayo Clinic */}
                     <div className="bg-[#fdf8f4] border border-[#f0e0eb] rounded-xl p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-base">🇺🇸</span>
-                        <div>
-                          <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
-                          <p className="text-[14px] font-bold text-[#710C60]">Mayo Clinic</p>
-                        </div>
+                      <div className="mb-2">
+                        <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
+                        <p className="text-[14px] font-bold text-[#710C60]">Mayo Clinic</p>
                       </div>
                       <p className="text-[14px] text-[#2A1F30] leading-relaxed italic mb-2">
                         "A perimenopausa está relacionada com o período da vida em que as pessoas começam a ter ciclos menstruais irregulares e outros sintomas."
