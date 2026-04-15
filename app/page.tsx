@@ -332,8 +332,8 @@ function MenopauseStagesChart() {
           <text x="210" y="165" fontFamily="sans-serif" fontSize="14" fontWeight="700" fill="#710C60" textAnchor="middle" letterSpacing="1">
             PRÉ-MENOPAUSA
           </text>
-          <rect x="400" y="145" width="180" height="30" rx="15" fill="#DC2626" fillOpacity="0.2"/>
-          <text x="490" y="165" fontFamily="sans-serif" fontSize="14" fontWeight="800" fill="#DC2626" textAnchor="middle" letterSpacing="1">
+          <rect x="390" y="143" width="200" height="34" rx="17" fill="#DC2626" fillOpacity="0.2"/>
+          <text x="490" y="167" fontFamily="sans-serif" fontSize="18" fontWeight="800" fill="#DC2626" textAnchor="middle" letterSpacing="1">
             PERIMENOPAUSA
           </text>
           <rect x="645" y="145" width="110" height="30" rx="15" fill="#F9C6D9" fillOpacity="0.5"/>
@@ -433,7 +433,7 @@ function QuizPageContent() {
 
   // ═══════════════════════════════════════════════
   // TRACKING FUNCTIONS (fire and forget)
-  // ═══════════════════════════════════════��═══════
+  // ═══════════════════════════════════════��═��═════
   const trackSessionStart = useCallback(async () => {
     try {
       const device = /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "mobile" : "desktop"
