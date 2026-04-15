@@ -140,12 +140,13 @@ const steps: Step[] = [
     badge: "Etapa 8 de 11 · Seu sono",
     text: "Como estão suas noites?",
     sub: "Pode marcar mais de uma opção.",
+    exclusiveOption: 4,
     options: [
-      { icon: "😌", text: "Consigo dormir bem, acordo descansada", score: 0, tag: null },
       { icon: "😐", text: "Oscila bastante, às vezes bem, às vezes péssimo", score: 1, tag: "Sono irregular" },
       { icon: "🧠", text: "Acordo de madrugada e não consigo parar de pensar", score: 2, tag: "Insônia com ansiedade" },
       { icon: "😩", text: "Perco o sono com frequência, acordo exausta", score: 3, tag: "Privação de sono" },
       { icon: "🛏️", text: "Tenho dificuldade de pegar no sono", score: 2, tag: "Dificuldade para dormir" },
+      { icon: "😌", text: "Consigo dormir bem, acordo descansada", score: 0, tag: null },
     ],
   },
   {
@@ -433,7 +434,7 @@ function QuizPageContent() {
 
   // ═══════════════════════════════════════════════
   // TRACKING FUNCTIONS (fire and forget)
-  // ═══════════════════════════════��═══════�������═════
+  // ═══════════════════════════════��═══════��������═════
   const trackSessionStart = useCallback(async () => {
     try {
       const device = /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "mobile" : "desktop"
@@ -871,8 +872,8 @@ function nextStep() {
               <div className="flex flex-col gap-3">
                 {step.options.map((o, i) => {
                   const isSel = sel.includes(i)
-                  // Para etapa 6, ultima opcao tem separador
-                  const isLastNoneOption = step.id === "e6" && i === step.options.length - 1
+                  // Para etapa 8, ultima opcao (exclusiva) tem separador
+                  const isLastNoneOption = step.id === "e8" && i === step.options.length - 1
 
                   return (
                     <div key={i}>
