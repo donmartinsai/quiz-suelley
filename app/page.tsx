@@ -947,9 +947,9 @@ function nextStep() {
 
                   <div className="space-y-4">
                     {/* Card MSD Manuals */}
-                    <div className="bg-white border border-[#f0e0eb] rounded-xl p-4">
+                    <div className="bg-[#fdf8f4] border border-[#f0e0eb] rounded-xl p-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-lg">📄</span>
+                        <span className="text-base">🇧🇷</span>
                         <div>
                           <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
                           <p className="text-[14px] font-bold text-[#710C60]">MSD Manuals</p>
@@ -964,9 +964,9 @@ function nextStep() {
                     </div>
 
                     {/* Card Mayo Clinic */}
-                    <div className="bg-white border border-[#f0e0eb] rounded-xl p-4">
+                    <div className="bg-[#fdf8f4] border border-[#f0e0eb] rounded-xl p-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <span className="text-lg">📄</span>
+                        <span className="text-base">🇺🇸</span>
                         <div>
                           <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
                           <p className="text-[14px] font-bold text-[#710C60]">Mayo Clinic</p>
@@ -981,21 +981,21 @@ function nextStep() {
                     </div>
 
                     {/* Balao Dra. Su */}
-                    <div className="bg-[#fdf8f4] border border-[#f0e0eb] rounded-xl p-4 flex gap-3">
-                      <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#EF709D] shrink-0">
+                    <div className="bg-gradient-to-br from-[#710C60] to-[#4a0840] rounded-xl p-4 flex gap-3">
+                      <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#EF709D] shrink-0">
                         <Image
                           src="/images/dra-su.webp"
                           alt="Dra. Suelley"
-                          width={64}
-                          height={64}
+                          width={80}
+                          height={80}
                           className="w-full h-full object-cover object-top"
                         />
                       </div>
                       <div className="flex-1">
-                        <p className="text-[14px] font-bold text-[#710C60]">Dra. Suelley Macedo Marques</p>
-                        <p className="text-[11px] text-[#6b5570] mb-2">Médica especialista em menopausa. CRM 2982/RR</p>
-                        <p className="text-[14px] text-[#2A1F30] leading-relaxed">
-                          "A perimenopausa pode durar entre 2 e 10 anos e começa, em média, aos 45 anos, podendo iniciar antes."
+                        <p className="text-[14px] font-bold text-white">Dra. Suelley Macedo Marques</p>
+                        <p className="text-[11px] text-[#EF709D] mb-2">Médica. CRM 2982/RR</p>
+                        <p className="text-[14px] text-white/90 leading-relaxed">
+                          "A perimenopausa pode durar entre 2 e 10 anos e começa, em média, aos 35-37 anos, podendo iniciar antes."
                         </p>
                       </div>
                     </div>
