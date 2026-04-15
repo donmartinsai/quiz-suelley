@@ -417,7 +417,7 @@ function MenopauseStagesChart() {
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════
 function QuizPageContent() {
-  const [screen, setScreen] = useState<"intro" | "quiz" | "loading" | "gate" | "result">("intro")
+  const [screen, setScreen] = useState<"intro" | "quiz" | "science" | "loading" | "gate" | "result">("intro")
   const [cur, setCur] = useState(0)
   const [answers, setAnswers] = useState<Record<string, number[]>>({})
   const [name, setName] = useState("")
@@ -595,9 +595,16 @@ setAnswers({ ...answers, [stepId]: [idx] })
     }
   }
 
-  function nextStep() {
+function nextStep() {
     if (sel.length === 0) return
-
+    
+    // Apos Etapa 3 (cur === 2), vai para tela de ciencia
+    if (cur === 2) {
+      setScreen("science")
+      setShowInsight(false)
+      return
+    }
+    
     if (cur < steps.length - 1) {
       setCur(cur + 1)
       setShowInsight(false)
@@ -605,7 +612,20 @@ setAnswers({ ...answers, [stepId]: [idx] })
       showLoading()
     }
   }
-
+  
+  // Avanca da tela de ciencia para Etapa 4
+  function continueFromScience() {
+    setScreen("quiz")
+    setCur(3) // Etapa 4
+  }
+  
+  // Volta da tela de ciencia para Etapa 3
+  function backToStep3() {
+    setScreen("quiz")
+    setCur(2) // Etapa 3
+    setShowInsight(true) // Mostra insight novamente
+  }
+  
   function prevStep() {
     if (cur > 0) {
       setCur(cur - 1)
@@ -703,7 +723,7 @@ setAnswers({ ...answers, [stepId]: [idx] })
     "Fadiga": "cansaço",
     "Sono irregular": "sono irregular",
     "Insônia com ansiedade": "insônia",
-    "Privação de sono": "exaustão",
+    "Priva��ão de sono": "exaustão",
     "Dificuldade para dormir": "dificuldade para dormir",
   }
 
@@ -893,77 +913,6 @@ setAnswers({ ...answers, [stepId]: [idx] })
                 </div>
               )}
 
-              {/* Blocos de autoridade cientifica - aparecem junto com insight na Etapa 3 */}
-              {step.id === "e3" && showInsight && (
-                <div className="mt-4 space-y-3 animate-fade-in">
-                  <p className="text-[12px] text-[#6b5570] uppercase tracking-wide mb-2">O que as fontes científicas confirmam:</p>
-                  
-                  {/* Card Clearblue */}
-                  <div className="bg-white border border-[#f0e0eb] rounded-xl p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-lg">📄</span>
-                      <div>
-                        <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
-                        <p className="text-[14px] font-bold text-[#710C60]">Clearblue</p>
-                      </div>
-                    </div>
-                    <p className="text-[14px] text-[#2A1F30] leading-relaxed italic mb-2">
-                      "A perimenopausa pode durar de alguns meses a mais de 10 anos. Normalmente, dura de quatro a oito anos."
-                    </p>
-                    <a 
-                      href="https://br.clearblue.com/ciclo-menstrual/cinco-mitos-e-fatos-perimenopausa" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-[12px] text-[#EF709D] hover:underline"
-                    >
-                      Ver fonte → br.clearblue.com
-                    </a>
-                  </div>
-
-                  {/* Card Unimed */}
-                  <div className="bg-white border border-[#f0e0eb] rounded-xl p-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-lg">📄</span>
-                      <div>
-                        <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
-                        <p className="text-[14px] font-bold text-[#710C60]">Unimed Campinas</p>
-                      </div>
-                    </div>
-                    <p className="text-[14px] text-[#2A1F30] leading-relaxed italic mb-2">
-                      "A perimenopausa geralmente começa entre os 40 e 50 anos, mas pode se iniciar antes, em alguns casos."
-                    </p>
-                    <a 
-                      href="https://www.unimedcampinas.com.br/blog/viver-com-saude/o-que-e-perimenopausa-entenda-esse-periodo-da-vida-da-mulher-" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-[12px] text-[#EF709D] hover:underline"
-                    >
-                      Ver fonte → unimedcampinas.com.br
-                    </a>
-                  </div>
-
-                  {/* Balao Dra. Su */}
-                  <div className="bg-[#fdf8f4] border border-[#f0e0eb] rounded-xl p-4 flex gap-3">
-                    <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#EF709D] shrink-0">
-                      <Image
-                        src="/images/dra-su.webp"
-                        alt="Dra. Suelley"
-                        width={56}
-                        height={56}
-                        className="w-full h-full object-cover object-top"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-[14px] font-bold text-[#710C60]">Dra. Suelley Macedo Marques</p>
-                      <p className="text-[11px] text-[#6b5570] mb-2">Médica especialista em menopausa - CRM 2982/RR</p>
-                      <p className="text-[14px] text-[#2A1F30] leading-relaxed">
-                        "A perimenopausa pode durar entre 2 e 10 anos e começa, em média, aos 45 anos, podendo iniciar antes."
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
               <div className="flex items-center justify-between mt-6 gap-2.5">
                 <button
                   onClick={prevStep}
@@ -984,10 +933,94 @@ setAnswers({ ...answers, [stepId]: [idx] })
                 </div>
               </div>
             </div>
-          )}
+)}
 
-          {/* ══════ LOADING ══════ */}
-          {screen === "loading" && (
+              {/* ══════ SCIENCE (tela informativa apos Etapa 3) ══════ */}
+              {screen === "science" && (
+                <div>
+                  <h2 className="font-serif text-[22px] text-[#710C60] leading-tight mb-2 text-center">
+                    O que as fontes científicas confirmam
+                  </h2>
+                  <p className="text-[14px] text-[#6b5570] mb-6 text-center">
+                    A perimenopausa não é opinião. É realidade médica reconhecida.
+                  </p>
+
+                  <div className="space-y-4">
+                    {/* Card MSD Manuals */}
+                    <div className="bg-white border border-[#f0e0eb] rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-lg">📄</span>
+                        <div>
+                          <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
+                          <p className="text-[14px] font-bold text-[#710C60]">MSD Manuals</p>
+                        </div>
+                      </div>
+                      <p className="text-[14px] text-[#2A1F30] leading-relaxed italic mb-2">
+                        "A perimenopausa é a fase de transição para a menopausa e costuma durar vários anos; em geral, inclui cerca de 4 a 8 anos até o período menstrual final."
+                      </p>
+                      <p className="text-[12px] text-[#EF709D]">
+                        msdmanuals.com/pt/profissional/ginecologia-e-obstetricia/menopausa
+                      </p>
+                    </div>
+
+                    {/* Card Mayo Clinic */}
+                    <div className="bg-white border border-[#f0e0eb] rounded-xl p-4">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-lg">📄</span>
+                        <div>
+                          <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
+                          <p className="text-[14px] font-bold text-[#710C60]">Mayo Clinic</p>
+                        </div>
+                      </div>
+                      <p className="text-[14px] text-[#2A1F30] leading-relaxed italic mb-2">
+                        "A perimenopausa está relacionada com o período da vida em que as pessoas começam a ter ciclos menstruais irregulares e outros sintomas."
+                      </p>
+                      <p className="text-[12px] text-[#EF709D]">
+                        newsnetwork.mayoclinic.org/pt/2023/12/14/perguntas-e-respostas
+                      </p>
+                    </div>
+
+                    {/* Balao Dra. Su */}
+                    <div className="bg-[#fdf8f4] border border-[#f0e0eb] rounded-xl p-4 flex gap-3">
+                      <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#EF709D] shrink-0">
+                        <Image
+                          src="/images/dra-su.webp"
+                          alt="Dra. Suelley"
+                          width={64}
+                          height={64}
+                          className="w-full h-full object-cover object-top"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-[14px] font-bold text-[#710C60]">Dra. Suelley Macedo Marques</p>
+                        <p className="text-[11px] text-[#6b5570] mb-2">Médica especialista em menopausa. CRM 2982/RR</p>
+                        <p className="text-[14px] text-[#2A1F30] leading-relaxed">
+                          "A perimenopausa pode durar entre 2 e 10 anos e começa, em média, aos 45 anos, podendo iniciar antes."
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Botoes */}
+                  <div className="flex items-center justify-between mt-6 gap-2.5">
+                    <button
+                      onClick={backToStep3}
+                      className="bg-transparent border-2 border-[#e8dde6] text-[#6b5570] py-3.5 px-5 rounded-full text-[14px] font-semibold transition-all hover:border-[#EF709D] hover:text-[#710C60] shrink-0"
+                    >
+                      ← Voltar
+                    </button>
+                    <button
+                      onClick={continueFromScience}
+                      className="flex-1 bg-gradient-to-br from-[#EF709D] to-[#A73979] text-white py-3.5 px-6 rounded-full text-[15px] font-bold shadow-[0_6px_20px_rgba(239,112,157,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(239,112,157,0.45)]"
+                    >
+                      Continuar →
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* ══════ LOADING ══════ */}
+              {screen === "loading" && (
             <div className="text-center py-2.5 pb-5">
               <div className="w-[70px] h-[70px] rounded-full border-[5px] border-[#fdf2f6] border-t-[#EF709D] border-r-[#A73979] animate-spin mx-auto mb-6" />
               <h3 className="font-serif text-[22px] text-[#710C60] mb-2">Analisando suas respostas…</h3>
