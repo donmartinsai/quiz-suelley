@@ -192,23 +192,111 @@ const steps: Step[] = [
 ]
 
 const testimonials = [
-  { text: "Eu achava que era tudo psicológico. Quase parei no psiquiatra para tratar depressão e ansiedade.", author: "Seguidora da Dra. Su · Via Instagram" },
-  { text: "Tenho 49 anos e todos os sintomas: insônia, irritabilidade, confusão mental, cansaço. Ninguém nunca me explicou o que era.", author: "Seguidora · 49 anos · Via Instagram" },
-  { text: "Às vezes acho que vou morrer de tanta palpitação. Já tô com 48, sofrendo há anos sem ninguém me levar a sério.", author: "Seguidora · 48 anos · Via Instagram" },
-  { text: "Sinto muitas dores no corpo e durmo muito mal. Custo a pegar no sono, acordo de madrugada. Um horror.", author: "Seguidora da Dra. Su · Via Instagram" },
-  { text: "Entrando num fogacho faz 1 mês, muito fraca, sem ânimo, tipo depressão. Será que vou ser feliz novamente?", author: "Seguidora · Via Instagram" },
-  { text: "Tenho 64 anos, parei de menstruar com 52 e até hoje sofro. Os sintomas persistem. Ninguém resolveu.", author: "Seguidora · 64 anos · Via Instagram" },
+  { text: "Antes tinha crises de calor tão fortes que acordava encharcada de suor 3 vezes por noite. Achei que era só eu. Hoje durmo tranquila e acordo inteira.", author: "Seguidora · 47 anos · Via Instagram" },
+  { text: "Passei 2 anos acordando às 3h da manhã sem voltar a dormir. Achei que era ansiedade. Era a perimenopausa. Hoje durmo 7 horas seguidas pela primeira vez em anos.", author: "Seguidora · 51 anos · Via Instagram" },
+  { text: "Comecei a esquecer nomes, perder documentos, me perder no meio de uma frase. Achei que era princípio de Alzheimer. Era minha cabeça pedindo ajuda pra entender a perimenopausa.", author: "Seguidora · 44 anos · Via Instagram" },
 ]
 
 // ═══════════════════════════════════════════════
 // HELPER: PRIMEIRO NOME
 // ═══════════════════════════════════════════════
 function primeiroNome(nomeCompleto: string | null | undefined): string {
-  if (!nomeCompleto) return "Você"
-  const primeiro = nomeCompleto.trim().split(" ")[0]
-  if (!primeiro) return "Você"
-  return primeiro.charAt(0).toUpperCase() + primeiro.slice(1).toLowerCase()
-}
+    if (!nomeCompleto) return "Você"
+    const primeiro = nomeCompleto.trim().split(" ")[0]
+    if (!primeiro) return "Você"
+    return primeiro.charAt(0).toUpperCase() + primeiro.slice(1).toLowerCase()
+  }
+
+  // ═══════════════════════════════════════════════
+  // HELPER: MAPEAMENTO CENTRALIZADO DE SINTOMAS
+  // ═══════════════════════════════════════════════
+  const MAPA_SINTOMAS_E2: Record<number, string | null> = {
+    0: "fogachos",
+    1: "irritabilidade", 
+    2: "insonia",
+    3: "nevoa mental",
+    4: "cansaco",
+    5: null // "Nenhum ou poucos sintomas"
+  }
+
+  const MAPA_SINTOMAS_E8: Record<number, string | null> = {
+    0: "sono irregular",
+    1: "insonia",
+    2: "exaustao",
+    3: "dificuldade para dormir",
+    4: null // "Consigo dormir bem"
+  }
+
+  function getSintomasCurto(respostas: Record<string, number[]>): {
+    badges: string[]
+    texto: string
+    topDois: string
+    temSintomas: boolean
+  } {
+    const sintomasE2 = (respostas["e2"] || [])
+      .map(idx => MAPA_SINTOMAS_E2[idx])
+      .filter((s): s is string => s !== null)
+
+    const sintomasE8 = (respostas["e8"] || [])
+      .map(idx => MAPA_SINTOMAS_E8[idx])
+      .filter((s): s is string => s !== null)
+
+    // Remove duplicatas (insonia pode vir de ambos)
+    const todos = [...new Set([...sintomasE2, ...sintomasE8])]
+    
+    // Prioridade: fogachos > insonia > nevoa mental > cansaco > outros
+    const prioridade = ["fogachos", "insonia", "nevoa mental", "cansaco", "irritabilidade", "exaustao", "sono irregular", "dificuldade para dormir"]
+    const ordenados = todos.sort((a, b) => {
+      const ia = prioridade.indexOf(a)
+      const ib = prioridade.indexOf(b)
+      return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib)
+    })
+
+    // Gera texto
+    let texto = ""
+    if (ordenados.length === 1) {
+      texto = ordenados[0]
+    } else if (ordenados.length === 2) {
+      texto = `${ordenados[0]} e ${ordenados[1]}`
+    } else if (ordenados.length >= 3) {
+      texto = `${ordenados[0]}, ${ordenados[1]} e ${ordenados[2]}`
+    }
+
+    // Top 2 para frases curtas
+    const topDois = ordenados.length >= 2 
+      ? `${ordenados[0]} e ${ordenados[1]}` 
+      : ordenados[0] || "os sinais que seu corpo esta mostrando"
+
+    return {
+      badges: ordenados,
+      texto,
+      topDois,
+      temSintomas: ordenados.length > 0
+    }
+  }
+
+  // Calcula intensidade dos sinais com formula melhorada
+  function calcularIntensidade(respostas: Record<string, number[]>): number {
+    const sintomasE2 = (respostas["e2"] || []).filter(idx => idx !== 5) // exclui "Nenhum ou poucos"
+    const sintomasE8 = (respostas["e8"] || []).filter(idx => idx !== 4) // exclui "Consigo dormir bem"
+    
+    const totalSintomas = sintomasE2.length + sintomasE8.length
+    
+    // Cronologia (e3)
+    const cronologia = respostas["e3"]?.[0] ?? 0
+    let multiplicador = 1.0
+    if (cronologia === 2) multiplicador = 1.4 // "Varios anos"
+    else if (cronologia === 1) multiplicador = 1.2 // "Mais de 1 ano"
+    // cronologia === 0 ou 3 = "Ultimos meses" ou "Nao sei" = 1.0
+    
+    // Base: cada sintoma vale ~12 pontos, max 8 sintomas possiveis
+    const pontuacaoBase = Math.min(totalSintomas * 12, 96)
+    const pontuacaoFinal = Math.round(pontuacaoBase * multiplicador)
+    
+    // Normaliza para 0-100, minimo 15% se tem algum sintoma
+    if (totalSintomas === 0) return 15
+    return Math.min(100, Math.max(25, pontuacaoFinal))
+  }
 
 // ═══════════════════════════════════════════════
 // COUNTDOWN COMPONENT
@@ -446,6 +534,7 @@ function QuizPageContent() {
   const [scoreAnimated, setScoreAnimated] = useState(false)
   const [showInsight, setShowInsight] = useState(false)
   const [sessionId, setSessionId] = useState<string | null>(null)
+  const [faqOpen, setFaqOpen] = useState<number | null>(null)
   
   const searchParams = useSearchParams()
 
@@ -679,10 +768,10 @@ function nextStep() {
     steps.forEach((s) => {
       const selected = answers[s.id] || []
       selected.forEach((idx) => {
-        const opt = s.options[idx]
+const opt = s.options[idx]
         if (s.scoreWeight !== 0) score += opt.score * s.scoreWeight
-        // Coleta tags de sintomas de Q6 e Q8
-        if (opt.tag && (s.id === "e6" || s.id === "e8")) {
+        // Coleta tags de sintomas de e2 (sintomas gerais) e e8 (sono)
+        if (opt.tag && (s.id === "e2" || s.id === "e8")) {
           tags.push(opt.tag)
         }
       })
@@ -724,40 +813,25 @@ function nextStep() {
     setCur(0)
     setAnswers({})
     setTotalScore(0)
-    setSymTags([])
+setSymTags([])
     setName("")
     setEmail("")
     setLoadingSteps([])
     setScoreAnimated(false)
     setShowInsight(false)
+    setFaqOpen(null)
     setScreen("intro")
   }
 
-  const maxScore = 30
-  const scorePct = Math.min(100, Math.round((totalScore / maxScore) * 100))
+  // Usa funcao helper centralizada para sintomas
+  const sintomasInfo = getSintomasCurto(answers)
+  const symptomText = sintomasInfo.texto
+  const symptomTopDois = sintomasInfo.topDois
+  const symptomBadges = sintomasInfo.badges
+  const temSintomas = sintomasInfo.temSintomas
 
-  // Gera texto de sintomas para CTA personalizado
-  const symptomNames: Record<string, string> = {
-    "Fogachos": "fogachos",
-    "Irritabilidade": "irritabilidade",
-    "Insônia às 3h": "acordar de madrugada",
-    "Névoa mental": "névoa mental",
-    "Fadiga": "cansa��o",
-    "Sono irregular": "sono irregular",
-    "Insônia com ansiedade": "insônia",
-    "Priva��ão de sono": "exaustão",
-    "Dificuldade para dormir": "dificuldade para dormir",
-  }
-
-  const symptomList = symTags.slice(0, 3).map(t => symptomNames[t] || t.toLowerCase())
-  let symptomText = ""
-  if (symptomList.length === 1) {
-    symptomText = symptomList[0]
-  } else if (symptomList.length === 2) {
-    symptomText = `${symptomList[0]} e ${symptomList[1]}`
-  } else if (symptomList.length >= 3) {
-    symptomText = `${symptomList[0]}, ${symptomList[1]} e ${symptomList[2]}`
-  }
+  // Calcula intensidade com formula melhorada
+  const scorePct = calcularIntensidade(answers)
 
   let profile: {
     emoji: string
@@ -769,7 +843,7 @@ function nextStep() {
     ctaTitle: string
     ctaText: string
     ctaBtn: string
-    testis: [number, number]
+    testis: number[]
   }
 
   if (totalScore <= 8) {
@@ -778,12 +852,12 @@ function nextStep() {
       badgeClass: "bg-[#fff8e6] text-[#a06800] border-2 border-[#f5cc4a]",
       badgeText: "🟡 Fase Inicial · Fique de Olho",
       title: `${primeiroNome(name)}, seus sintomas merecem atenção`,
-      sub: "Você relatou poucos sinais no momento, mas isso não significa que está fora da zona de transição hormonal. A perimenopausa e menopausa pode ser silenciosa no início e quanto mais cedo você entender o que está acontecendo, mais fácil é agir.",
+      sub: "Voce relatou poucos sinais no momento, mas isso nao significa que esta fora da zona de transicao hormonal. A perimenopausa pode ser silenciosa no inicio e quanto mais cedo voce entender o que esta acontecendo, mais facil e agir.",
       fillClass: "from-[#f5cc4a] to-[#f0a010]",
       ctaTitle: "Entenda agora antes que os sintomas se intensifiquem",
-      ctaText: "Na aula ao vivo, a Dra. Su vai te mostrar como identificar a fase que você está vivendo, mesmo que seus exames estejam \"normais\" e seus sintomas ainda sejam leves.",
+      ctaText: "Na aula ao vivo, a Dra. Su vai te mostrar como identificar a fase que voce esta vivendo, mesmo que seus exames estejam \"normais\" e seus sintomas ainda sejam leves.",
       ctaBtn: "Quero entender meu corpo agora",
-      testis: [0, 3],
+      testis: [0, 1, 2],
     }
   } else if (totalScore <= 20) {
     profile = {
@@ -796,7 +870,7 @@ function nextStep() {
       ctaTitle: "Seus sintomas têm nome, causa e solução",
       ctaText: "A Dra. Su vai te explicar de forma clara e direta o que está acontecendo no seu corpo e o que fazer a partir de agora, sem achismo, sem julgamento.",
       ctaBtn: "Garantir minha vaga agora",
-      testis: [1, 4],
+      testis: [0, 1, 2],
     }
   } else {
     profile = {
@@ -809,7 +883,7 @@ function nextStep() {
       ctaTitle: "Você não pode continuar sem entender o que está acontecendo",
       ctaText: "Essa aula foi feita para mulheres exatamente como você, que estão sentindo tudo isso e não receberam resposta. A Dra. Su vai mudar isso.",
       ctaBtn: "Garantir minha vaga · R$29,90",
-      testis: [2, 5],
+      testis: [0, 1, 2],
     }
   }
 
@@ -1160,7 +1234,23 @@ function nextStep() {
                   {profile.badgeText}
                 </div>
                 <h2 className="font-serif text-2xl max-sm:text-[21px] text-[#710C60] mb-2.5 leading-tight">{profile.title}</h2>
-                <p className="text-[15px] text-[#6b5570] leading-relaxed mb-5">{profile.sub}</p>
+                
+                {/* Subtitulo dinamico com sintomas */}
+                <p className="text-[15px] text-[#6b5570] leading-relaxed mb-4">
+                  {temSintomas ? (
+                    <>Os sintomas que voce sente, como <strong className="text-[#710C60]">{symptomTopDois}</strong>, formam um padrao consistente com a transicao hormonal da perimenopausa.</>
+                  ) : (
+                    <>Os sinais que voce sente formam um padrao consistente com o inicio da transicao hormonal.</>
+                  )}
+                </p>
+                <p className="text-[15px] text-[#710C60] font-medium mb-5">
+                  O que voce sente tem explicacao cientifica e tem solucao.
+                </p>
+
+                {/* Barra de expectativa - Aula ao vivo */}
+                <div className="bg-gradient-to-r from-[#CA3716] to-[#E04520] text-white py-3 px-5 rounded-lg mb-4 text-center">
+                  <span className="text-[15px] font-bold">Aula AO VIVO - 25 de Abril - 9h - Zoom</span>
+                </div>
               </div>
 
               <div className="my-4">
@@ -1177,79 +1267,70 @@ function nextStep() {
               </div>
 
 <div className="bg-white rounded-2xl p-6 my-4 shadow-md border-l-4 border-red-500">
-  {symTags.length > 0 ? (
-  <>
-  <p className="text-xs uppercase tracking-wider text-gray-500 font-bold mb-3">Sintomas identificados no seu relato</p>
-  <div className="flex flex-wrap gap-2 mb-4">
-  {symTags.map((t, i) => (
-  <span key={i} className="inline-flex items-center px-3 py-1.5 rounded-full bg-red-100 text-red-700 text-sm font-semibold border border-red-200">
-  ✓ {t}
-  </span>
-  ))}
-  </div>
-  <p className="text-xs text-black">Baseado nas suas respostas. Não constitui diagnóstico médico.</p>
+                {temSintomas ? (
+                  <>
+                    <p className="text-xs uppercase tracking-wider text-gray-500 font-bold mb-3">Sintomas identificados no seu relato</p>
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {symptomBadges.map((t, i) => (
+                        <span key={i} className="inline-flex items-center px-3 py-1.5 rounded-full bg-red-100 text-red-700 text-sm font-semibold border border-red-200">
+                          ✓ {t}
+                        </span>
+                      ))}
+                    </div>
+                    <p className="text-xs text-black">Baseado nas suas respostas. Nao constitui diagnostico medico.</p>
                   </>
                 ) : (
                   <>
-                    <h4 className="text-[13px] font-bold text-[#710C60] mb-3 font-sans uppercase tracking-wide">✅ Poucos sintomas no momento</h4>
-                    <p className="text-[13px] text-[#6b5570]">Mas entender essa fase agora é a melhor forma de se preparar. Não espere os sintomas piorarem para agir.</p>
+                    <h4 className="text-[13px] font-bold text-[#710C60] mb-3 font-sans uppercase tracking-wide">Poucos sintomas no momento</h4>
+                    <p className="text-[13px] text-[#6b5570]">Mas entender essa fase agora e a melhor forma de se preparar. Nao espere os sintomas piorarem para agir.</p>
                   </>
                 )}
               </div>
 
-              {symTags.length === 0 && (
+              {!temSintomas && (
                 <div className="flex items-center gap-4 bg-[#FAF3ED] rounded-xl p-4 my-4">
-<div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#EF709D] shrink-0">
-                      <Image
-                        src="/images/dra-su.webp"
-                        alt="Dra. Su"
-                        width={64}
-                        height={64}
-                        quality={75}
-                        loading="lazy"
-                        className="w-full h-full object-cover object-top"
-                      />
-                    </div>
+                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-[#EF709D] shrink-0">
+                    <Image
+                      src="/images/dra-su.webp"
+                      alt="Dra. Su"
+                      width={64}
+                      height={64}
+                      quality={75}
+                      loading="lazy"
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
                   <p className="text-[13px] text-[#6b5570] leading-relaxed">
-                    <strong className="text-[#710C60]">Dra. Su:</strong> O melhor momento para entender seu corpo é agora. Não espere os sintomas chegarem para começar a se cuidar.
+                    <strong className="text-[#710C60]">Dra. Su:</strong> O melhor momento para entender seu corpo e agora. Nao espere os sintomas chegarem para comecar a se cuidar.
                   </p>
                 </div>
               )}
 
 {/* NOVA SECAO: O que esta acontecendo com voce */}
-  {symTags.length > 0 && (
-  <div className="bg-white rounded-2xl p-6 my-6 shadow-md">
-  <h3 className="text-xl font-serif text-[#710C60] mb-4">O que está acontecendo com você</h3>
-  <p className="text-base text-gray-800 leading-relaxed mb-3">
-  Os sintomas que você relatou, como <strong>{symptomText}</strong>, têm relação direta com a <strong>oscilação do estradiol</strong> no seu corpo.
-  </p>
-  <p className="text-base text-gray-800 leading-relaxed mb-3">
-  Isso não é psicológico. É hormonal.
-  </p>
-  <p className="text-base text-gray-800 leading-relaxed mb-4">
-  E a boa notícia: existe <strong>explicação</strong> e existe <strong>caminho</strong>.
-  </p>
-  <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded text-xs text-gray-700 italic">
-  Esta análise �� educacional e não substitui consulta médica. Para diagnóstico e tratamento, procure um profissional.
-  </div>
-  </div>
-  )}
+              {temSintomas && (
+                <div className="bg-white rounded-2xl p-6 my-6 shadow-md">
+                  <h3 className="text-xl font-serif text-[#710C60] mb-4">O que esta acontecendo com voce</h3>
+                  <p className="text-base text-gray-800 leading-relaxed mb-3">
+                    Os sintomas que voce relatou, como <strong>{symptomTopDois}</strong>, tem relacao direta com a <strong>oscilacao do estradiol</strong> no seu corpo.
+                  </p>
+                  <p className="text-base text-gray-800 leading-relaxed mb-3">
+                    Isso nao e psicologico. E hormonal.
+                  </p>
+                  <p className="text-base text-gray-800 leading-relaxed">
+                    E a boa noticia: existe <strong>explicacao</strong> e existe <strong>caminho</strong>.
+                  </p>
+                </div>
+              )}
 
               {/* NOVA SECAO: Na aula voce vai descobrir */}
               <div className="bg-white rounded-2xl p-6 my-6 shadow-md">
-                <h3 className="text-xl font-serif text-[#710C60] mb-4">Na aula, você vai descobrir</h3>
+                <h3 className="text-xl font-serif text-[#710C60] mb-4">Na aula, voce vai descobrir</h3>
                 <ul className="space-y-3">
-                  {symTags.length > 0 && (
+                  {temSintomas && (
                     <li className="flex gap-3">
-                      <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">��</span>
+                      <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">✓</span>
                       <span className="text-base text-gray-800">
-                        Por que seu corpo está com{" "}
-                        {symptomList.slice(0, 2).map((s, i, arr) => (
-                          <span key={i}>
-                            <strong>{s}</strong>
-                            {i < arr.length - 1 && " e "}
-                          </span>
-                        ))}
+                        Por que seu corpo esta com <strong>{symptomTopDois}</strong>
                       </span>
                     </li>
                   )}
@@ -1262,19 +1343,19 @@ function nextStep() {
                   <li className="flex gap-3">
                     <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">✓</span>
                     <span className="text-base text-gray-800">
-                      Como saber se você precisa de <strong>tratamento hormonal</strong>
+                      Como saber se voce precisa de <strong>tratamento hormonal</strong>
                     </span>
                   </li>
                   <li className="flex gap-3">
                     <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">✓</span>
                     <span className="text-base text-gray-800">
-                      Como falar com seu médico <strong>sem ser desacreditada</strong>
+                      Como falar com seu medico <strong>sem ser desacreditada</strong>
                     </span>
                   </li>
                   <li className="flex gap-3">
                     <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">✓</span>
                     <span className="text-base text-gray-800">
-                      O que fazer quando os exames dizem <strong>&quot;está tudo normal&quot;</strong>
+                      O que fazer quando os exames dizem <strong>&quot;esta tudo normal&quot;</strong>
                     </span>
                   </li>
                 </ul>
@@ -1296,21 +1377,71 @@ function nextStep() {
                 <div className="text-3xl mb-2">🛡️</div>
                 <h4 className="font-serif text-lg text-[#710C60] mb-2">Garantia de 7 dias</h4>
                 <p className="text-[14px] text-[#6b5570] leading-relaxed">
-                  Se por qualquer motivo você sentir que a aula não era para você, basta enviar um e-mail em até 7 dias e devolvemos 100% do seu investimento. Sem perguntas, sem burocracia.
+                  Se por qualquer motivo voce sentir que a aula nao era para voce, basta enviar um e-mail em ate 7 dias e devolvemos 100% do seu investimento. Sem perguntas, sem burocracia.
                 </p>
               </div>
 
-              {/* HERO - Você Não Está Louca */}
+              {/* NOVO BLOCO: Por que AO VIVO? */}
+              <div className="bg-white border border-[#f0e0eb] rounded-2xl p-5 my-5">
+                <h4 className="font-serif text-lg text-[#710C60] mb-4">Por que AO VIVO e nao gravado?</h4>
+                <ul className="space-y-3">
+                  <li className="flex gap-3 items-start">
+                    <span className="text-lg">🩺</span>
+                    <span className="text-[14px] text-[#3d2b3a]">Suas duvidas respondidas na hora, direto com a Dra. Su</span>
+                  </li>
+                  <li className="flex gap-3 items-start">
+                    <span className="text-lg">💬</span>
+                    <span className="text-[14px] text-[#3d2b3a]">Conversa real, nao conteudo enlatado</span>
+                  </li>
+                  <li className="flex gap-3 items-start">
+                    <span className="text-lg">👩‍⚕️</span>
+                    <span className="text-[14px] text-[#3d2b3a]">Atendimento que costuma custar R$400 em consulta</span>
+                  </li>
+                  <li className="flex gap-3 items-start">
+                    <span className="text-lg">🎥</span>
+                    <span className="text-[14px] text-[#3d2b3a]">Gravacao disponivel apos a aula*</span>
+                  </li>
+                </ul>
+                <p className="text-[11px] text-[#6b5570] mt-3 italic">*orientacoes de acesso enviadas apos inscricao</p>
+              </div>
+
+              {/* HERO - Voce Nao Esta Louca */}
               <div className="bg-gradient-to-br from-[#710C60] via-[#4A0840] to-[#2D0526] text-white py-10 px-6 rounded-2xl my-5 text-center">
-                <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 border border-[#EF709D]/40 text-[12px] uppercase tracking-wider text-[#EF709D] font-bold mb-5">
-                  Aula ao vivo · 25 de abril · 9h
-                </div>
                 <h2 className="font-serif text-[clamp(1.75rem,5vw,2.5rem)] font-bold leading-tight mb-4">
-                  Você <span className="text-[#EF709D]">Não Está Louca</span>
+                  Voce <span className="text-[#EF709D]">Nao Esta Louca</span>
                 </h2>
                 <p className="text-[15px] text-white/85 leading-relaxed max-w-[460px] mx-auto">
-                  O que ninguém te contou sobre como a <strong className="text-white">menopausa</strong>{" "}está afetando seu corpo, sua energia e sua mente, mesmo quando seus exames dizem que está tudo &quot;normal&quot;.
+                  O que ninguem te contou sobre como a <strong className="text-white">menopausa</strong> esta afetando seu corpo, sua energia e sua mente, mesmo quando seus exames dizem que esta tudo &quot;normal&quot;.
                 </p>
+              </div>
+
+              {/* NOVO BLOCO: BONUS */}
+              <div className="bg-gradient-to-br from-[#FDF2F6] to-[#FAE5EC] rounded-2xl p-5 my-5">
+                <h4 className="text-[13px] font-bold text-[#710C60] mb-4 font-sans uppercase tracking-wide">🎁 COMPRANDO HOJE VOCE RECEBE:</h4>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-[14px] text-[#3d2b3a] font-medium flex items-start gap-2">
+                      <span className="text-green-600">✅</span>
+                      E-book &quot;Os 10 sinais da perimenopausa que voce ignora&quot;
+                    </p>
+                    <p className="text-[12px] text-[#6b5570] ml-6">Acesso imediato apos a compra</p>
+                  </div>
+                  <div>
+                    <p className="text-[14px] text-[#3d2b3a] font-medium flex items-start gap-2">
+                      <span className="text-green-600">✅</span>
+                      Checklist pre-consulta pra conversar com seu medico
+                    </p>
+                    <p className="text-[12px] text-[#6b5570] ml-6">PDF pronto pra baixar</p>
+                  </div>
+                  <div>
+                    <p className="text-[14px] text-[#3d2b3a] font-medium flex items-start gap-2">
+                      <span className="text-green-600">✅</span>
+                      Lembrete WhatsApp 1h antes da aula*
+                    </p>
+                    <p className="text-[12px] text-[#6b5570] ml-6">Pra voce nao esquecer do seu horario</p>
+                  </div>
+                </div>
+                <p className="text-[11px] text-[#6b5570] mt-3 italic">*disponivel ao compartilhar seu WhatsApp</p>
               </div>
 
 {/* CTA UNIFICADO */}
@@ -1320,7 +1451,7 @@ function nextStep() {
                 </h3>
                 
                 <div className="flex items-start gap-4 mb-4">
-<div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#EF709D]/20 border-2 border-[#EF709D]/50 flex-shrink-0 overflow-hidden">
+                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#EF709D]/20 border-2 border-[#EF709D]/50 flex-shrink-0 overflow-hidden">
                     <Image
                       src="/images/dra-su.webp"
                       alt="Dra. Suelley"
@@ -1332,53 +1463,93 @@ function nextStep() {
                     />
                   </div>
                   <p className="text-sm text-white/85 leading-relaxed">
-                    Essa aula foi feita para mulheres exatamente como você, que estão sentindo tudo isso e não receberam resposta.
+                    Essa aula foi feita para mulheres exatamente como voce, que estao sentindo tudo isso e nao receberam resposta.
                   </p>
                 </div>
                 
-                <p className="text-base text-white/95 leading-relaxed mb-6">
-                  A Dra. Su vai explicar ao vivo por que você sente <strong>{symptomText || "esses sintomas"}</strong>, o protocolo exato pra sair disso e vai tirar suas dúvidas em tempo real.
+                <p className="text-base text-white/95 leading-relaxed mb-4">
+                  A Dra. Su vai explicar ao vivo por que voce sente <strong>{symptomText || "esses sintomas"}</strong>, o protocolo exato pra sair disso e vai tirar suas duvidas em tempo real.
                 </p>
-  
-  {/* COUNTDOWN */}
-  <div className="bg-white/10 rounded-xl p-4 mb-6 text-center">
-  <p className="text-xs uppercase tracking-wider text-[#EF709D] font-bold mb-1">
-  Aula ao vivo em
-  </p>
-  <CountdownTimer />
-  </div>
-  
-{/* CTA PRINCIPAL */}
+
+                {/* COUNTDOWN */}
+                <div className="bg-white/10 rounded-xl p-4 mb-5 text-center">
+                  <p className="text-xs uppercase tracking-wider text-[#EF709D] font-bold mb-1">
+                    SUA TRANSFORMACAO COMECA EM
+                  </p>
+                  <CountdownTimer />
+                </div>
+
+                {/* Linha personalizada antes do CTA */}
+                {temSintomas && (
+                  <p className="text-[15px] text-white/95 text-center mb-5">
+                    Na aula, a Dra. Su vai te mostrar exatamente como resolver <strong>{symptomTopDois}</strong>.
+                  </p>
+                )}
+
+                {/* CTA PRINCIPAL */}
                 <a
                   href="https://sun.eduzz.com/797ZK1BA0E"
                   onClick={() => { trackCheckout(); pixelPurchase(); }}
                   className="block w-full py-4 rounded-full text-center text-white font-bold uppercase tracking-wide bg-gradient-to-br from-[#CA3716] to-[#E04520] shadow-lg text-base md:text-lg hover:-translate-y-0.5 transition-all"
                 >
-                  Garantir minha vaga por R$29,90
+                  GARANTIR MINHA VAGA POR R$29,90
                 </a>
-  
-  <p className="text-center text-xs text-white/60 mt-3">
-  Garantia de satisfação · 7 dias · Acesso imediato
-  </p>
-  </div>
 
-              {/* FAQ */}
+                <p className="text-center text-xs text-white/60 mt-3">
+                  Garantia de satisfacao - 7 dias - Acesso imediato
+                </p>
+              </div>
+
+              {/* FAQ Accordion */}
               <div className="my-6">
                 <h4 className="text-[13px] font-bold text-[#710C60] mb-4 font-sans uppercase tracking-wide">Perguntas frequentes</h4>
                 
-                <div className="bg-white border border-[#e8dde6] rounded-xl p-4 mb-2.5">
-<h5 className="font-semibold text-[14px] text-[#710C60] mb-1.5">Como vou receber o acesso?</h5>
-                    <p className="text-[13px] text-[#6b5570]">Assim que você garante sua vaga, recebe todas as orientações de acesso direto no e-mail cadastrado. A aula acontece ao vivo no Zoom, direto da sua casa.</p>
+                {/* FAQ Item 1 */}
+                <div className="bg-white border border-[#e8dde6] rounded-xl mb-2.5 overflow-hidden">
+                  <button 
+                    onClick={() => setFaqOpen(faqOpen === 0 ? null : 0)}
+                    className="w-full flex items-center justify-between p-4 text-left"
+                  >
+                    <h5 className="font-semibold text-[14px] text-[#710C60]">Como vou receber o acesso?</h5>
+                    <span className={`text-[#710C60] transition-transform ${faqOpen === 0 ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {faqOpen === 0 && (
+                    <div className="px-4 pb-4 bg-[#faf7f9]">
+                      <p className="text-[13px] text-[#6b5570]">Assim que voce garante sua vaga, recebe todas as orientacoes de acesso direto no e-mail cadastrado. A aula acontece ao vivo no Zoom, direto da sua casa.</p>
+                    </div>
+                  )}
                 </div>
 
-                <div className="bg-white border border-[#e8dde6] rounded-xl p-4 mb-2.5">
-                  <h5 className="font-semibold text-[14px] text-[#710C60] mb-1.5">Preciso ter exame feito?</h5>
-                  <p className="text-[13px] text-[#6b5570]">Não. A aula é educacional e vai te ajudar a entender seus sintomas, independente de ter exames.</p>
+                {/* FAQ Item 2 */}
+                <div className="bg-white border border-[#e8dde6] rounded-xl mb-2.5 overflow-hidden">
+                  <button 
+                    onClick={() => setFaqOpen(faqOpen === 1 ? null : 1)}
+                    className="w-full flex items-center justify-between p-4 text-left"
+                  >
+                    <h5 className="font-semibold text-[14px] text-[#710C60]">Preciso ter exame feito?</h5>
+                    <span className={`text-[#710C60] transition-transform ${faqOpen === 1 ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {faqOpen === 1 && (
+                    <div className="px-4 pb-4 bg-[#faf7f9]">
+                      <p className="text-[13px] text-[#6b5570]">Nao. A aula e educacional e vai te ajudar a entender seus sintomas, independente de ter exames.</p>
+                    </div>
+                  )}
                 </div>
 
-                <div className="bg-white border border-[#e8dde6] rounded-xl p-4">
-                  <h5 className="font-semibold text-[14px] text-[#710C60] mb-1.5">E se eu já estou na menopausa?</h5>
-                  <p className="text-[13px] text-[#6b5570]">Perfeito! A aula aborda tanto perimenopausa quanto menopausa, com orientações específicas para cada fase.</p>
+                {/* FAQ Item 3 */}
+                <div className="bg-white border border-[#e8dde6] rounded-xl overflow-hidden">
+                  <button 
+                    onClick={() => setFaqOpen(faqOpen === 2 ? null : 2)}
+                    className="w-full flex items-center justify-between p-4 text-left"
+                  >
+                    <h5 className="font-semibold text-[14px] text-[#710C60]">E se eu ja estou na menopausa?</h5>
+                    <span className={`text-[#710C60] transition-transform ${faqOpen === 2 ? 'rotate-180' : ''}`}>▼</span>
+                  </button>
+                  {faqOpen === 2 && (
+                    <div className="px-4 pb-4 bg-[#faf7f9]">
+                      <p className="text-[13px] text-[#6b5570]">Perfeito! A aula aborda tanto perimenopausa quanto menopausa, com orientacoes especificas para cada fase.</p>
+                    </div>
+                  )}
                 </div>
               </div>
 
