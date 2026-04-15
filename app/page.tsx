@@ -562,22 +562,26 @@ async function startQuiz() {
       const pos = currentSel.indexOf(idx)
       let newSel: number[]
 
-      // Se clicou em "Nenhum ou poucos sintomas" (ultima opcao com score 0)
-      const isNoneOption = step.options[idx].score === 0 && idx === step.options.length - 1
+      // Verifica se a opcao clicada e a exclusiva (definida em exclusiveOption)
+      const exclusiveIdx = step.exclusiveOption
+      const isExclusiveOption = exclusiveIdx !== undefined && idx === exclusiveIdx
 
       if (pos === -1) {
-        if (isNoneOption) {
+        if (isExclusiveOption) {
+          // Se clicou na opcao exclusiva, desmarca todas as outras
           newSel = [idx]
         } else {
-          // Remove a opcao "nenhum" se estava selecionada
-          newSel = currentSel.filter((i) => !(step.options[i].score === 0 && i === step.options.length - 1))
+          // Remove a opcao exclusiva se estava selecionada
+          newSel = exclusiveIdx !== undefined 
+            ? currentSel.filter((i) => i !== exclusiveIdx)
+            : [...currentSel]
           newSel.push(idx)
         }
       } else {
         newSel = currentSel.filter((i) => i !== idx)
       }
 
-setAnswers({ ...answers, [stepId]: newSel })
+      setAnswers({ ...answers, [stepId]: newSel })
       // Track answer (fire and forget)
       trackAnswer(stepId, cur + 1, newSel)
       // Meta Pixel: QuizAnswer
