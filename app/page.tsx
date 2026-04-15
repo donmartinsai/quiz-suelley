@@ -839,24 +839,7 @@ setAnswers({ ...answers, [stepId]: [idx] })
               <div className="font-serif text-[22px] max-sm:text-[19px] text-[#710C60] leading-snug mb-2">{step.text}</div>
               {step.sub && <div className="text-[14px] text-[#6b5570] mb-5 leading-relaxed italic">{step.sub}</div>}
 
-              {/* Insight aparece DEPOIS da selecao para insight_single */}
-{step.type === "insight_single" && step.insight && showInsight && (
-                <div className="bg-gradient-to-br from-[#710C60] to-[#4a0840] rounded-2xl p-5 text-white text-[15px] leading-relaxed my-4 animate-fade-in">
-                  {step.insight.split('\n\n').map((paragraph, i) => (
-                    <p key={i} className={i > 0 ? "mt-4" : ""}>
-                      {paragraph.includes('PERIMENOPAUSA') ? (
-                        <>
-                          {paragraph.split('PERIMENOPAUSA')[0]}
-                          <strong className="text-[#EF709D]">PERIMENOPAUSA</strong>
-                          {paragraph.split('PERIMENOPAUSA')[1]}
-                        </>
-                      ) : paragraph}
-                    </p>
-                  ))}
-                </div>
-              )}
-
-{/* Grafico dinamico de equilibrio hormonal para etapa 9 */}
+              {/* Grafico dinamico de equilibrio hormonal para etapa 9 */}
               {step.type === "chart_single" && (
                 <MenopauseStagesChart />
               )}
@@ -892,6 +875,23 @@ setAnswers({ ...answers, [stepId]: [idx] })
                   )
                 })}
               </div>
+
+              {/* Insight aparece ABAIXO das opcoes apos selecao */}
+              {step.type === "insight_single" && step.insight && showInsight && (
+                <div className="bg-gradient-to-br from-[#710C60] to-[#4a0840] rounded-2xl p-5 text-white text-[15px] leading-relaxed mt-5 animate-fade-in">
+                  {step.insight.split('\n\n').map((paragraph, i) => (
+                    <p key={i} className={i > 0 ? "mt-4" : ""}>
+                      {paragraph.includes('PERIMENOPAUSA') ? (
+                        <>
+                          {paragraph.split('PERIMENOPAUSA')[0]}
+                          <strong className="text-[#EF709D]">PERIMENOPAUSA</strong>
+                          {paragraph.split('PERIMENOPAUSA')[1]}
+                        </>
+                      ) : paragraph}
+                    </p>
+                  ))}
+                </div>
+              )}
 
               <div className="flex items-center justify-between mt-6 gap-2.5">
                 <button
