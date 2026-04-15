@@ -1554,10 +1554,10 @@ setName("")
                     <Image
                       src="/depoimentos/print-comentario-1.jpg"
                       alt="Comentário da seguidora @elmasilva_9 sobre sintomas da perimenopausa aos 38 anos"
-                      width={400}
+                      width={600}
                       height={200}
+                      loading="eager"
                       className="w-full h-auto rounded-lg"
-                      loading="lazy"
                     />
                     <p className="text-[11px] text-[#6b5570] text-center mt-2">Via Instagram @drasumenopausa</p>
                   </div>
@@ -1567,10 +1567,10 @@ setName("")
                     <Image
                       src="/depoimentos/print-comentario-2.jpg"
                       alt="Comentário da seguidora @rosana_perini2024 sobre menopausa aos 38 anos"
-                      width={400}
+                      width={600}
                       height={200}
+                      loading="eager"
                       className="w-full h-auto rounded-lg"
-                      loading="lazy"
                     />
                     <p className="text-[11px] text-[#6b5570] text-center mt-2">Via Instagram @drasumenopausa</p>
                   </div>
@@ -1580,10 +1580,10 @@ setName("")
                     <Image
                       src="/depoimentos/print-comentario-3.jpg"
                       alt="Comentário da seguidora @neidyporfirio12 sobre sintomas da perimenopausa aos 38 anos"
-                      width={400}
+                      width={600}
                       height={200}
+                      loading="eager"
                       className="w-full h-auto rounded-lg"
-                      loading="lazy"
                     />
                     <p className="text-[11px] text-[#6b5570] text-center mt-2">Via Instagram @drasumenopausa</p>
                   </div>
@@ -1770,7 +1770,7 @@ setName("")
               </div>
 
               <div className="bg-[#FAF3ED] rounded-xl p-3 px-4 text-[12px] text-[#6b5570] leading-normal mt-5 text-left">
-                ⚕️ Este quiz é informativo e educacional. Não substitui consulta médica nem constitui diagn��stico.
+                ⚕️ Este quiz é informativo e educacional. Não substitui consulta médica nem constitui diagnóstico.
               </div>
 
               <button onClick={restartQuiz} className="block mx-auto mt-4 text-[13px] text-[#6b5570] underline bg-transparent border-none cursor-pointer font-sans">
