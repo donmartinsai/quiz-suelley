@@ -1113,6 +1113,16 @@ function nextStep() {
                   </div>
                   <p className="text-center text-[13px] text-[#6b5570] mb-4">A Dra. Su vai analisar suas respostas agora.</p>
 
+                  {/* Balao de promessa */}
+                  <div className="bg-[#FDF2F6] rounded-2xl p-5 mb-5">
+                    <p className="text-[15px] text-[#4A0840] leading-relaxed mb-3">
+                      Você acabou de dar o primeiro passo que muitas mulheres adiam por anos.
+                    </p>
+                    <p className="text-[15px] text-[#4A0840] leading-relaxed">
+                      Agora a Dra. Su vai te mostrar o resultado da sua análise, o que está acontecendo no seu corpo e o caminho que ela vai te entregar na <span className="font-bold text-[#710C60] bg-[#EF709D]/15 px-1 rounded">aula ao vivo</span>.
+                    </p>
+                  </div>
+
                   <div className="mt-1">
                     <div className="mb-3.5">
                       <label className="block text-[12px] font-bold text-[#710C60] mb-1.5 uppercase tracking-wide">Seu primeiro nome</label>
