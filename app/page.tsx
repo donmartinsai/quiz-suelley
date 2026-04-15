@@ -304,34 +304,42 @@ function primeiroNome(nomeCompleto: string | null | undefined): string {
     return "perimenopausa"
   }
 
-  const FASES_INFO: Record<FaseHormonal, { emoji: string; nome: string; idade: string; titulo: string; descricao: string }> = {
+  const FASES_INFO: Record<FaseHormonal, { emoji: string; nome: string; idade: string; titulo: string; p1: string; p2: string; faseNome: string }> = {
     "pre-menopausa": {
       emoji: "🌿",
       nome: "Pré",
       idade: "até 35",
       titulo: "Pré-menopausa",
-      descricao: "Seus sinais sugerem que você ainda pode estar vivendo o período da PRÉ-MENOPAUSA, com hormônios em equilíbrio. Mas seu corpo pode estar mostrando os primeiros sinais de mudança. Entender isso agora te coloca anos à frente da maioria das mulheres."
+      faseNome: "PRÉ-MENOPAUSA",
+      p1: "Seus sinais sugerem que você ainda pode estar vivendo o período da PRÉ-MENOPAUSA, com hormônios em equilíbrio.",
+      p2: "Mas seu corpo pode estar mostrando os primeiros sinais de mudança. Entender isso agora te coloca anos à frente da maioria das mulheres."
     },
     "perimenopausa": {
       emoji: "🔥",
       nome: "Peri",
       idade: "36 a 55",
       titulo: "Perimenopausa",
-      descricao: "Baseado nas suas respostas, seus sinais são compatíveis com a fase da PERIMENOPAUSA. É o período em que os hormônios começam a oscilar, mas a maioria das mulheres não sabe que é isso. Sem entendimento, essa fase pode durar de 4 a 10 anos com sintomas se intensificando."
+      faseNome: "PERIMENOPAUSA",
+      p1: "Baseado nas suas respostas, seus sinais são compatíveis com a fase da PERIMENOPAUSA.",
+      p2: "É o período em que os hormônios começam a oscilar, mas a maioria das mulheres não sabe que é isso. Sem entendimento, essa fase pode durar de 4 a 10 anos com sintomas se intensificando."
     },
     "menopausa": {
       emoji: "🌙",
       nome: "Meno",
       idade: "~51",
       titulo: "Menopausa",
-      descricao: "Seus sinais são compatíveis com a fase da MENOPAUSA, período em que os hormônios estão em um novo equilíbrio. Com o suporte certo, é possível viver essa fase com qualidade, energia e bem-estar."
+      faseNome: "MENOPAUSA",
+      p1: "Seus sinais são compatíveis com a fase da MENOPAUSA, período em que os hormônios estão em um novo equilíbrio.",
+      p2: "Com o suporte certo, é possível viver essa fase com qualidade, energia e bem-estar."
     },
     "pos-menopausa": {
       emoji: "⚪",
       nome: "Pós",
       idade: "56+",
       titulo: "Pós-menopausa",
-      descricao: "Seus sinais são compatíveis com a fase da PÓS-MENOPAUSA. Agora o foco é manutenção da saúde, prevenção e qualidade de vida nos próximos anos."
+      faseNome: "PÓS-MENOPAUSA",
+      p1: "Seus sinais são compatíveis com a fase da PÓS-MENOPAUSA.",
+      p2: "Agora o foco é manutenção da saúde, prevenção e qualidade de vida nos próximos anos."
     }
   }
 
@@ -1414,23 +1422,37 @@ setName("")
                       </div>
                       
                       {/* Box explicativo com titulo e disclaimer */}
-                      <div className="mt-12 bg-gradient-to-r from-[#FFF5F7] to-white border-l-4 border-[#CA3716] rounded-2xl p-5">
-                        {/* Titulo da fase */}
-                        <h4 className="font-serif text-lg font-bold text-[#CA3716] mb-3">
+                      <div className="mt-12 bg-gradient-to-r from-[#FFF5F7] to-white border-l-4 border-[#710C60] rounded-2xl p-5">
+                        {/* Titulo da fase - centralizado */}
+                        <h4 className="font-serif text-lg font-bold text-[#710C60] mb-4 text-center">
                           {FASES_INFO[faseAtual].titulo}
                         </h4>
                         
-                        {/* Texto principal com linguagem sugestiva */}
-                        <p className="text-[14px] text-gray-800 leading-relaxed">
-                          {FASES_INFO[faseAtual].descricao.split(faseAtual === "pre-menopausa" ? "PRÉ-MENOPAUSA" : faseAtual === "perimenopausa" ? "PERIMENOPAUSA" : faseAtual === "menopausa" ? "MENOPAUSA" : "PÓS-MENOPAUSA").map((part, i) => (
-                            i === 0 ? (
-                              <span key={i}>{part}<strong className="text-[#CA3716] font-bold">{faseAtual === "pre-menopausa" ? "PRÉ-MENOPAUSA" : faseAtual === "perimenopausa" ? "PERIMENOPAUSA" : faseAtual === "menopausa" ? "MENOPAUSA" : "PÓS-MENOPAUSA"}</strong></span>
-                            ) : <span key={i}>{part}</span>
-                          ))}
-                        </p>
+                        {/* Texto principal - alinhado à esquerda, 2 parágrafos */}
+                        <div className="text-left">
+                          {/* Parágrafo 1 */}
+                          <p className="text-[14px] text-gray-800 leading-relaxed mb-3">
+                            {FASES_INFO[faseAtual].p1.split(FASES_INFO[faseAtual].faseNome).map((part, i) => (
+                              i === 0 ? (
+                                <span key={i}>{part}<strong className="text-[#710C60] font-bold">{FASES_INFO[faseAtual].faseNome}</strong></span>
+                              ) : <span key={i}>{part}</span>
+                            ))}
+                          </p>
+                          
+                          {/* Parágrafo 2 */}
+                          <p className="text-[14px] text-gray-800 leading-relaxed">
+                            {faseAtual === "perimenopausa" ? (
+                              <>
+                                É o período em que os hormônios começam a oscilar, mas a maioria das mulheres não sabe que é isso. Sem entendimento, essa fase pode durar de <strong className="text-[#710C60] font-bold">4 a 10 anos</strong> com sintomas se intensificando.
+                              </>
+                            ) : (
+                              FASES_INFO[faseAtual].p2
+                            )}
+                          </p>
+                        </div>
                         
-                        {/* Disclaimer etico */}
-                        <div className="mt-4 pt-4 border-t border-gray-200">
+                        {/* Disclaimer etico - centralizado */}
+                        <div className="mt-4 pt-4 border-t border-gray-200 text-center">
                           <p className="text-[12px] text-gray-500 italic leading-relaxed">
                             <span className="not-italic">*</span> Informação educacional baseada nas suas respostas. Não substitui consulta médica nem constitui diagnóstico. Para avaliação precisa, procure um profissional de saúde.
                           </p>
