@@ -399,6 +399,23 @@ function MenopauseStagesChart() {
             Representação ilustrativa · Níveis de estrogênio ao longo da vida
           </text>
         </svg>
+
+        {/* Separador sutil */}
+        <div className="border-t border-[#e8dde6] my-5"></div>
+
+        {/* Secao Dado OMS */}
+        <div className="px-2">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-lg">📊</span>
+            <p className="text-[11px] text-[#6b5570] uppercase tracking-wide">Dado epidemiológico · OMS</p>
+          </div>
+          <p className="text-[15px] text-[#2A1F30] leading-relaxed mb-2">
+            "<span className="text-[17px] font-bold text-[#710C60]">85%</span> das mulheres entre 40 e 60 anos têm pelo menos 1 sintoma relacionado à transição menopausal."
+          </p>
+          <p className="text-[12px] text-[#EF709D]">
+            who.int/news-room/fact-sheets/detail/menopause
+          </p>
+        </div>
       </div>
 
       <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-4 mb-4">
@@ -434,7 +451,7 @@ function QuizPageContent() {
 
   // ═══════════════════════════════════════════════
   // TRACKING FUNCTIONS (fire and forget)
-  // ═══════════════════════════════��═══════��������═════
+  // ═══════════════════════════════��═���═════��������═════
   const trackSessionStart = useCallback(async () => {
     try {
       const device = /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "mobile" : "desktop"
