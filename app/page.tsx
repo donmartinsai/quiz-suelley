@@ -1075,10 +1075,7 @@ function nextStep() {
             <div>
               <div className="text-center mb-5">
                 <div className="text-[44px] mb-2.5">🔒</div>
-                <h3 className="font-serif text-[21px] text-[#710C60] mb-2">Sua análise está pronta</h3>
-                <p className="text-[14px] text-[#6b5570] leading-relaxed">
-                  Baseado nas suas respostas, identificamos um padrão. Para revelar sua análise completa e personalizada, me diz onde te encontro:
-                </p>
+                <h3 className="font-serif text-[21px] text-[#710C60]">Sua análise está pronta</h3>
               </div>
 
               <div className="relative bg-gradient-to-br from-[#f0e6f5] to-[#fdf2f6] rounded-xl p-4 mb-5 overflow-hidden">
@@ -1111,15 +1108,14 @@ function nextStep() {
                       />
                     </div>
                   </div>
-                  <p className="text-center text-[13px] text-[#6b5570] mb-4">A Dra. Su vai analisar suas respostas agora.</p>
 
                   {/* Balao de promessa */}
                   <div className="bg-[#FDF2F6] rounded-2xl p-5 mb-5">
-                    <p className="text-[15px] text-[#4A0840] leading-relaxed mb-3">
-                      Você acabou de dar o primeiro passo que muitas mulheres adiam por anos.
+                    <p className="text-[15px] text-[#4A0840] leading-relaxed mb-4">
+                      Você acabou de dar um passo que muitas mulheres adiam por anos.
                     </p>
                     <p className="text-[15px] text-[#4A0840] leading-relaxed">
-                      Agora a Dra. Su vai te mostrar o resultado da sua análise, o que está acontecendo no seu corpo e o caminho que ela vai te entregar na <span className="font-bold text-[#710C60] bg-[#EF709D]/15 px-1 rounded">aula ao vivo</span>.
+                      A Dra. Su vai te revelar sua fase hormonal, o que está acontecendo no seu corpo e o caminho pra mudar isso na <span className="font-bold text-[#710C60] bg-[#EF709D]/15 px-1 rounded">aula ao vivo</span>.
                     </p>
                   </div>
 
@@ -1245,7 +1241,7 @@ function nextStep() {
                 <ul className="space-y-3">
                   {symTags.length > 0 && (
                     <li className="flex gap-3">
-                      <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">✓</span>
+                      <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">��</span>
                       <span className="text-base text-gray-800">
                         Por que seu corpo está com{" "}
                         {symptomList.slice(0, 2).map((s, i, arr) => (
