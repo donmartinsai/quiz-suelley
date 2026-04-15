@@ -47,23 +47,37 @@ interface SymptomsDistribution {
   distribution: SymptomsDistributionItem[]
 }
 
+interface AgeDistributionItem {
+  ageRange: string
+  label: string
+  count: number
+  percentage: number
+}
+
+interface AgeDistribution {
+  total: number
+  distribution: AgeDistributionItem[]
+}
+
 export default function AdminOverviewPage() {
   const [stats, setStats] = useState<Stats | null>(null)
   const [funnel, setFunnel] = useState<FunnelStep[]>([])
   const [dropoff, setDropoff] = useState<DropoffItem[]>([])
   const [timeline, setTimeline] = useState<TimelineItem[]>([])
   const [symptoms, setSymptoms] = useState<SymptomsDistribution | null>(null)
+  const [ageDistribution, setAgeDistribution] = useState<AgeDistribution | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [statsRes, funnelRes, dropoffRes, timelineRes, symptomsRes] = await Promise.all([
+        const [statsRes, funnelRes, dropoffRes, timelineRes, symptomsRes, ageRes] = await Promise.all([
           fetch("/api/admin/stats"),
           fetch("/api/admin/funnel"),
           fetch("/api/admin/dropoff"),
           fetch("/api/admin/timeline?days=30"),
           fetch("/api/admin/symptoms-distribution"),
+          fetch("/api/admin/age-distribution"),
         ])
 
         const statsData = await statsRes.json()
@@ -77,11 +91,18 @@ export default function AdminOverviewPage() {
           symptomsData = await symptomsRes.json()
         }
 
+        // Handle age distribution response gracefully
+        let ageData = { total: 0, distribution: [] }
+        if (ageRes.ok) {
+          ageData = await ageRes.json()
+        }
+
         setStats(statsData)
         setFunnel(funnelData.funnel || [])
         setDropoff(dropoffData.dropoff || [])
         setTimeline(timelineData.timeline || [])
         setSymptoms(symptomsData)
+        setAgeDistribution(ageData)
       } catch (error) {
         console.error("Error fetching data:", error)
       } finally {
@@ -228,6 +249,48 @@ export default function AdminOverviewPage() {
         <Card className="bg-white border-[#E5E7EB] shadow-sm">
           <CardHeader className="pb-2">
             <CardTitle className="text-[#111827]">Distribuição de Sintomas (Q2)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-[#6B7280]">Sem dados disponíveis ainda.</p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Age Distribution Card */}
+      {ageDistribution && ageDistribution.distribution && ageDistribution.distribution.length > 0 ? (
+        <Card className="bg-white border-[#E5E7EB] shadow-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-[#111827]">Leads por Faixa Etária</CardTitle>
+            <p className="text-xs text-[#6B7280]">Distribuição de leads que informaram idade</p>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="space-y-3">
+              {ageDistribution.distribution.map((item) => (
+                <div key={item.ageRange} className="flex items-center gap-3">
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm text-[#111827]">{item.label}</span>
+                      <span className="text-sm font-medium text-[#710C60]">{item.percentage}% ({item.count})</span>
+                    </div>
+                    <div className="w-full bg-[#F0E8DF] rounded-full h-2.5 overflow-hidden">
+                      <div 
+                        className="h-full bg-[#710C60] rounded-full transition-all duration-500"
+                        style={{ width: `${item.percentage}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-[#6B7280] mt-4 pt-3 border-t border-[#E5E7EB]">
+              Total de leads com idade informada: {ageDistribution.total}
+            </p>
+          </CardContent>
+        </Card>
+      ) : (
+        <Card className="bg-white border-[#E5E7EB] shadow-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-[#111827]">Leads por Faixa Etária</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-sm text-[#6B7280]">Sem dados disponíveis ainda.</p>
