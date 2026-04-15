@@ -270,20 +270,20 @@ function MenopauseStagesChart() {
         >
           <defs>
             <linearGradient id="preGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#FDF2F6" stopOpacity="0.4"/>
-              <stop offset="100%" stopColor="#FDF2F6" stopOpacity="1"/>
+              <stop offset="0%" stopColor="#FDF2F6" stopOpacity="0.15"/>
+              <stop offset="100%" stopColor="#FDF2F6" stopOpacity="0.4"/>
             </linearGradient>
             <linearGradient id="periGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#EF709D" stopOpacity="0.25"/>
-              <stop offset="100%" stopColor="#EF709D" stopOpacity="0.55"/>
+              <stop offset="0%" stopColor="#EF709D" stopOpacity="0.35"/>
+              <stop offset="100%" stopColor="#EF709D" stopOpacity="0.7"/>
             </linearGradient>
             <linearGradient id="menoGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#FDF2F6" stopOpacity="0.2"/>
-              <stop offset="100%" stopColor="#FDF2F6" stopOpacity="0.6"/>
+              <stop offset="0%" stopColor="#FDF2F6" stopOpacity="0.1"/>
+              <stop offset="100%" stopColor="#FDF2F6" stopOpacity="0.3"/>
             </linearGradient>
             <linearGradient id="posGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#F9E5EE" stopOpacity="0.2"/>
-              <stop offset="100%" stopColor="#F9E5EE" stopOpacity="0.5"/>
+              <stop offset="0%" stopColor="#F9E5EE" stopOpacity="0.1"/>
+              <stop offset="100%" stopColor="#F9E5EE" stopOpacity="0.25"/>
             </linearGradient>
             <linearGradient id="curvaFill" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#EF709D" stopOpacity="0.75"/>
@@ -371,10 +371,10 @@ function MenopauseStagesChart() {
           <line x1="760" y1="170" x2="760" y2="560" stroke="#C2185B" strokeWidth="1.2" strokeDasharray="5,4" strokeOpacity="0.4"/>
 
           {/* Curva dos hormônios: área */}
-          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 265 L 360 245 L 375 285 L 395 260 L 415 310 L 435 275 L 455 325 L 475 290 L 495 345 L 515 315 L 535 370 L 555 340 L 575 395 L 595 365 L 615 415 L 640 430 L 760 445 L 780 455 L 960 460 L 960 500 L 80 500 Z" fill="url(#curvaFill)"/>
+          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 265 L 355 225 L 370 320 L 385 235 L 400 350 L 420 240 L 440 380 L 460 255 L 480 400 L 500 270 L 520 420 L 540 300 L 560 435 L 580 330 L 600 430 L 620 420 L 640 430 L 760 445 L 780 455 L 960 460 L 960 500 L 80 500 Z" fill="url(#curvaFill)"/>
 
           {/* Curva dos hormônios: linha */}
-          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 265 L 360 245 L 375 285 L 395 260 L 415 310 L 435 275 L 455 325 L 475 290 L 495 345 L 515 315 L 535 370 L 555 340 L 575 395 L 595 365 L 615 415 L 640 430 L 760 445 L 780 455 L 960 460" fill="none" stroke="url(#curvaLinha)" strokeWidth="2.5" strokeLinejoin="round"/>
+          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 265 L 355 225 L 370 320 L 385 235 L 400 350 L 420 240 L 440 380 L 460 255 L 480 400 L 500 270 L 520 420 L 540 300 L 560 435 L 580 330 L 600 430 L 620 420 L 640 430 L 760 445 L 780 455 L 960 460" fill="none" stroke="url(#curvaLinha)" strokeWidth="2.5" strokeLinejoin="round"/>
 
           {/* Eixo Y */}
           <line x1="80" y1="170" x2="80" y2="520" stroke="#4A0840" strokeWidth="2.5"/>
