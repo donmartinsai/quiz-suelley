@@ -1446,24 +1446,7 @@ setName("")
                 </div>
               </div>
 
-              {/* Card Intensidade dos Sinais */}
-              <div className="bg-white border-2 border-[#EF709D] rounded-2xl p-5 my-4">
-                <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold mb-3">Intensidade dos seus sinais</p>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="flex-1 bg-[#fdf2f6] rounded-lg h-3 overflow-hidden">
-                    <div
-                      className={`h-full rounded-lg transition-all duration-1000 ${
-                        scorePct <= 30 ? 'bg-gradient-to-r from-[#f5cc4a] to-[#f0a010]' :
-                        scorePct <= 60 ? 'bg-gradient-to-r from-[#EF709D] to-[#e07030]' :
-                        'bg-gradient-to-r from-[#EF709D] to-[#CA3716]'
-                      }`}
-                      style={{ width: scoreAnimated ? `${scorePct}%` : "0%" }}
-                    />
-                  </div>
-                  <span className="text-[18px] font-bold text-[#710C60]">{scorePct}%</span>
-                </div>
-                <p className="text-[13px] text-[#6b5570]">Fase: {profile.badgeText.split('·')[1]?.trim() || 'Fique de olho'}</p>
-              </div>
+              
 
 <div className="bg-white rounded-2xl p-6 my-4 shadow-md border-2 border-[#EF709D]">
                 {temSintomas ? (
