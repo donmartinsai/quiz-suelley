@@ -790,12 +790,14 @@ setAnswers({ ...answers, [stepId]: [idx] })
                     />
               </div>
               <h1 className="font-serif text-2xl max-sm:text-[22px] text-[#710C60] leading-tight mb-3">
-                Seu corpo começou a mudar...
+                Seu corpo mudou por causa da menopausa.
                 <br />
-                <span className="text-[#A73979]">e você ainda tenta entender o que está acontecendo?</span>
+                <span className="text-[#A73979]">E ninguém te preparou pra isso.</span>
               </h1>
               <p className="text-[15px] text-[#6b5570] leading-relaxed mb-4">
-                Responda algumas perguntas rápidas e descubra em qual fase hormonal você está vivendo e o que fazer agora.
+                Responda algumas perguntas e descubra em qual fase hormonal você está.
+                <br />
+                E o que fazer agora.
               </p>
 
               {/* Contexto de tempo e progresso */}
