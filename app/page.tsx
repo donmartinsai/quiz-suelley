@@ -893,6 +893,77 @@ setAnswers({ ...answers, [stepId]: [idx] })
                 </div>
               )}
 
+              {/* Blocos de autoridade cientifica - aparecem junto com insight na Etapa 3 */}
+              {step.id === "e3" && showInsight && (
+                <div className="mt-4 space-y-3 animate-fade-in">
+                  <p className="text-[12px] text-[#6b5570] uppercase tracking-wide mb-2">O que as fontes científicas confirmam:</p>
+                  
+                  {/* Card Clearblue */}
+                  <div className="bg-white border border-[#f0e0eb] rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">📄</span>
+                      <div>
+                        <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
+                        <p className="text-[14px] font-bold text-[#710C60]">Clearblue</p>
+                      </div>
+                    </div>
+                    <p className="text-[14px] text-[#2A1F30] leading-relaxed italic mb-2">
+                      "A perimenopausa pode durar de alguns meses a mais de 10 anos. Normalmente, dura de quatro a oito anos."
+                    </p>
+                    <a 
+                      href="https://br.clearblue.com/ciclo-menstrual/cinco-mitos-e-fatos-perimenopausa" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-[12px] text-[#EF709D] hover:underline"
+                    >
+                      Ver fonte → br.clearblue.com
+                    </a>
+                  </div>
+
+                  {/* Card Unimed */}
+                  <div className="bg-white border border-[#f0e0eb] rounded-xl p-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-lg">📄</span>
+                      <div>
+                        <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
+                        <p className="text-[14px] font-bold text-[#710C60]">Unimed Campinas</p>
+                      </div>
+                    </div>
+                    <p className="text-[14px] text-[#2A1F30] leading-relaxed italic mb-2">
+                      "A perimenopausa geralmente começa entre os 40 e 50 anos, mas pode se iniciar antes, em alguns casos."
+                    </p>
+                    <a 
+                      href="https://www.unimedcampinas.com.br/blog/viver-com-saude/o-que-e-perimenopausa-entenda-esse-periodo-da-vida-da-mulher-" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-[12px] text-[#EF709D] hover:underline"
+                    >
+                      Ver fonte → unimedcampinas.com.br
+                    </a>
+                  </div>
+
+                  {/* Balao Dra. Su */}
+                  <div className="bg-[#fdf8f4] border border-[#f0e0eb] rounded-xl p-4 flex gap-3">
+                    <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-[#EF709D] shrink-0">
+                      <Image
+                        src="/images/dra-su.webp"
+                        alt="Dra. Suelley"
+                        width={56}
+                        height={56}
+                        className="w-full h-full object-cover object-top"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-[14px] font-bold text-[#710C60]">Dra. Suelley Macedo Marques</p>
+                      <p className="text-[11px] text-[#6b5570] mb-2">Médica especialista em menopausa - CRM 2982/RR</p>
+                      <p className="text-[14px] text-[#2A1F30] leading-relaxed">
+                        "A perimenopausa pode durar entre 2 e 10 anos e começa, em média, aos 45 anos, podendo iniciar antes."
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="flex items-center justify-between mt-6 gap-2.5">
                 <button
                   onClick={prevStep}
