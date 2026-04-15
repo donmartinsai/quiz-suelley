@@ -852,10 +852,10 @@ setSymTags([])
       badgeClass: "bg-[#fff8e6] text-[#a06800] border-2 border-[#f5cc4a]",
       badgeText: "🟡 Fase Inicial · Fique de Olho",
       title: `${primeiroNome(name)}, seus sintomas merecem atenção`,
-      sub: "Voce relatou poucos sinais no momento, mas isso nao significa que esta fora da zona de transicao hormonal. A perimenopausa pode ser silenciosa no inicio e quanto mais cedo voce entender o que esta acontecendo, mais facil e agir.",
+      sub: "Você relatou poucos sinais no momento, mas isso não significa que está fora da zona de transição hormonal. A perimenopausa pode ser silenciosa no início e quanto mais cedo você entender o que está acontecendo, mais fácil é agir.",
       fillClass: "from-[#f5cc4a] to-[#f0a010]",
       ctaTitle: "Entenda agora antes que os sintomas se intensifiquem",
-      ctaText: "Na aula ao vivo, a Dra. Su vai te mostrar como identificar a fase que voce esta vivendo, mesmo que seus exames estejam \"normais\" e seus sintomas ainda sejam leves.",
+      ctaText: "Na aula ao vivo, a Dra. Su vai te mostrar como identificar a fase que você está vivendo, mesmo que seus exames estejam \"normais\" e seus sintomas ainda sejam leves.",
       ctaBtn: "Quero entender meu corpo agora",
       testis: [0, 1, 2],
     }
@@ -1230,43 +1230,49 @@ setSymTags([])
             <div>
               <div className="text-center mb-6">
                 <div className="text-5xl mb-3">{profile.emoji}</div>
-                <div className={`inline-flex items-center gap-2 py-2 px-5 rounded-full text-[14px] font-bold mb-4 ${profile.badgeClass}`}>
+                <div className={`inline-flex items-center gap-1.5 py-1.5 px-4 rounded-full text-[12px] font-bold mb-4 ${profile.badgeClass}`}>
                   {profile.badgeText}
                 </div>
                 <h2 className="font-serif text-2xl max-sm:text-[21px] text-[#710C60] mb-2.5 leading-tight">{profile.title}</h2>
                 
-                {/* Subtitulo dinamico com sintomas */}
+                {/* Subtítulo dinâmico com sintomas */}
                 <p className="text-[15px] text-[#6b5570] leading-relaxed mb-4">
                   {temSintomas ? (
-                    <>Os sintomas que voce sente, como <strong className="text-[#710C60]">{symptomTopDois}</strong>, formam um padrao consistente com a transicao hormonal da perimenopausa.</>
+                    <>Os sintomas que você sente, como <strong className="text-[#710C60]">{symptomTopDois}</strong>, formam um padrão consistente com a transição hormonal da perimenopausa.</>
                   ) : (
-                    <>Os sinais que voce sente formam um padrao consistente com o inicio da transicao hormonal.</>
+                    <>Os sinais que você sente formam um padrão consistente com o início da transição hormonal.</>
                   )}
                 </p>
                 <p className="text-[15px] text-[#710C60] font-medium mb-5">
-                  O que voce sente tem explicacao cientifica e tem solucao.
+                  O que você sente tem explicação científica e tem solução.
                 </p>
 
                 {/* Barra de expectativa - Aula ao vivo */}
                 <div className="bg-gradient-to-r from-[#CA3716] to-[#E04520] text-white py-3 px-5 rounded-lg mb-4 text-center">
-                  <span className="text-[15px] font-bold">Aula AO VIVO - 25 de Abril - 9h - Zoom</span>
+                  <span className="text-[15px] font-bold">Aula AO VIVO · 25 de Abril · 9h · Zoom</span>
                 </div>
               </div>
 
-              <div className="my-4">
-                <div className="text-[13px] text-[#6b5570] mb-1.5 flex justify-between">
-                  <span>Intensidade dos sinais:</span>
-                  <span>{scorePct}%</span>
+              {/* Card Intensidade dos Sinais */}
+              <div className="bg-white border-2 border-[#EF709D] rounded-2xl p-5 my-4">
+                <p className="text-[11px] uppercase tracking-wider text-gray-500 font-bold mb-3">Intensidade dos seus sinais</p>
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex-1 bg-[#fdf2f6] rounded-lg h-3 overflow-hidden">
+                    <div
+                      className={`h-full rounded-lg transition-all duration-1000 ${
+                        scorePct <= 30 ? 'bg-gradient-to-r from-[#f5cc4a] to-[#f0a010]' :
+                        scorePct <= 60 ? 'bg-gradient-to-r from-[#EF709D] to-[#e07030]' :
+                        'bg-gradient-to-r from-[#EF709D] to-[#CA3716]'
+                      }`}
+                      style={{ width: scoreAnimated ? `${scorePct}%` : "0%" }}
+                    />
+                  </div>
+                  <span className="text-[18px] font-bold text-[#710C60]">{scorePct}%</span>
                 </div>
-                <div className="bg-[#fdf2f6] rounded-lg h-3 overflow-hidden">
-                  <div
-                    className={`h-full rounded-lg transition-all duration-1000 bg-gradient-to-r ${profile.fillClass}`}
-                    style={{ width: scoreAnimated ? `${scorePct}%` : "0%" }}
-                  />
-                </div>
+                <p className="text-[13px] text-[#6b5570]">Fase: {profile.badgeText.split('·')[1]?.trim() || 'Fique de olho'}</p>
               </div>
 
-<div className="bg-white rounded-2xl p-6 my-4 shadow-md border-l-4 border-red-500">
+<div className="bg-white rounded-2xl p-6 my-4 shadow-md border-2 border-[#EF709D]">
                 {temSintomas ? (
                   <>
                     <p className="text-xs uppercase tracking-wider text-gray-500 font-bold mb-3">Sintomas identificados no seu relato</p>
@@ -1277,12 +1283,12 @@ setSymTags([])
                         </span>
                       ))}
                     </div>
-                    <p className="text-xs text-black">Baseado nas suas respostas. Nao constitui diagnostico medico.</p>
+                    <p className="text-xs text-black">Baseado nas suas respostas. Não constitui diagnóstico médico.</p>
                   </>
                 ) : (
                   <>
                     <h4 className="text-[13px] font-bold text-[#710C60] mb-3 font-sans uppercase tracking-wide">Poucos sintomas no momento</h4>
-                    <p className="text-[13px] text-[#6b5570]">Mas entender essa fase agora e a melhor forma de se preparar. Nao espere os sintomas piorarem para agir.</p>
+                    <p className="text-[13px] text-[#6b5570]">Mas entender essa fase agora é a melhor forma de se preparar. Não espere os sintomas piorarem para agir.</p>
                   </>
                 )}
               </div>
@@ -1301,36 +1307,36 @@ setSymTags([])
                     />
                   </div>
                   <p className="text-[13px] text-[#6b5570] leading-relaxed">
-                    <strong className="text-[#710C60]">Dra. Su:</strong> O melhor momento para entender seu corpo e agora. Nao espere os sintomas chegarem para comecar a se cuidar.
+                    <strong className="text-[#710C60]">Dra. Su:</strong> O melhor momento para entender seu corpo é agora. Não espere os sintomas chegarem para começar a se cuidar.
                   </p>
                 </div>
               )}
 
-{/* NOVA SECAO: O que esta acontecendo com voce */}
+{/* NOVA SECAO: O que está acontecendo com você */}
               {temSintomas && (
                 <div className="bg-white rounded-2xl p-6 my-6 shadow-md">
-                  <h3 className="text-xl font-serif text-[#710C60] mb-4">O que esta acontecendo com voce</h3>
+                  <h3 className="text-xl font-serif text-[#710C60] mb-4">O que está acontecendo com você</h3>
                   <p className="text-base text-gray-800 leading-relaxed mb-3">
-                    Os sintomas que voce relatou, como <strong>{symptomTopDois}</strong>, tem relacao direta com a <strong>oscilacao do estradiol</strong> no seu corpo.
+                    Os sintomas que você relatou, como <strong>{symptomTopDois}</strong>, têm relação direta com a <strong>oscilação do estradiol</strong> no seu corpo.
                   </p>
                   <p className="text-base text-gray-800 leading-relaxed mb-3">
-                    Isso nao e psicologico. E hormonal.
+                    Isso não é psicológico. É hormonal.
                   </p>
                   <p className="text-base text-gray-800 leading-relaxed">
-                    E a boa noticia: existe <strong>explicacao</strong> e existe <strong>caminho</strong>.
+                    E a boa notícia: existe <strong>explicação</strong> e existe <strong>caminho</strong>.
                   </p>
                 </div>
               )}
 
-              {/* NOVA SECAO: Na aula voce vai descobrir */}
+              {/* NOVA SECAO: Na aula você vai descobrir */}
               <div className="bg-white rounded-2xl p-6 my-6 shadow-md">
-                <h3 className="text-xl font-serif text-[#710C60] mb-4">Na aula, voce vai descobrir</h3>
+                <h3 className="text-xl font-serif text-[#710C60] mb-4">Na aula, você vai descobrir</h3>
                 <ul className="space-y-3">
                   {temSintomas && (
                     <li className="flex gap-3">
                       <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">✓</span>
                       <span className="text-base text-gray-800">
-                        Por que seu corpo esta com <strong>{symptomTopDois}</strong>
+                        Por que seu corpo está com <strong>{symptomTopDois}</strong>
                       </span>
                     </li>
                   )}
@@ -1343,19 +1349,19 @@ setSymTags([])
                   <li className="flex gap-3">
                     <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">✓</span>
                     <span className="text-base text-gray-800">
-                      Como saber se voce precisa de <strong>tratamento hormonal</strong>
+                      Como saber se você precisa de <strong>tratamento hormonal</strong>
                     </span>
                   </li>
                   <li className="flex gap-3">
                     <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">✓</span>
                     <span className="text-base text-gray-800">
-                      Como falar com seu medico <strong>sem ser desacreditada</strong>
+                      Como falar com seu médico <strong>sem ser desacreditada</strong>
                     </span>
                   </li>
                   <li className="flex gap-3">
                     <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">✓</span>
                     <span className="text-base text-gray-800">
-                      O que fazer quando os exames dizem <strong>&quot;esta tudo normal&quot;</strong>
+                      O que fazer quando os exames dizem <strong>&quot;está tudo normal&quot;</strong>
                     </span>
                   </li>
                 </ul>
@@ -1372,26 +1378,17 @@ setSymTags([])
                 ))}
               </div>
 
-              {/* NOVA SECAO: Garantia */}
-              <div className="bg-[#FAF3ED] rounded-xl p-5 my-5 text-center">
-                <div className="text-3xl mb-2">🛡️</div>
-                <h4 className="font-serif text-lg text-[#710C60] mb-2">Garantia de 7 dias</h4>
-                <p className="text-[14px] text-[#6b5570] leading-relaxed">
-                  Se por qualquer motivo voce sentir que a aula nao era para voce, basta enviar um e-mail em ate 7 dias e devolvemos 100% do seu investimento. Sem perguntas, sem burocracia.
-                </p>
-              </div>
-
               {/* NOVO BLOCO: Por que AO VIVO? */}
               <div className="bg-white border border-[#f0e0eb] rounded-2xl p-5 my-5">
-                <h4 className="font-serif text-lg text-[#710C60] mb-4">Por que AO VIVO e nao gravado?</h4>
+                <h4 className="font-serif text-lg text-[#710C60] mb-4">Por que AO VIVO e não gravado?</h4>
                 <ul className="space-y-3">
                   <li className="flex gap-3 items-start">
                     <span className="text-lg">🩺</span>
-                    <span className="text-[14px] text-[#3d2b3a]">Suas duvidas respondidas na hora, direto com a Dra. Su</span>
+                    <span className="text-[14px] text-[#3d2b3a]">Suas dúvidas respondidas na hora, direto com a Dra. Su</span>
                   </li>
                   <li className="flex gap-3 items-start">
                     <span className="text-lg">💬</span>
-                    <span className="text-[14px] text-[#3d2b3a]">Conversa real, nao conteudo enlatado</span>
+                    <span className="text-[14px] text-[#3d2b3a]">Conversa real, não conteúdo enlatado</span>
                   </li>
                   <li className="flex gap-3 items-start">
                     <span className="text-lg">👩‍⚕️</span>
@@ -1399,49 +1396,42 @@ setSymTags([])
                   </li>
                   <li className="flex gap-3 items-start">
                     <span className="text-lg">🎥</span>
-                    <span className="text-[14px] text-[#3d2b3a]">Gravacao disponivel apos a aula*</span>
+                    <span className="text-[14px] text-[#3d2b3a]">Gravação disponível após a aula*</span>
                   </li>
                 </ul>
-                <p className="text-[11px] text-[#6b5570] mt-3 italic">*orientacoes de acesso enviadas apos inscricao</p>
+                <p className="text-[11px] text-[#6b5570] mt-3 italic">*orientações de acesso enviadas após inscrição</p>
               </div>
 
-              {/* HERO - Voce Nao Esta Louca */}
+              {/* HERO - Você Não Está Louca */}
               <div className="bg-gradient-to-br from-[#710C60] via-[#4A0840] to-[#2D0526] text-white py-10 px-6 rounded-2xl my-5 text-center">
                 <h2 className="font-serif text-[clamp(1.75rem,5vw,2.5rem)] font-bold leading-tight mb-4">
-                  Voce <span className="text-[#EF709D]">Nao Esta Louca</span>
+                  Você <span className="text-[#EF709D]">Não Está Louca</span>
                 </h2>
                 <p className="text-[15px] text-white/85 leading-relaxed max-w-[460px] mx-auto">
-                  O que ninguem te contou sobre como a <strong className="text-white">menopausa</strong> esta afetando seu corpo, sua energia e sua mente, mesmo quando seus exames dizem que esta tudo &quot;normal&quot;.
+                  O que ninguém te contou sobre como a <strong className="text-white">menopausa</strong> está afetando seu corpo, sua energia e sua mente, mesmo quando seus exames dizem que está tudo &quot;normal&quot;.
                 </p>
               </div>
 
-              {/* NOVO BLOCO: BONUS */}
+              {/* NOVO BLOCO: BÔNUS */}
               <div className="bg-gradient-to-br from-[#FDF2F6] to-[#FAE5EC] rounded-2xl p-5 my-5">
-                <h4 className="text-[13px] font-bold text-[#710C60] mb-4 font-sans uppercase tracking-wide">🎁 COMPRANDO HOJE VOCE RECEBE:</h4>
+                <h4 className="text-[13px] font-bold text-[#710C60] mb-4 font-sans uppercase tracking-wide">🎁 COMPRANDO HOJE VOCÊ RECEBE:</h4>
                 <div className="space-y-4">
                   <div>
                     <p className="text-[14px] text-[#3d2b3a] font-medium flex items-start gap-2">
                       <span className="text-green-600">✅</span>
-                      E-book &quot;Os 10 sinais da perimenopausa que voce ignora&quot;
+                      E-book &quot;Os 10 sinais da perimenopausa que você ignora&quot;
                     </p>
-                    <p className="text-[12px] text-[#6b5570] ml-6">Acesso imediato apos a compra</p>
-                  </div>
-                  <div>
-                    <p className="text-[14px] text-[#3d2b3a] font-medium flex items-start gap-2">
-                      <span className="text-green-600">✅</span>
-                      Checklist pre-consulta pra conversar com seu medico
-                    </p>
-                    <p className="text-[12px] text-[#6b5570] ml-6">PDF pronto pra baixar</p>
+                    <p className="text-[12px] text-[#6b5570] ml-6">Acesso imediato após a compra</p>
                   </div>
                   <div>
                     <p className="text-[14px] text-[#3d2b3a] font-medium flex items-start gap-2">
                       <span className="text-green-600">✅</span>
                       Lembrete WhatsApp 1h antes da aula*
                     </p>
-                    <p className="text-[12px] text-[#6b5570] ml-6">Pra voce nao esquecer do seu horario</p>
+                    <p className="text-[12px] text-[#6b5570] ml-6">Para você não esquecer do seu horário</p>
                   </div>
                 </div>
-                <p className="text-[11px] text-[#6b5570] mt-3 italic">*disponivel ao compartilhar seu WhatsApp</p>
+                <p className="text-[11px] text-[#6b5570] mt-3 italic">*disponível ao compartilhar seu WhatsApp</p>
               </div>
 
 {/* CTA UNIFICADO */}
@@ -1463,18 +1453,18 @@ setSymTags([])
                     />
                   </div>
                   <p className="text-sm text-white/85 leading-relaxed">
-                    Essa aula foi feita para mulheres exatamente como voce, que estao sentindo tudo isso e nao receberam resposta.
+                    Essa aula foi feita para mulheres exatamente como você, que estão sentindo tudo isso e não receberam resposta.
                   </p>
                 </div>
                 
                 <p className="text-base text-white/95 leading-relaxed mb-4">
-                  A Dra. Su vai explicar ao vivo por que voce sente <strong>{symptomText || "esses sintomas"}</strong>, o protocolo exato pra sair disso e vai tirar suas duvidas em tempo real.
+                  A Dra. Su vai explicar ao vivo por que você sente <strong>{symptomText || "esses sintomas"}</strong>, o protocolo exato pra sair disso e vai tirar suas dúvidas em tempo real.
                 </p>
 
                 {/* COUNTDOWN */}
                 <div className="bg-white/10 rounded-xl p-4 mb-5 text-center">
                   <p className="text-xs uppercase tracking-wider text-[#EF709D] font-bold mb-1">
-                    SUA TRANSFORMACAO COMECA EM
+                    SUA TRANSFORMAÇÃO COMEÇA EM
                   </p>
                   <CountdownTimer />
                 </div>
@@ -1496,7 +1486,16 @@ setSymTags([])
                 </a>
 
                 <p className="text-center text-xs text-white/60 mt-3">
-                  Garantia de satisfacao - 7 dias - Acesso imediato
+                  Garantia de satisfação · 7 dias · Acesso imediato
+                </p>
+              </div>
+
+              {/* BLOCO GARANTIA - Nova posição */}
+              <div className="bg-[#FAF3ED] rounded-xl p-5 my-5 text-center">
+                <div className="text-3xl mb-2">🛡️</div>
+                <h4 className="font-serif text-lg text-[#710C60] mb-2">Garantia de 7 dias</h4>
+                <p className="text-[14px] text-[#6b5570] leading-relaxed">
+                  Se por qualquer motivo você sentir que a aula não era para você, basta enviar um e-mail em até 7 dias e devolvemos 100% do seu investimento. Sem perguntas, sem burocracia.
                 </p>
               </div>
 
@@ -1515,7 +1514,7 @@ setSymTags([])
                   </button>
                   {faqOpen === 0 && (
                     <div className="px-4 pb-4 bg-[#faf7f9]">
-                      <p className="text-[13px] text-[#6b5570]">Assim que voce garante sua vaga, recebe todas as orientacoes de acesso direto no e-mail cadastrado. A aula acontece ao vivo no Zoom, direto da sua casa.</p>
+                      <p className="text-[13px] text-[#6b5570]">Assim que você garante sua vaga, recebe todas as orientações de acesso direto no e-mail cadastrado. A aula acontece ao vivo no Zoom, direto da sua casa.</p>
                     </div>
                   )}
                 </div>
@@ -1531,7 +1530,7 @@ setSymTags([])
                   </button>
                   {faqOpen === 1 && (
                     <div className="px-4 pb-4 bg-[#faf7f9]">
-                      <p className="text-[13px] text-[#6b5570]">Nao. A aula e educacional e vai te ajudar a entender seus sintomas, independente de ter exames.</p>
+                      <p className="text-[13px] text-[#6b5570]">Não. A aula é educacional e vai te ajudar a entender seus sintomas, independente de ter exames.</p>
                     </div>
                   )}
                 </div>
@@ -1542,12 +1541,12 @@ setSymTags([])
                     onClick={() => setFaqOpen(faqOpen === 2 ? null : 2)}
                     className="w-full flex items-center justify-between p-4 text-left"
                   >
-                    <h5 className="font-semibold text-[14px] text-[#710C60]">E se eu ja estou na menopausa?</h5>
+                    <h5 className="font-semibold text-[14px] text-[#710C60]">E se eu já estou na menopausa?</h5>
                     <span className={`text-[#710C60] transition-transform ${faqOpen === 2 ? 'rotate-180' : ''}`}>▼</span>
                   </button>
                   {faqOpen === 2 && (
                     <div className="px-4 pb-4 bg-[#faf7f9]">
-                      <p className="text-[13px] text-[#6b5570]">Perfeito! A aula aborda tanto perimenopausa quanto menopausa, com orientacoes especificas para cada fase.</p>
+                      <p className="text-[13px] text-[#6b5570]">Perfeito! A aula aborda tanto perimenopausa quanto menopausa, com orientações específicas para cada fase.</p>
                     </div>
                   )}
                 </div>
