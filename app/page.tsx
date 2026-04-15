@@ -275,6 +275,62 @@ function primeiroNome(nomeCompleto: string | null | undefined): string {
     }
   }
 
+  // Determina fase hormonal baseada em idade + respostas do quiz
+  type FaseHormonal = "pre-menopausa" | "perimenopausa" | "menopausa" | "pos-menopausa"
+  
+  function determinarFase(ageRange: string | null, respostas: Record<string, number[]>): FaseHormonal {
+    const q4Answer = respostas["e4"]?.[0] // Fase declarada
+    const q6Answer = respostas["e6"]?.[0] // Cronologia/tempo
+    
+    // Prioridade 1: declaracao direta de menopausa na Q4
+    // Q4 opcao 2 = "Acho que ja entrei na menopausa"
+    if (q4Answer === 2) {
+      if (ageRange === "56+") return "pos-menopausa"
+      return "menopausa"
+    }
+    
+    // Prioridade 2: usar idade como ancora principal
+    if (ageRange === "ate-35") {
+      // Q4 opcao 1 = "Acho que estou na perimenopausa"
+      if (q4Answer === 1) return "perimenopausa"
+      return "pre-menopausa"
+    }
+    
+    if (ageRange === "56+") {
+      return "pos-menopausa"
+    }
+    
+    // Faixas 36-45 e 46-55 = perimenopausa
+    return "perimenopausa"
+  }
+
+  const FASES_INFO: Record<FaseHormonal, { emoji: string; nome: string; idade: string; descricao: string }> = {
+    "pre-menopausa": {
+      emoji: "🌿",
+      nome: "Pré",
+      idade: "até 35",
+      descricao: "Você ainda está na PRÉ-MENOPAUSA. Seus hormônios estão em equilíbrio, mas seu corpo pode estar mostrando os primeiros sinais de que algo começa a mudar. Entender isso agora te coloca anos à frente da maioria das mulheres."
+    },
+    "perimenopausa": {
+      emoji: "🔥",
+      nome: "Peri",
+      idade: "36 a 55",
+      descricao: "Você está na PERIMENOPAUSA. É a fase em que os hormônios começam a oscilar e os sintomas aparecem, mas a maioria das mulheres não sabe que é isso. Sem entendimento, essa fase pode durar de 4 a 10 anos com sintomas se intensificando."
+    },
+    "menopausa": {
+      emoji: "🌙",
+      nome: "Meno",
+      idade: "~51",
+      descricao: "Você está na MENOPAUSA. Seu corpo passou pela transição mais intensa. Com o suporte certo, você pode viver essa fase com qualidade, energia e equilíbrio."
+    },
+    "pos-menopausa": {
+      emoji: "⚪",
+      nome: "Pós",
+      idade: "56+",
+      descricao: "Você está na PÓS-MENOPAUSA. Seus hormônios estão em um novo patamar. Agora o foco é manutenção da saúde, prevenção e qualidade de vida."
+    }
+  }
+
   // Calcula intensidade dos sinais com formula melhorada
   function calcularIntensidade(respostas: Record<string, number[]>): number {
     const sintomasE2 = (respostas["e2"] || []).filter(idx => idx !== 5) // exclui "Nenhum ou poucos"
@@ -528,6 +584,7 @@ function QuizPageContent() {
   const [answers, setAnswers] = useState<Record<string, number[]>>({})
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
+  const [ageRange, setAgeRange] = useState<string | null>(null)
   const [loadingSteps, setLoadingSteps] = useState<number[]>([])
   const [totalScore, setTotalScore] = useState(0)
   const [symTags, setSymTags] = useState<string[]>([])
@@ -582,16 +639,16 @@ function QuizPageContent() {
     }
   }, [sessionId])
 
-  const trackLead = useCallback(async (leadEmail: string, leadName: string) => {
-    const sid = sessionId || localStorage.getItem("quiz_session_id")
-    if (!sid) return
-    try {
-      await fetch("/api/track/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: sid, email: leadEmail, firstName: leadName, whatsapp: null }),
-      })
-    } catch (e) {
+const trackLead = useCallback(async (leadEmail: string, leadName: string, leadAgeRange: string | null) => {
+  const sid = sessionId || localStorage.getItem("quiz_session_id")
+  if (!sid) return
+  try {
+  await fetch("/api/track/lead", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ sessionId: sid, email: leadEmail, firstName: leadName, whatsapp: null, ageRange: leadAgeRange }),
+  })
+  } catch (e) {
       console.error("[tracking] lead error:", e)
     }
   }, [sessionId])
@@ -781,20 +838,24 @@ const opt = s.options[idx]
     setSymTags(tags)
   }
 
-  function unlockResult() {
-    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-    if (!name.trim()) {
-      alert("Por favor, informe seu nome")
-      return
-    }
-    if (!email.trim() || !emailRe.test(email)) {
-      alert("Por favor, informe um e-mail válido.")
-      return
-    }
-
-// Track lead capture (fire and forget)
-    trackLead(email, name)
+function unlockResult() {
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  
+  if (!name.trim()) {
+  alert("Por favor, informe seu nome")
+  return
+  }
+  if (!email.trim() || !emailRe.test(email)) {
+  alert("Por favor, informe um e-mail válido.")
+  return
+  }
+  if (!ageRange) {
+  alert("Por favor, selecione sua faixa de idade")
+  return
+  }
+  
+  // Track lead capture (fire and forget)
+  trackLead(email, name, ageRange)
     // Meta Pixel: Lead
     pixelLead()
 
@@ -814,9 +875,10 @@ const opt = s.options[idx]
     setAnswers({})
     setTotalScore(0)
 setSymTags([])
-    setName("")
-    setEmail("")
-    setLoadingSteps([])
+setName("")
+  setEmail("")
+  setAgeRange(null)
+  setLoadingSteps([])
     setScoreAnimated(false)
     setShowInsight(false)
     setFaqOpen(null)
@@ -1215,6 +1277,34 @@ setSymTags([])
                     className="w-full py-3.5 px-4 border-2 border-[#e8dde6] rounded-xl text-[15px] font-sans text-[#3d2b3a] transition-colors outline-none focus:border-[#EF709D]"
                   />
                 </div>
+
+                {/* Campo de Faixa de Idade - Pills 2x2 */}
+                <div className="mb-4">
+                  <label className="block text-[12px] font-bold text-[#710C60] mb-2 uppercase tracking-wide">Sua faixa de idade</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    {[
+                      { value: "ate-35", label: "Até 35", emoji: "🌿" },
+                      { value: "36-45", label: "36 a 45", emoji: "🔥" },
+                      { value: "46-55", label: "46 a 55", emoji: "🌙" },
+                      { value: "56+", label: "56 ou mais", emoji: "⚪" },
+                    ].map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setAgeRange(opt.value)}
+                        className={`flex items-center gap-2 py-3 px-3.5 rounded-xl border-2 text-left text-[14px] font-medium transition-all cursor-pointer min-h-[48px] ${
+                          ageRange === opt.value
+                            ? "bg-[#FDF2F6] border-[#EF709D] text-[#710C60] shadow-[0_2px_8px_rgba(239,112,157,0.2)]"
+                            : "bg-white border-[#e8dde6] text-[#3d2b3a] hover:bg-[#fdf8fa] hover:border-[#EF709D]/50"
+                        }`}
+                      >
+                        <span className="text-lg">{opt.emoji}</span>
+                        <span>{opt.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <button
                   onClick={unlockResult}
                   className="w-full py-4 mt-1.5 rounded-full text-base font-bold text-white bg-gradient-to-br from-[#CA3716] to-[#e04520] shadow-[0_6px_20px_rgba(202,55,22,0.32)] transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_26px_rgba(202,55,22,0.45)]"
@@ -1244,10 +1334,95 @@ setSymTags([])
                     <>Os sinais que você sente formam um padrão consistente com o início da transição hormonal.</>
                   )}
                 </p>
-                <p className="text-[15px] text-[#710C60] font-medium mb-5">
+<p className="text-[15px] text-[#710C60] font-medium mb-5">
                   O que você sente tem explicação científica e tem solução.
                 </p>
 
+                {/* TIMELINE DA JORNADA HORMONAL */}
+                {(() => {
+                  const faseAtual = determinarFase(ageRange, answers)
+                  const fases: FaseHormonal[] = ["pre-menopausa", "perimenopausa", "menopausa", "pos-menopausa"]
+                  
+                  return (
+                    <div className="bg-gradient-to-br from-white to-[#FDF2F6] rounded-3xl p-6 md:p-7 my-6 shadow-[0_10px_40px_rgba(113,12,96,0.08)] border border-[#EF709D]/20">
+                      <h3 className="font-serif text-xl md:text-[22px] font-bold text-[#710C60] text-center mb-6">
+                        Sua Jornada Hormonal
+                      </h3>
+                      
+                      {/* Timeline visual */}
+                      <div className="relative px-2 md:px-4">
+                        {/* Linha conectora gradient */}
+                        <div 
+                          className="absolute top-[18px] left-[10%] right-[10%] h-1 rounded-full"
+                          style={{
+                            background: "linear-gradient(to right, #16A34A 0%, #EF709D 33%, #CA3716 66%, #6B7280 100%)"
+                          }}
+                        />
+                        
+                        {/* Dots das fases */}
+                        <div className="relative flex justify-between">
+                          {fases.map((fase) => {
+                            const info = FASES_INFO[fase]
+                            const isAtivo = fase === faseAtual
+                            
+                            return (
+                              <div key={fase} className="flex flex-col items-center relative" style={{ width: "22%" }}>
+                                {/* Dot */}
+                                <div 
+                                  className={`w-9 h-9 rounded-full flex items-center justify-center text-lg relative z-10 transition-all ${
+                                    isAtivo 
+                                      ? "bg-gradient-to-br from-[#CA3716] to-[#E04520] border-[3px] border-[#EF709D] shadow-[0_0_0_8px_rgba(202,55,22,0.15),0_0_0_16px_rgba(202,55,22,0.08)] animate-pulse"
+                                      : "bg-white border-[3px] border-gray-300"
+                                  }`}
+                                >
+                                  {info.emoji}
+                                </div>
+                                
+                                {/* Labels */}
+                                <span className={`mt-2 text-[10px] md:text-[11px] font-bold uppercase tracking-wide ${
+                                  isAtivo ? "text-[#CA3716]" : "text-gray-500"
+                                }`}>
+                                  {info.nome}
+                                </span>
+                                <span className={`text-[9px] md:text-[10px] ${
+                                  isAtivo ? "text-[#CA3716]" : "text-gray-400"
+                                }`}>
+                                  {info.idade}
+                                </span>
+                                
+                                {/* Tag "Voce esta aqui" */}
+                                {isAtivo && (
+                                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                                    <div className="relative">
+                                      {/* Triangulo */}
+                                      <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[6px] border-b-[#CA3716]" />
+                                      {/* Pill */}
+                                      <span className="inline-block bg-gradient-to-r from-[#CA3716] to-[#E04520] text-white text-[9px] md:text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full animate-bounce">
+                                        Você está aqui
+                                      </span>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            )
+                          })}
+                        </div>
+                      </div>
+                      
+                      {/* Box explicativo */}
+                      <div className="mt-12 bg-gradient-to-r from-[#FFF5F7] to-white border-l-4 border-[#CA3716] rounded-2xl p-5">
+                        <p className="text-[14px] text-gray-800 leading-relaxed">
+                          {FASES_INFO[faseAtual].descricao.split(faseAtual === "pre-menopausa" ? "PRÉ-MENOPAUSA" : faseAtual === "perimenopausa" ? "PERIMENOPAUSA" : faseAtual === "menopausa" ? "MENOPAUSA" : "PÓS-MENOPAUSA").map((part, i) => (
+                            i === 0 ? (
+                              <span key={i}>{part}<strong className="text-[#CA3716] font-bold">{faseAtual === "pre-menopausa" ? "PRÉ-MENOPAUSA" : faseAtual === "perimenopausa" ? "PERIMENOPAUSA" : faseAtual === "menopausa" ? "MENOPAUSA" : "PÓS-MENOPAUSA"}</strong></span>
+                            ) : <span key={i}>{part}</span>
+                          ))}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                })()}
+                
                 {/* Barra de expectativa - Aula ao vivo */}
                 <div className="bg-gradient-to-r from-[#CA3716] to-[#E04520] text-white py-3 px-5 rounded-lg mb-4 text-center">
                   <span className="text-[15px] font-bold">Aula AO VIVO · 25 de Abril · 9h · Zoom</span>
