@@ -1604,14 +1604,14 @@ setName("")
                   </li>
                   <li className="flex gap-3 items-start">
                     <span className="text-lg">👩‍⚕️</span>
-                    <span className="text-[14px] text-[#3d2b3a]">Atendimento que costuma custar R$400 em consulta</span>
+                    <span className="text-[14px] text-[#3d2b3a]">Atendimento que costuma custar R$500 em consulta</span>
                   </li>
                   <li className="flex gap-3 items-start">
                     <span className="text-lg">🎥</span>
                     <span className="text-[14px] text-[#3d2b3a]">Gravação disponível após a aula*</span>
                   </li>
                 </ul>
-                <p className="text-[11px] text-[#6b5570] mt-3 italic">*orientações de acesso enviadas após inscrição</p>
+                <p className="text-[11px] text-[#6B7280] mt-3 italic">*Gravação disponível como opcional para quem quiser revisitar o conteúdo.</p>
               </div>
 
               {/* HERO - Você Não Está Louca */}
