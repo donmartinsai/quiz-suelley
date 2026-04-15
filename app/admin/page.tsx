@@ -34,32 +34,49 @@ interface TimelineItem {
   checkout: number
 }
 
+interface SymptomsDistributionItem {
+  index: string
+  icon: string
+  label: string
+  count: number
+  percentage: number
+}
+
+interface SymptomsDistribution {
+  total: number
+  distribution: SymptomsDistributionItem[]
+}
+
 export default function AdminOverviewPage() {
   const [stats, setStats] = useState<Stats | null>(null)
   const [funnel, setFunnel] = useState<FunnelStep[]>([])
   const [dropoff, setDropoff] = useState<DropoffItem[]>([])
   const [timeline, setTimeline] = useState<TimelineItem[]>([])
+  const [symptoms, setSymptoms] = useState<SymptomsDistribution | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [statsRes, funnelRes, dropoffRes, timelineRes] = await Promise.all([
+        const [statsRes, funnelRes, dropoffRes, timelineRes, symptomsRes] = await Promise.all([
           fetch("/api/admin/stats"),
           fetch("/api/admin/funnel"),
           fetch("/api/admin/dropoff"),
           fetch("/api/admin/timeline?days=30"),
+          fetch("/api/admin/symptoms-distribution"),
         ])
 
         const statsData = await statsRes.json()
         const funnelData = await funnelRes.json()
         const dropoffData = await dropoffRes.json()
         const timelineData = await timelineRes.json()
+        const symptomsData = await symptomsRes.json()
 
         setStats(statsData)
         setFunnel(funnelData.funnel || [])
         setDropoff(dropoffData.dropoff || [])
         setTimeline(timelineData.timeline || [])
+        setSymptoms(symptomsData)
       } catch (error) {
         console.error("Error fetching data:", error)
       } finally {
@@ -144,6 +161,40 @@ export default function AdminOverviewPage() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Symptoms Distribution Card (Q2) */}
+      {symptoms && symptoms.distribution.length > 0 && (
+        <Card className="bg-white border-[#E5E7EB] shadow-sm">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-[#111827]">Distribuicao de Sintomas (Q2)</CardTitle>
+            <p className="text-xs text-[#6B7280]">% de pessoas que marcaram cada sintoma</p>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <div className="space-y-3">
+              {symptoms.distribution.map((item) => (
+                <div key={item.index} className="flex items-center gap-3">
+                  <span className="text-lg w-6 text-center">{item.icon}</span>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm text-[#111827] truncate max-w-[180px]">{item.label}</span>
+                      <span className="text-sm font-medium text-[#F59E0B]">{item.percentage}% ({item.count})</span>
+                    </div>
+                    <div className="w-full bg-[#FEF3C7] rounded-full h-2.5 overflow-hidden">
+                      <div 
+                        className="h-full bg-[#F59E0B] rounded-full transition-all duration-500"
+                        style={{ width: `${item.percentage}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-xs text-[#6B7280] mt-4 pt-3 border-t border-[#E5E7EB]">
+              Total de sessoes que responderam Q2: {symptoms.total}
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Funnel Chart */}
       <Card className="bg-white border-[#F0E8DF] shadow-sm">
