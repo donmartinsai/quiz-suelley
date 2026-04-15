@@ -1445,7 +1445,7 @@ setSymTags([])
                   Você <span className="text-[#EF709D]">Não Está Louca</span>
                 </h2>
                 <p className="text-[15px] text-white/85 leading-relaxed max-w-[460px] mx-auto">
-                  O que ninguém te contou sobre como a <strong className="text-white">menopausa</strong>{" "}está afetando seu corpo, sua energia e sua mente, mesmo quando seus exames dizem que está tudo &quot;normal&quot;.
+                  O que ninguém te contou sobre como a{" "}<strong className="text-[#EF709D] font-bold">perimenopausa</strong>{" "}e a{" "}<strong className="text-[#EF709D] font-bold">menopausa</strong>{" "}estão afetando seu corpo, sua energia e sua mente, mesmo quando seus exames dizem que está tudo &quot;normal&quot;.
                 </p>
               </div>
 
