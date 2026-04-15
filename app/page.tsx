@@ -802,7 +802,6 @@ setAnswers({ ...answers, [stepId]: [idx] })
 
               {/* Contexto de tempo e progresso */}
               <div className="flex justify-center gap-2 flex-wrap mb-5">
-                <span className="inline-flex items-center gap-1.5 bg-[#fdf2f6] border border-[#f8c4d8] text-[#A73979] py-1.5 px-3 rounded-full text-[12px] font-medium">⏱ 11 perguntas</span>
                 <span className="inline-flex items-center gap-1.5 bg-[#fdf2f6] border border-[#f8c4d8] text-[#A73979] py-1.5 px-3 rounded-full text-[12px] font-medium">3 minutos</span>
                 <span className="inline-flex items-center gap-1.5 bg-[#fdf2f6] border border-[#f8c4d8] text-[#A73979] py-1.5 px-3 rounded-full text-[12px] font-medium">Resultado personalizado</span>
               </div>
@@ -811,15 +810,15 @@ setAnswers({ ...answers, [stepId]: [idx] })
                 <span className="text-[13px] text-[#6b5570] flex items-center gap-1.5">🔒 100% privado</span>
                 <span className="text-[13px] text-[#6b5570] flex items-center gap-1.5">📊 Baseado em ciência</span>
               </div>
-              <div className="bg-[#FAF3ED] rounded-xl p-3 px-4 text-[12px] text-[#6b5570] leading-normal mb-5 text-left">
-                ⚕️ <strong>Importante:</strong> Este quiz é informativo e educacional. Não substitui consulta médica nem constitui diagnóstico. Os resultados indicam áreas que merecem atenção profissional.
-              </div>
               <button
                 onClick={startQuiz}
                 className="w-full py-4 rounded-full text-base font-bold text-white bg-gradient-to-br from-[#EF709D] to-[#A73979] shadow-[0_6px_20px_rgba(239,112,157,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(239,112,157,0.45)]"
               >
                 Quero descobrir minha fase →
               </button>
+              <div className="bg-[#FAF3ED] rounded-xl p-3 px-4 text-[12px] text-[#6b5570] leading-normal mt-5 text-left">
+                ⚕️ <strong>Importante:</strong> Este quiz é informativo e educacional. Não substitui consulta médica nem constitui diagnóstico. Os resultados indicam áreas que merecem atenção profissional.
+              </div>
             </div>
           )}
 
