@@ -1470,57 +1470,67 @@ setSymTags([])
                 </div>
               </div>
 
-{/* CTA UNIFICADO */}
-              <div className="bg-gradient-to-br from-[#710C60] via-[#4A0840] to-[#2D0526] text-white rounded-2xl p-6 md:p-8 my-6">
-                <h3 className="text-xl md:text-2xl font-serif leading-tight mb-4">
-                  {primeiroNome(name)}, entenda agora antes que os sintomas intensifiquem
-                </h3>
+{/* CTA UNIFICADO - Layout foto lateral alinhada */}
+              <section className="bg-gradient-to-br from-[#710C60] via-[#4A0840] to-[#2D0526] text-white rounded-2xl p-6 md:p-8 my-8">
                 
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-[#EF709D]/20 border-2 border-[#EF709D]/50 flex-shrink-0 overflow-hidden">
-                    <Image
-                      src="/images/dra-su.webp"
-                      alt="Dra. Suelley"
-                      width={96}
-                      height={96}
-                      quality={75}
-                      priority
-                      className="w-full h-full object-cover object-top"
-                    />
+                {/* HERO ROW: foto + título alinhados verticalmente */}
+                <div className="flex items-center gap-4 mb-5">
+                  <Image
+                    src="/images/dra-su.webp"
+                    alt="Dra. Suelley Macedo Marques"
+                    width={80}
+                    height={80}
+                    priority
+                    className="w-20 h-20 rounded-full border-[3px] border-[#EF709D]/50 object-cover flex-shrink-0"
+                  />
+                  <div className="flex-1">
+                    <h3 className="font-serif text-xl font-bold leading-tight mb-2">
+                      {primeiroNome(name)}, entenda agora antes que piore
+                    </h3>
+                    <p className="text-sm text-white/85 leading-snug">
+                      Essa aula foi feita pra mulheres exatamente como você.
+                    </p>
                   </div>
-                  <p className="text-sm text-white/85 leading-relaxed">
-                    Essa aula foi feita para mulheres exatamente como você, que estão sentindo tudo isso e não receberam resposta.
-                  </p>
                 </div>
-                
-                <p className="text-base text-white/95 leading-relaxed mb-4">
-                  A Dra. Su vai explicar ao vivo por que você sente <strong>{symptomText || "esses sintomas"}</strong>, o protocolo exato pra sair disso e vai tirar suas dúvidas em tempo real.
+
+                {/* PARÁGRAFO PRINCIPAL */}
+                <p className="text-base text-white/90 leading-relaxed mb-6">
+                  A Dra. Su vai te explicar ao vivo por que você sente{" "}
+                  <strong className="text-[#EF709D]">{symptomTopDois || "esses sintomas"}</strong>, o protocolo exato pra sair disso e tirar suas dúvidas em tempo real.
                 </p>
 
                 {/* COUNTDOWN */}
-                <div className="bg-white/10 rounded-xl p-4 mb-5 text-center">
-                  <p className="text-xs uppercase tracking-wider text-[#EF709D] font-bold mb-1">
-                    SUA TRANSFORMAÇÃO COMEÇA EM
+                <div className="bg-white/10 border border-white/15 rounded-2xl p-4 mb-5 text-center">
+                  <p className="text-[10px] uppercase tracking-[2px] text-[#EF709D] font-bold mb-1.5">
+                    Sua transformação começa em
                   </p>
                   <CountdownTimer />
                 </div>
 
-                {/* Linha personalizada antes do CTA */}
+                {/* FRASE PERSONALIZADA ANTES DO CTA */}
                 {temSintomas && (
-                  <p className="text-[15px] text-white/95 text-center mb-5">
-                    Na aula, a Dra. Su vai te mostrar exatamente como resolver <strong>{symptomTopDois}</strong>.
+                  <p className="text-sm text-center text-white/90 mb-4 leading-relaxed">
+                    Na aula, a Dra. Su te mostra como resolver{" "}
+                    <strong className="text-[#EF709D]">{symptomTopDois}</strong>.
                   </p>
                 )}
 
-                {/* CTA PRINCIPAL */}
+                {/* CTA */}
                 <a
                   href="https://sun.eduzz.com/797ZK1BA0E"
                   onClick={() => { trackCheckout(); pixelPurchase(); }}
-                  className="block w-full py-4 rounded-full text-center text-white font-bold uppercase tracking-wide bg-gradient-to-br from-[#CA3716] to-[#E04520] shadow-lg text-base md:text-lg hover:-translate-y-0.5 transition-all"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full py-4 rounded-full text-center text-white font-bold uppercase tracking-wide text-sm md:text-base bg-gradient-to-br from-[#CA3716] to-[#E04520] shadow-[0_8px_24px_rgba(202,55,22,0.4)] hover:-translate-y-0.5 transition-all"
                 >
-                  GARANTIR MINHA VAGA POR R$29,90
+                  Garantir minha vaga por R$29,90
                 </a>
-              </div>
+
+                {/* GARANTIA (linha pequena) */}
+                <p className="text-center text-xs text-white/70 mt-3">
+                  Garantia de 7 dias · Acesso imediato
+                </p>
+              </section>
 
               {/* BLOCO GARANTIA - Nova posição */}
               <div className="bg-[#FAF3ED] rounded-xl p-5 my-5 text-center">
