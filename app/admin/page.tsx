@@ -171,7 +171,7 @@ export default function AdminOverviewPage() {
       {symptoms && symptoms.distribution && symptoms.distribution.length > 0 ? (
         <Card className="bg-white border-[#E5E7EB] shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-[#111827]">Distribuicao de Sintomas (Q2)</CardTitle>
+            <CardTitle className="text-[#111827]">Distribuição de Sintomas (Q2)</CardTitle>
             <p className="text-xs text-[#6B7280]">% de pessoas que marcaram cada sintoma</p>
           </CardHeader>
           <CardContent className="pt-0">
@@ -195,17 +195,17 @@ export default function AdminOverviewPage() {
               ))}
             </div>
             <p className="text-xs text-[#6B7280] mt-4 pt-3 border-t border-[#E5E7EB]">
-              Total de sessoes que responderam Q2: {symptoms.total}
+              Total de sessões que responderam Q2: {symptoms.total}
             </p>
           </CardContent>
         </Card>
       ) : (
         <Card className="bg-white border-[#E5E7EB] shadow-sm">
           <CardHeader className="pb-2">
-            <CardTitle className="text-[#111827]">Distribuicao de Sintomas (Q2)</CardTitle>
+            <CardTitle className="text-[#111827]">Distribuição de Sintomas (Q2)</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-[#6B7280]">Sem dados disponiveis ainda.</p>
+            <p className="text-sm text-[#6B7280]">Sem dados disponíveis ainda.</p>
           </CardContent>
         </Card>
       )}
