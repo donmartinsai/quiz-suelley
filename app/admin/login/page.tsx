@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-[#FDF8F4] flex items-center justify-center p-4">
       <Card className="w-full max-w-sm bg-white border-[#F0E8DF] shadow-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-[#710C60] text-xl">Quiz Suelley</CardTitle>
+          <CardTitle className="text-[#710C60] text-xl">Quiz VCNL · Painel</CardTitle>
           <CardDescription className="text-[#6B5A6E]">Acesso Administrativo</CardDescription>
         </CardHeader>
         <CardContent>
