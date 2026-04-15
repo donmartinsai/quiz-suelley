@@ -778,16 +778,16 @@ setAnswers({ ...answers, [stepId]: [idx] })
           {/* ══════ INTRO ══════ */}
           {screen === "intro" && (
             <div className="text-center">
-              <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-2 border-[#EF709D] shadow-lg">
-<Image
-                      src="/images/dra-su.webp"
-                      alt="Dra. Su"
-                      width={80}
-                      height={80}
-                      priority
-                      quality={75}
-                      className="w-full h-full object-cover object-top"
-                    />
+              <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-2 border-[#EF709D] shadow-lg">
+                <Image
+                  src="/images/dra-su.webp"
+                  alt="Dra. Su"
+                  width={96}
+                  height={96}
+                  priority
+                  quality={75}
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
               <h1 className="font-serif text-2xl max-sm:text-[22px] text-[#710C60] leading-tight mb-3">
                 Seu corpo mudou por causa da menopausa.
