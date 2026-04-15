@@ -47,9 +47,24 @@ const steps: Step[] = [
   },
   {
     id: "e2",
+    type: "insight_single",
+    scoreWeight: 0,
+    badge: "Etapa 2 de 11 · Você sabia disso?",
+    text: "Você sabia que a Menopausa pode começar até 10 anos antes dos 45?",
+    sub: null,
+    insight:
+      "Isso significa que você pode ter 37, 40 ou 43 anos, menstruação ainda regular ou já irregular, e estar nessa fase.\n\nEla tem um nome: PERIMENOPAUSA.\n\nA maioria das mulheres acha que só entra na menopausa quando para de menstruar de vez. Mas existe uma fase antes disso, que pode durar anos, e é onde tudo começa a mudar no seu corpo.",
+    options: [
+      { icon: "😳", text: "Não fazia ideia disso!", score: 2, tag: null },
+      { icon: "🤔", text: "Já ouvi falar, mas não entendo bem", score: 1, tag: null },
+      { icon: "✅", text: "Sim, já sabia", score: 0, tag: null },
+    ],
+  },
+  {
+    id: "e3",
     type: "multi",
     scoreWeight: 1,
-    badge: "Etapa 2 de 11 · Seus sintomas",
+    badge: "Etapa 3 de 11 · Seus sintomas",
     text: "Quais desses sintomas você tem sentido?",
     sub: "Pode marcar mais de uma opção.",
     exclusiveOption: 5,
@@ -63,25 +78,24 @@ const steps: Step[] = [
     ],
   },
   {
-    id: "e3",
-    type: "insight_single",
-    scoreWeight: 0,
-    badge: "Etapa 3 de 11 · Você sabia disso?",
-    text: "Você sabia que a Menopausa pode começar até 10 anos antes dos 45?",
-    sub: null,
-    insight:
-      "Isso significa que você pode ter 37, 40 ou 43 anos, menstruação ainda regular ou já irregular, e estar nessa fase.\n\nEla tem um nome: PERIMENOPAUSA.\n\nA maioria das mulheres acha que só entra na menopausa quando para de menstruar de vez. Mas existe uma fase antes disso, que pode durar anos, e é onde tudo começa a mudar no seu corpo.",
-    options: [
-      { icon: "😳", text: "Não fazia ideia disso!", score: 2, tag: null },
-      { icon: "🤔", text: "Já ouvi falar, mas não entendo bem", score: 1, tag: null },
-      { icon: "✅", text: "Sim, já sabia", score: 0, tag: null },
-    ],
-  },
-  {
     id: "e4",
     type: "single",
     scoreWeight: 0,
-    badge: "Etapa 4 de 11 · Onde você está",
+    badge: "Etapa 4 de 11 · Há quanto tempo",
+    text: "Há quanto tempo você convive com esses sintomas?",
+    sub: "Escolha a opção que mais se encaixa.",
+    options: [
+      { icon: "🕐", text: "Comecei a sentir nos últimos meses", score: 1, tag: null },
+      { icon: "📅", text: "Há mais de 1 ano", score: 2, tag: null },
+      { icon: "⏳", text: "Já são vários anos convivendo com isso", score: 3, tag: null },
+      { icon: "❓", text: "Não sei dizer exatamente", score: 1, tag: null },
+    ],
+  },
+  {
+    id: "e5",
+    type: "single",
+    scoreWeight: 0,
+    badge: "Etapa 5 de 11 · Onde você está",
     text: "Hoje, você sabe em qual fase hormonal está?",
     sub: null,
     options: [
@@ -91,10 +105,10 @@ const steps: Step[] = [
     ],
   },
   {
-    id: "e5",
+    id: "e6",
     type: "single",
     scoreWeight: 0,
-    badge: "Etapa 5 de 11 · O que você quer",
+    badge: "Etapa 6 de 11 · O que você quer",
     text: "Se você pudesse escolher, como gostaria de viver essa fase?",
     sub: "Escolha a opção que mais se encaixa com você.",
     options: [
@@ -102,20 +116,6 @@ const steps: Step[] = [
       { icon: "🔥", text: "Sem os calores e desconfortos físicos", score: 0, tag: "Alívio físico" },
       { icon: "🧠", text: "Com mais controle emocional e foco", score: 0, tag: "Clareza mental" },
       { icon: "✨", text: "Só quero voltar a me sentir eu mesma", score: 0, tag: "Reconexão" },
-    ],
-  },
-  {
-    id: "e6",
-    type: "single",
-    scoreWeight: 0,
-    badge: "Etapa 6 de 11 · Há quanto tempo",
-    text: "Há quanto tempo você convive com esses sintomas?",
-    sub: "Escolha a opção que mais se encaixa.",
-    options: [
-      { icon: "🕐", text: "Comecei a sentir nos últimos meses", score: 1, tag: null },
-      { icon: "📅", text: "Há mais de 1 ano", score: 2, tag: null },
-      { icon: "⏳", text: "Já são vários anos convivendo com isso", score: 3, tag: null },
-      { icon: "❓", text: "Não sei dizer exatamente", score: 1, tag: null },
     ],
   },
   {
@@ -598,8 +598,8 @@ setAnswers({ ...answers, [stepId]: [idx] })
 function nextStep() {
     if (sel.length === 0) return
     
-    // Apos Etapa 3 (cur === 2), vai para tela de ciencia
-    if (cur === 2) {
+    // Apos Etapa 2 (cur === 1, insight educativo), vai para tela de ciencia
+    if (cur === 1) {
       setScreen("science")
       setShowInsight(false)
       return
@@ -613,16 +613,16 @@ function nextStep() {
     }
   }
   
-  // Avanca da tela de ciencia para Etapa 4
+  // Avanca da tela de ciencia para Etapa 3 (sintomas)
   function continueFromScience() {
     setScreen("quiz")
-    setCur(3) // Etapa 4
+    setCur(2) // Etapa 3 - sintomas
   }
   
-  // Volta da tela de ciencia para Etapa 3
+  // Volta da tela de ciencia para Etapa 2 (insight)
   function backToStep3() {
     setScreen("quiz")
-    setCur(2) // Etapa 3
+    setCur(1) // Etapa 2 - insight
     setShowInsight(true) // Mostra insight novamente
   }
   
@@ -720,7 +720,7 @@ function nextStep() {
     "Irritabilidade": "irritabilidade",
     "Insônia às 3h": "acordar de madrugada",
     "Névoa mental": "névoa mental",
-    "Fadiga": "cansaço",
+    "Fadiga": "cansa��o",
     "Sono irregular": "sono irregular",
     "Insônia com ansiedade": "insônia",
     "Priva��ão de sono": "exaustão",
