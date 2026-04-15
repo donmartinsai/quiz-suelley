@@ -1444,7 +1444,7 @@ setSymTags([])
                   Você <span className="text-[#EF709D]">Não Está Louca</span>
                 </h2>
                 <p className="text-[15px] text-white/85 leading-relaxed max-w-[460px] mx-auto">
-                  O que ninguém te contou sobre como a <strong className="text-white">menopausa</strong> está afetando seu corpo, sua energia e sua mente, mesmo quando seus exames dizem que está tudo &quot;normal&quot;.
+                  O que ninguém te contou sobre como a <strong className="text-white">menopausa</strong>{" "}está afetando seu corpo, sua energia e sua mente, mesmo quando seus exames dizem que está tudo &quot;normal&quot;.
                 </p>
               </div>
 
@@ -1588,7 +1588,7 @@ setSymTags([])
               </div>
 
               <div className="bg-[#FAF3ED] rounded-xl p-3 px-4 text-[12px] text-[#6b5570] leading-normal mt-5 text-left">
-                ⚕️ Este quiz é informativo e educacional. Não substitui consulta médica nem constitui diagnóstico.
+                ⚕️ Este quiz é informativo e educacional. Não substitui consulta médica nem constitui diagn��stico.
               </div>
 
               <button onClick={restartQuiz} className="block mx-auto mt-4 text-[13px] text-[#6b5570] underline bg-transparent border-none cursor-pointer font-sans">
