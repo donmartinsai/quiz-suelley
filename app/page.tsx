@@ -67,7 +67,7 @@ const steps: Step[] = [
     type: "insight_single",
     scoreWeight: 0,
     badge: "Etapa 3 de 11 · Você sabia disso?",
-    text: "Você sabia que a menopausa pode começar até 10 anos antes dos 45?",
+    text: "Você sabia que a Menopausa pode começar até 10 anos antes dos 45?",
     sub: null,
     insight:
       "Isso significa que você pode ter 37, 40 ou 43 anos, menstruação ainda regular ou já irregular, e estar nessa fase.\n\nEla tem um nome: PERIMENOPAUSA.\n\nA maioria das mulheres acha que só entra na menopausa quando para de menstruar de vez. Mas existe uma fase antes disso, que pode durar anos, e é onde tudo começa a mudar no seu corpo.",
