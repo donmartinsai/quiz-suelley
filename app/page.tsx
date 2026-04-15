@@ -371,10 +371,10 @@ function MenopauseStagesChart() {
           <line x1="760" y1="170" x2="760" y2="560" stroke="#C2185B" strokeWidth="1.2" strokeDasharray="5,4" strokeOpacity="0.4"/>
 
           {/* Curva dos hormônios: área */}
-          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 290 L 355 285 L 370 305 L 385 298 L 400 320 L 420 312 L 440 335 L 460 328 L 480 355 L 500 348 L 520 375 L 540 368 L 560 395 L 580 388 L 600 415 L 620 412 L 640 430 L 760 445 L 780 455 L 960 460 L 960 500 L 80 500 Z" fill="url(#curvaFill)"/>
+          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 285 L 360 295 L 380 305 L 400 315 L 420 325 L 440 340 L 460 355 L 480 365 L 500 380 L 520 390 L 540 400 L 560 410 L 580 418 L 600 422 L 620 426 L 640 430 L 760 445 L 780 455 L 960 460 L 960 500 L 80 500 Z" fill="url(#curvaFill)"/>
 
           {/* Curva dos hormônios: linha */}
-          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 290 L 355 285 L 370 305 L 385 298 L 400 320 L 420 312 L 440 335 L 460 328 L 480 355 L 500 348 L 520 375 L 540 368 L 560 395 L 580 388 L 600 415 L 620 412 L 640 430 L 760 445 L 780 455 L 960 460" fill="none" stroke="url(#curvaLinha)" strokeWidth="2.5" strokeLinejoin="round"/>
+          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 285 L 360 295 L 380 305 L 400 315 L 420 325 L 440 340 L 460 355 L 480 365 L 500 380 L 520 390 L 540 400 L 560 410 L 580 418 L 600 422 L 620 426 L 640 430 L 760 445 L 780 455 L 960 460" fill="none" stroke="url(#curvaLinha)" strokeWidth="2.5" strokeLinejoin="round"/>
 
           {/* Eixo Y */}
           <line x1="80" y1="170" x2="80" y2="520" stroke="#4A0840" strokeWidth="2.5"/>
