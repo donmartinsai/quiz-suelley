@@ -47,26 +47,44 @@ const steps: Step[] = [
   },
   {
     id: "e2",
-    type: "single",
-    scoreWeight: 0,
-    badge: "Etapa 2 de 11 · Sua trajetória",
-    text: "Você já tentou alguma forma de aliviar seus sintomas?",
-    sub: null,
+    type: "multi",
+    scoreWeight: 1,
+    badge: "Etapa 2 de 11 · Seus sintomas",
+    text: "Quais desses sintomas você tem sentido?",
+    sub: "Pode marcar mais de uma opção.",
+    exclusiveOption: 5,
     options: [
-      { icon: "😔", text: "Já tentei, mas não tive resultado real", score: 1, tag: null },
-      { icon: "😐", text: "Tento controlar, mas é muito difícil", score: 1, tag: null },
-      { icon: "🤷", text: "Nunca soube exatamente o que fazer", score: 2, tag: null },
+      { icon: "🔥", text: "Fogachos e suores noturnos", score: 3, tag: "Fogachos" },
+      { icon: "😤", text: "Irritabilidade ou choro fácil", score: 3, tag: "Irritabilidade" },
+      { icon: "🌙", text: "Acordar de madrugada, especialmente às 3h", score: 3, tag: "Insônia às 3h" },
+      { icon: "🧠", text: "Névoa mental e falhas de memória", score: 3, tag: "Névoa mental" },
+      { icon: "🪫", text: "Cansaço constante mesmo descansando", score: 3, tag: "Fadiga" },
+      { icon: "⊘", text: "Nenhum ou poucos sintomas", score: 0, tag: null },
     ],
   },
   {
     id: "e3",
+    type: "single",
+    scoreWeight: 0,
+    badge: "Etapa 3 de 11 · Há quanto tempo",
+    text: "Há quanto tempo você convive com esses sintomas?",
+    sub: "Escolha a opção que mais se encaixa.",
+    options: [
+      { icon: "🕐", text: "Comecei a sentir nos últimos meses", score: 1, tag: null },
+      { icon: "📅", text: "Há mais de 1 ano", score: 2, tag: null },
+      { icon: "⏳", text: "Já são vários anos convivendo com isso", score: 3, tag: null },
+      { icon: "❓", text: "Não sei dizer exatamente", score: 1, tag: null },
+    ],
+  },
+  {
+    id: "e4",
     type: "insight_single",
     scoreWeight: 0,
-    badge: "Etapa 3 de 11 · Você sabia disso?",
-    text: "Você sabia que a perimenopausa pode começar até 10 anos antes da menopausa?",
+    badge: "Etapa 4 de 11 · Você sabia disso?",
+    text: "Você sabia que a Menopausa pode começar até 10 anos antes dos 45?",
     sub: null,
     insight:
-      "Isso significa que você pode ter 37, 40 ou 43 anos, menstruação regular, e já estar nessa fase. A maioria das mulheres não faz ideia disso e acaba levando anos sem diagnóstico ou tratamento adequado.",
+      "Isso significa que você pode ter 37, 40 ou 43 anos, menstruação ainda regular ou já irregular, e estar nessa fase.\n\nEla tem um nome: PERIMENOPAUSA.\n\nA maioria das mulheres acha que só entra na menopausa quando para de menstruar de vez. Mas existe uma fase antes disso, que pode durar anos, e é onde tudo começa a mudar no seu corpo.",
     options: [
       { icon: "😳", text: "Não fazia ideia disso!", score: 2, tag: null },
       { icon: "🤔", text: "Já ouvi falar, mas não entendo bem", score: 1, tag: null },
@@ -74,23 +92,23 @@ const steps: Step[] = [
     ],
   },
   {
-    id: "e4",
+    id: "e5",
     type: "single",
     scoreWeight: 0,
-    badge: "Etapa 4 de 11 · Onde você está",
+    badge: "Etapa 5 de 11 · Onde você está",
     text: "Hoje, você sabe em qual fase hormonal está?",
     sub: null,
     options: [
       { icon: "🔄", text: "Acho que estou na perimenopausa", score: 1, tag: null },
       { icon: "🌙", text: "Acho que já entrei na menopausa", score: 2, tag: null },
-      { icon: "😕", text: "Não faço ideia, é exatamente isso que quero descobrir", score: 2, tag: null },
+      { icon: "😕", text: "Ainda não faço ideia, é exatamente o que quero descobrir", score: 2, tag: null },
     ],
   },
   {
-    id: "e5",
+    id: "e6",
     type: "single",
     scoreWeight: 0,
-    badge: "Etapa 5 de 11 · O que você quer",
+    badge: "Etapa 6 de 11 · O que você quer",
     text: "Se você pudesse escolher, como gostaria de viver essa fase?",
     sub: "Escolha a opção que mais se encaixa com você.",
     options: [
@@ -98,22 +116,6 @@ const steps: Step[] = [
       { icon: "🔥", text: "Sem os calores e desconfortos físicos", score: 0, tag: "Alívio físico" },
       { icon: "🧠", text: "Com mais controle emocional e foco", score: 0, tag: "Clareza mental" },
       { icon: "✨", text: "Só quero voltar a me sentir eu mesma", score: 0, tag: "Reconexão" },
-    ],
-  },
-  {
-    id: "e6",
-    type: "multi",
-    scoreWeight: 1,
-    badge: "Etapa 6 de 11 · Seus sintomas",
-    text: "Quais desses sintomas você tem sentido?",
-    sub: "Pode marcar mais de uma opção.",
-    options: [
-      { icon: "🔥", text: "Fogachos / suores noturnos", score: 3, tag: "Fogachos" },
-      { icon: "😤", text: "Irritabilidade / choro fácil", score: 3, tag: "Irritabilidade" },
-      { icon: "🌙", text: "Acordar de madrugada (especialmente às 3h)", score: 3, tag: "Insônia às 3h" },
-      { icon: "🧠", text: "Névoa mental / falhas de memória", score: 3, tag: "Névoa mental" },
-      { icon: "🪫", text: "Cansaço constante mesmo descansando", score: 3, tag: "Fadiga" },
-      { icon: "⊘", text: "Nenhum ou poucos sintomas", score: 0, tag: null },
     ],
   },
   {
@@ -138,12 +140,13 @@ const steps: Step[] = [
     badge: "Etapa 8 de 11 · Seu sono",
     text: "Como estão suas noites?",
     sub: "Pode marcar mais de uma opção.",
+    exclusiveOption: 4,
     options: [
-      { icon: "😌", text: "Consigo dormir bem, acordo descansada", score: 0, tag: null },
       { icon: "😐", text: "Oscila bastante, às vezes bem, às vezes péssimo", score: 1, tag: "Sono irregular" },
       { icon: "🧠", text: "Acordo de madrugada e não consigo parar de pensar", score: 2, tag: "Insônia com ansiedade" },
       { icon: "😩", text: "Perco o sono com frequência, acordo exausta", score: 3, tag: "Privação de sono" },
       { icon: "🛏️", text: "Tenho dificuldade de pegar no sono", score: 2, tag: "Dificuldade para dormir" },
+      { icon: "😌", text: "Consigo dormir bem, acordo descansada", score: 0, tag: null },
     ],
   },
   {
@@ -268,20 +271,20 @@ function MenopauseStagesChart() {
         >
           <defs>
             <linearGradient id="preGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#FDF2F6" stopOpacity="0.4"/>
-              <stop offset="100%" stopColor="#FDF2F6" stopOpacity="1"/>
+              <stop offset="0%" stopColor="#FDF2F6" stopOpacity="0.15"/>
+              <stop offset="100%" stopColor="#FDF2F6" stopOpacity="0.4"/>
             </linearGradient>
             <linearGradient id="periGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#EF709D" stopOpacity="0.25"/>
-              <stop offset="100%" stopColor="#EF709D" stopOpacity="0.55"/>
+              <stop offset="0%" stopColor="#EF709D" stopOpacity="0.35"/>
+              <stop offset="100%" stopColor="#EF709D" stopOpacity="0.7"/>
             </linearGradient>
             <linearGradient id="menoGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#FDF2F6" stopOpacity="0.2"/>
-              <stop offset="100%" stopColor="#FDF2F6" stopOpacity="0.6"/>
+              <stop offset="0%" stopColor="#FDF2F6" stopOpacity="0.1"/>
+              <stop offset="100%" stopColor="#FDF2F6" stopOpacity="0.3"/>
             </linearGradient>
             <linearGradient id="posGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#F9E5EE" stopOpacity="0.2"/>
-              <stop offset="100%" stopColor="#F9E5EE" stopOpacity="0.5"/>
+              <stop offset="0%" stopColor="#F9E5EE" stopOpacity="0.1"/>
+              <stop offset="100%" stopColor="#F9E5EE" stopOpacity="0.25"/>
             </linearGradient>
             <linearGradient id="curvaFill" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" stopColor="#EF709D" stopOpacity="0.75"/>
@@ -330,8 +333,8 @@ function MenopauseStagesChart() {
           <text x="210" y="165" fontFamily="sans-serif" fontSize="14" fontWeight="700" fill="#710C60" textAnchor="middle" letterSpacing="1">
             PRÉ-MENOPAUSA
           </text>
-          <rect x="400" y="145" width="180" height="30" rx="15" fill="#EF709D" fillOpacity="0.25"/>
-          <text x="490" y="165" fontFamily="sans-serif" fontSize="14" fontWeight="800" fill="#C2185B" textAnchor="middle" letterSpacing="1">
+          <rect x="390" y="143" width="200" height="34" rx="17" fill="#DC2626" fillOpacity="0.2"/>
+          <text x="490" y="167" fontFamily="sans-serif" fontSize="18" fontWeight="800" fill="#DC2626" textAnchor="middle" letterSpacing="1">
             PERIMENOPAUSA
           </text>
           <rect x="645" y="145" width="110" height="30" rx="15" fill="#F9C6D9" fillOpacity="0.5"/>
@@ -369,10 +372,10 @@ function MenopauseStagesChart() {
           <line x1="760" y1="170" x2="760" y2="560" stroke="#C2185B" strokeWidth="1.2" strokeDasharray="5,4" strokeOpacity="0.4"/>
 
           {/* Curva dos hormônios: área */}
-          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 265 L 360 245 L 375 285 L 395 260 L 415 310 L 435 275 L 455 325 L 475 290 L 495 345 L 515 315 L 535 370 L 555 340 L 575 395 L 595 365 L 615 415 L 640 430 L 760 445 L 780 455 L 960 460 L 960 500 L 80 500 Z" fill="url(#curvaFill)"/>
+          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 270 L 350 290 L 365 275 L 380 300 L 395 285 L 410 315 L 425 298 L 440 330 L 455 312 L 470 350 L 485 330 L 500 365 L 515 345 L 530 380 L 545 365 L 560 395 L 575 380 L 590 410 L 605 400 L 620 420 L 640 430 L 760 445 L 780 455 L 960 460 L 960 500 L 80 500 Z" fill="url(#curvaFill)"/>
 
           {/* Curva dos hormônios: linha */}
-          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 265 L 360 245 L 375 285 L 395 260 L 415 310 L 435 275 L 455 325 L 475 290 L 495 345 L 515 315 L 535 370 L 555 340 L 575 395 L 595 365 L 615 415 L 640 430 L 760 445 L 780 455 L 960 460" fill="none" stroke="url(#curvaLinha)" strokeWidth="2.5" strokeLinejoin="round"/>
+          <path d="M 80 220 L 150 220 L 210 225 L 270 235 L 310 248 L 340 270 L 350 290 L 365 275 L 380 300 L 395 285 L 410 315 L 425 298 L 440 330 L 455 312 L 470 350 L 485 330 L 500 365 L 515 345 L 530 380 L 545 365 L 560 395 L 575 380 L 590 410 L 605 400 L 620 420 L 640 430 L 760 445 L 780 455 L 960 460" fill="none" stroke="url(#curvaLinha)" strokeWidth="2.5" strokeLinejoin="round"/>
 
           {/* Eixo Y */}
           <line x1="80" y1="170" x2="80" y2="520" stroke="#4A0840" strokeWidth="2.5"/>
@@ -388,14 +391,31 @@ function MenopauseStagesChart() {
 
           {/* Marcadores do eixo X */}
           <text x="80" y="560" fontFamily="sans-serif" fontSize="24" fontWeight="800" fill="#710C60" textAnchor="middle">0</text>
-          <text x="340" y="560" fontFamily="sans-serif" fontSize="24" fontWeight="800" fill="#710C60" textAnchor="middle">35-45</text>
-          <text x="640" y="560" fontFamily="sans-serif" fontSize="24" fontWeight="800" fill="#710C60" textAnchor="middle">~51</text>
+          <text x="340" y="560" fontFamily="sans-serif" fontSize="28" fontWeight="900" fill="#DC2626" textAnchor="middle">35-45</text>
+          <text x="640" y="560" fontFamily="sans-serif" fontSize="28" fontWeight="900" fill="#DC2626" textAnchor="middle">~51</text>
 
           {/* Legenda inferior */}
-          <text x="510" y="605" fontFamily="sans-serif" fontSize="11" fill="#6B7280" textAnchor="middle" fontStyle="italic">
+          <text x="510" y="605" fontFamily="sans-serif" fontSize="14" fill="#6B7280" textAnchor="middle" fontStyle="italic">
             Representação ilustrativa · Níveis de estrogênio ao longo da vida
           </text>
         </svg>
+
+        {/* Separador sutil */}
+        <div className="border-t border-[#e8dde6] my-5"></div>
+
+        {/* Secao Dado OMS */}
+        <div className="px-2">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-lg">📊</span>
+            <p className="text-[11px] text-[#6b5570] uppercase tracking-wide font-bold">Dado epidemiológico · OMS</p>
+          </div>
+          <p className="text-[15px] text-[#2A1F30] leading-relaxed mb-2">
+            "<span className="text-[17px] font-bold text-[#DC2626]">85%</span> das mulheres entre 40 e 60 anos têm pelo menos 1 sintoma relacionado à transição menopausal."
+          </p>
+          <p className="text-[13px] text-[#710C60] font-medium">
+            who.int/news-room/fact-sheets/detail/menopause
+          </p>
+        </div>
       </div>
 
       <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-4 mb-4">
@@ -415,7 +435,7 @@ function MenopauseStagesChart() {
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════
 function QuizPageContent() {
-  const [screen, setScreen] = useState<"intro" | "quiz" | "loading" | "gate" | "result">("intro")
+  const [screen, setScreen] = useState<"intro" | "quiz" | "science" | "loading" | "gate" | "result">("intro")
   const [cur, setCur] = useState(0)
   const [answers, setAnswers] = useState<Record<string, number[]>>({})
   const [name, setName] = useState("")
@@ -431,7 +451,7 @@ function QuizPageContent() {
 
   // ═══════════════════════════════════════════════
   // TRACKING FUNCTIONS (fire and forget)
-  // ═══════════════════════════════════════════════
+  // ═══════════════════════════════��═���═════��������═════
   const trackSessionStart = useCallback(async () => {
     try {
       const device = /Mobile|Android|iPhone|iPad/i.test(navigator.userAgent) ? "mobile" : "desktop"
@@ -559,22 +579,26 @@ async function startQuiz() {
       const pos = currentSel.indexOf(idx)
       let newSel: number[]
 
-      // Se clicou em "Nenhum ou poucos sintomas" (ultima opcao com score 0)
-      const isNoneOption = step.options[idx].score === 0 && idx === step.options.length - 1
+      // Verifica se a opcao clicada e a exclusiva (definida em exclusiveOption)
+      const exclusiveIdx = step.exclusiveOption
+      const isExclusiveOption = exclusiveIdx !== undefined && idx === exclusiveIdx
 
       if (pos === -1) {
-        if (isNoneOption) {
+        if (isExclusiveOption) {
+          // Se clicou na opcao exclusiva, desmarca todas as outras
           newSel = [idx]
         } else {
-          // Remove a opcao "nenhum" se estava selecionada
-          newSel = currentSel.filter((i) => !(step.options[i].score === 0 && i === step.options.length - 1))
+          // Remove a opcao exclusiva se estava selecionada
+          newSel = exclusiveIdx !== undefined 
+            ? currentSel.filter((i) => i !== exclusiveIdx)
+            : [...currentSel]
           newSel.push(idx)
         }
       } else {
         newSel = currentSel.filter((i) => i !== idx)
       }
 
-setAnswers({ ...answers, [stepId]: newSel })
+      setAnswers({ ...answers, [stepId]: newSel })
       // Track answer (fire and forget)
       trackAnswer(stepId, cur + 1, newSel)
       // Meta Pixel: QuizAnswer
@@ -593,9 +617,16 @@ setAnswers({ ...answers, [stepId]: [idx] })
     }
   }
 
-  function nextStep() {
+function nextStep() {
     if (sel.length === 0) return
-
+    
+    // Apos Etapa 4 (cur === 3, insight educativo), vai para tela de ciencia
+    if (cur === 3) {
+      setScreen("science")
+      setShowInsight(false)
+      return
+    }
+    
     if (cur < steps.length - 1) {
       setCur(cur + 1)
       setShowInsight(false)
@@ -603,7 +634,20 @@ setAnswers({ ...answers, [stepId]: [idx] })
       showLoading()
     }
   }
-
+  
+  // Avanca da tela de ciencia para Etapa 5 (onde voce esta)
+  function continueFromScience() {
+    setScreen("quiz")
+    setCur(4) // Etapa 5 - onde voce esta
+  }
+  
+  // Volta da tela de ciencia para Etapa 4 (insight)
+  function backToStep3() {
+    setScreen("quiz")
+    setCur(3) // Etapa 4 - insight
+    setShowInsight(true) // Mostra insight novamente
+  }
+  
   function prevStep() {
     if (cur > 0) {
       setCur(cur - 1)
@@ -698,10 +742,10 @@ setAnswers({ ...answers, [stepId]: [idx] })
     "Irritabilidade": "irritabilidade",
     "Insônia às 3h": "acordar de madrugada",
     "Névoa mental": "névoa mental",
-    "Fadiga": "cansaço",
+    "Fadiga": "cansa��o",
     "Sono irregular": "sono irregular",
     "Insônia com ansiedade": "insônia",
-    "Privação de sono": "exaustão",
+    "Priva��ão de sono": "exaustão",
     "Dificuldade para dormir": "dificuldade para dormir",
   }
 
@@ -778,29 +822,30 @@ setAnswers({ ...answers, [stepId]: [idx] })
           {/* ══════ INTRO ══════ */}
           {screen === "intro" && (
             <div className="text-center">
-              <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-2 border-[#EF709D] shadow-lg">
-<Image
-                      src="/images/dra-su.webp"
-                      alt="Dra. Su"
-                      width={80}
-                      height={80}
-                      priority
-                      quality={75}
-                      className="w-full h-full object-cover object-top"
-                    />
+              <div className="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-2 border-[#EF709D] shadow-lg">
+                <Image
+                  src="/images/dra-su.webp"
+                  alt="Dra. Su"
+                  width={96}
+                  height={96}
+                  priority
+                  quality={75}
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
               <h1 className="font-serif text-2xl max-sm:text-[22px] text-[#710C60] leading-tight mb-3">
-                Seu corpo começou a mudar...
+                Seu corpo mudou por causa da menopausa.
                 <br />
-                <span className="text-[#A73979]">e você ainda tenta entender o que está acontecendo?</span>
+                <span className="text-[#A73979]">E ninguém te preparou pra isso.</span>
               </h1>
               <p className="text-[15px] text-[#6b5570] leading-relaxed mb-4">
-                Responda algumas perguntas rápidas e descubra em qual fase hormonal você está vivendo e o que fazer agora.
+                Responda algumas perguntas e descubra em qual fase hormonal você está.
+                <br />
+                E o que fazer agora.
               </p>
 
               {/* Contexto de tempo e progresso */}
               <div className="flex justify-center gap-2 flex-wrap mb-5">
-                <span className="inline-flex items-center gap-1.5 bg-[#fdf2f6] border border-[#f8c4d8] text-[#A73979] py-1.5 px-3 rounded-full text-[12px] font-medium">⏱ 11 perguntas</span>
                 <span className="inline-flex items-center gap-1.5 bg-[#fdf2f6] border border-[#f8c4d8] text-[#A73979] py-1.5 px-3 rounded-full text-[12px] font-medium">3 minutos</span>
                 <span className="inline-flex items-center gap-1.5 bg-[#fdf2f6] border border-[#f8c4d8] text-[#A73979] py-1.5 px-3 rounded-full text-[12px] font-medium">Resultado personalizado</span>
               </div>
@@ -809,15 +854,15 @@ setAnswers({ ...answers, [stepId]: [idx] })
                 <span className="text-[13px] text-[#6b5570] flex items-center gap-1.5">🔒 100% privado</span>
                 <span className="text-[13px] text-[#6b5570] flex items-center gap-1.5">📊 Baseado em ciência</span>
               </div>
-              <div className="bg-[#FAF3ED] rounded-xl p-3 px-4 text-[12px] text-[#6b5570] leading-normal mb-5 text-left">
-                ⚕️ <strong>Importante:</strong> Este quiz é informativo e educacional. Não substitui consulta médica nem constitui diagnóstico. Os resultados indicam áreas que merecem atenção profissional.
-              </div>
               <button
                 onClick={startQuiz}
                 className="w-full py-4 rounded-full text-base font-bold text-white bg-gradient-to-br from-[#EF709D] to-[#A73979] shadow-[0_6px_20px_rgba(239,112,157,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(239,112,157,0.45)]"
               >
                 Quero descobrir minha fase →
               </button>
+              <div className="bg-[#FAF3ED] rounded-xl p-3 px-4 text-[12px] text-[#6b5570] leading-normal mt-5 text-left">
+                ⚕️ <strong>Importante:</strong> Este quiz é informativo e educacional. Não substitui consulta médica nem constitui diagnóstico. Os resultados indicam áreas que merecem atenção profissional.
+              </div>
             </div>
           )}
 
@@ -831,26 +876,12 @@ setAnswers({ ...answers, [stepId]: [idx] })
                     style={{ width: `${pct}%` }}
                   />
                 </div>
-                <div className="text-[12px] text-[#6b5570] text-right mt-1.5">
-                  {cur + 1} de {steps.length}
-                </div>
-              </div>
-
-              <div className="inline-flex items-center gap-1.5 bg-[#fdf2f6] border border-[#f8c4d8] text-[#A73979] py-1.5 px-3 rounded-full text-[12px] font-semibold mb-3.5">
-                🌸 {step.badge}
               </div>
 
               <div className="font-serif text-[22px] max-sm:text-[19px] text-[#710C60] leading-snug mb-2">{step.text}</div>
               {step.sub && <div className="text-[14px] text-[#6b5570] mb-5 leading-relaxed italic">{step.sub}</div>}
 
-              {/* Insight aparece DEPOIS da selecao para insight_single */}
-              {step.type === "insight_single" && step.insight && showInsight && (
-                <div className="bg-gradient-to-br from-[#710C60] to-[#4a0840] rounded-2xl p-5 text-white text-[15px] leading-relaxed my-4 animate-fade-in">
-                  {step.insight}
-                </div>
-              )}
-
-{/* Grafico dinamico de equilibrio hormonal para etapa 9 */}
+              {/* Grafico dinamico de equilibrio hormonal para etapa 9 */}
               {step.type === "chart_single" && (
                 <MenopauseStagesChart />
               )}
@@ -858,8 +889,8 @@ setAnswers({ ...answers, [stepId]: [idx] })
               <div className="flex flex-col gap-3">
                 {step.options.map((o, i) => {
                   const isSel = sel.includes(i)
-                  // Para etapa 6, ultima opcao tem separador
-                  const isLastNoneOption = step.id === "e6" && i === step.options.length - 1
+                  // Para etapa 8, ultima opcao (exclusiva) tem separador
+                  const isLastNoneOption = step.id === "e8" && i === step.options.length - 1
 
                   return (
                     <div key={i}>
@@ -887,6 +918,23 @@ setAnswers({ ...answers, [stepId]: [idx] })
                 })}
               </div>
 
+              {/* Insight aparece ABAIXO das opcoes apos selecao */}
+              {step.type === "insight_single" && step.insight && showInsight && (
+                <div className="bg-gradient-to-br from-[#710C60] to-[#4a0840] rounded-2xl p-5 text-white text-[15px] leading-relaxed mt-5 animate-fade-in">
+                  {step.insight.split('\n\n').map((paragraph, i) => (
+                    <p key={i} className={i > 0 ? "mt-4" : ""}>
+                      {paragraph.includes('PERIMENOPAUSA') ? (
+                        <>
+                          {paragraph.split('PERIMENOPAUSA')[0]}
+                          <strong className="text-[#EF709D]">PERIMENOPAUSA</strong>
+                          {paragraph.split('PERIMENOPAUSA')[1]}
+                        </>
+                      ) : paragraph}
+                    </p>
+                  ))}
+                </div>
+              )}
+
               <div className="flex items-center justify-between mt-6 gap-2.5">
                 <button
                   onClick={prevStep}
@@ -907,10 +955,88 @@ setAnswers({ ...answers, [stepId]: [idx] })
                 </div>
               </div>
             </div>
-          )}
+)}
 
-          {/* ══════ LOADING ══════ */}
-          {screen === "loading" && (
+              {/* ══════ SCIENCE (tela informativa apos Etapa 3) ══════ */}
+              {screen === "science" && (
+                <div>
+                  <h2 className="font-serif text-[22px] text-[#710C60] leading-tight mb-2 text-center">
+                    O que as fontes científicas confirmam
+                  </h2>
+                  <p className="text-[14px] text-[#6b5570] mb-6 text-center">
+                    A perimenopausa não é opinião. É realidade médica reconhecida.
+                  </p>
+
+                  <div className="space-y-4">
+                    {/* Card MSD Manuals */}
+                    <div className="bg-[#fdf8f4] border border-[#f0e0eb] rounded-xl p-4">
+                      <div className="mb-2">
+                        <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
+                        <p className="text-[14px] font-bold text-[#710C60]">MSD Manuals</p>
+                      </div>
+                      <p className="text-[14px] text-[#2A1F30] leading-relaxed italic mb-2">
+                        "A perimenopausa é a fase de transição para a menopausa e costuma durar vários anos; em geral, inclui cerca de 4 a 8 anos até o período menstrual final."
+                      </p>
+                      <p className="text-[12px] text-[#EF709D]">
+                        msdmanuals.com/pt/profissional/ginecologia-e-obstetricia/menopausa
+                      </p>
+                    </div>
+
+                    {/* Card Mayo Clinic */}
+                    <div className="bg-[#fdf8f4] border border-[#f0e0eb] rounded-xl p-4">
+                      <div className="mb-2">
+                        <p className="text-[11px] text-[#6b5570]">Fonte científica</p>
+                        <p className="text-[14px] font-bold text-[#710C60]">Mayo Clinic</p>
+                      </div>
+                      <p className="text-[14px] text-[#2A1F30] leading-relaxed italic mb-2">
+                        "A perimenopausa está relacionada com o período da vida em que as pessoas começam a ter ciclos menstruais irregulares e outros sintomas."
+                      </p>
+                      <p className="text-[12px] text-[#EF709D]">
+                        newsnetwork.mayoclinic.org/pt/2023/12/14
+                      </p>
+                    </div>
+
+                    {/* Balao Dra. Su */}
+                    <div className="bg-gradient-to-br from-[#710C60] to-[#4a0840] rounded-xl p-4 flex gap-3">
+                      <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#EF709D] shrink-0">
+                        <Image
+                          src="/images/dra-su.webp"
+                          alt="Dra. Suelley"
+                          width={80}
+                          height={80}
+                          className="w-full h-full object-cover object-top"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-[14px] font-bold text-white">Dra. Suelley Macedo Marques</p>
+                        <p className="text-[11px] text-[#EF709D] mb-2">Médica. CRM 2982/RR</p>
+                        <p className="text-[14px] text-white/90 leading-relaxed">
+                          "A perimenopausa pode durar entre 2 e 10 anos e começa, em média, aos 35-37 anos, podendo iniciar antes."
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Botoes */}
+                  <div className="flex items-center justify-between mt-6 gap-2.5">
+                    <button
+                      onClick={backToStep3}
+                      className="bg-transparent border-2 border-[#e8dde6] text-[#6b5570] py-3.5 px-5 rounded-full text-[14px] font-semibold transition-all hover:border-[#EF709D] hover:text-[#710C60] shrink-0"
+                    >
+                      ← Voltar
+                    </button>
+                    <button
+                      onClick={continueFromScience}
+                      className="flex-1 bg-gradient-to-br from-[#EF709D] to-[#A73979] text-white py-3.5 px-6 rounded-full text-[15px] font-bold shadow-[0_6px_20px_rgba(239,112,157,0.35)] transition-all hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(239,112,157,0.45)]"
+                    >
+                      Continuar →
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* ══════ LOADING ══════ */}
+              {screen === "loading" && (
             <div className="text-center py-2.5 pb-5">
               <div className="w-[70px] h-[70px] rounded-full border-[5px] border-[#fdf2f6] border-t-[#EF709D] border-r-[#A73979] animate-spin mx-auto mb-6" />
               <h3 className="font-serif text-[22px] text-[#710C60] mb-2">Analisando suas respostas…</h3>
@@ -949,10 +1075,7 @@ setAnswers({ ...answers, [stepId]: [idx] })
             <div>
               <div className="text-center mb-5">
                 <div className="text-[44px] mb-2.5">🔒</div>
-                <h3 className="font-serif text-[21px] text-[#710C60] mb-2">Sua análise está pronta</h3>
-                <p className="text-[14px] text-[#6b5570] leading-relaxed">
-                  Baseado nas suas respostas, identificamos um padrão. Para revelar sua análise completa e personalizada, me diz onde te encontro:
-                </p>
+                <h3 className="font-serif text-[21px] text-[#710C60]">Sua análise está pronta</h3>
               </div>
 
               <div className="relative bg-gradient-to-br from-[#f0e6f5] to-[#fdf2f6] rounded-xl p-4 mb-5 overflow-hidden">
@@ -985,7 +1108,16 @@ setAnswers({ ...answers, [stepId]: [idx] })
                       />
                     </div>
                   </div>
-                  <p className="text-center text-[13px] text-[#6b5570] mb-4">A Dra. Su vai analisar suas respostas agora.</p>
+
+                  {/* Balao de promessa */}
+                  <div className="bg-[#FDF2F6] rounded-2xl p-5 mb-5">
+                    <p className="text-[15px] text-[#4A0840] leading-relaxed mb-4">
+                      Você acabou de dar um passo que muitas mulheres adiam por anos.
+                    </p>
+                    <p className="text-[15px] text-[#4A0840] leading-relaxed">
+                      A Dra. Su vai te revelar sua fase hormonal, o que está acontecendo no seu corpo e o caminho pra mudar isso na <span className="font-bold text-[#710C60] bg-[#EF709D]/15 px-1 rounded">aula ao vivo</span>.
+                    </p>
+                  </div>
 
                   <div className="mt-1">
                     <div className="mb-3.5">
@@ -1109,7 +1241,7 @@ setAnswers({ ...answers, [stepId]: [idx] })
                 <ul className="space-y-3">
                   {symTags.length > 0 && (
                     <li className="flex gap-3">
-                      <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">✓</span>
+                      <span className="text-[#EF709D] flex-shrink-0 text-xl leading-tight">��</span>
                       <span className="text-base text-gray-800">
                         Por que seu corpo está com{" "}
                         {symptomList.slice(0, 2).map((s, i, arr) => (
